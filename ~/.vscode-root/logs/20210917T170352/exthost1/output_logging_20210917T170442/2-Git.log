@@ -1,0 +1,48 @@
+Validating found git in: git
+Using git 2.25.1 from git
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main' failed; ex=Failed to execute git {
+  "exitCode": 128,
+  "gitCommand": "rev-parse",
+  "stdout": "",
+  "stderr": "fatal: no es un repositorio git (ni ninguno de los directorios superiores): .git\n"
+}
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main/.babelrc' failed; ex=Error: spawn ENOTDIR
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main/.gitignore' failed; ex=Error: spawn ENOTDIR
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main/build' failed; ex=Failed to execute git {
+  "exitCode": 128,
+  "gitCommand": "rev-parse",
+  "stdout": "",
+  "stderr": "fatal: no es un repositorio git (ni ninguno de los directorios superiores): .git\n"
+}
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main/node_modules' failed; ex=Failed to execute git {
+  "exitCode": 128,
+  "gitCommand": "rev-parse",
+  "stdout": "",
+  "stderr": "fatal: no es un repositorio git (ni ninguno de los directorios superiores): .git\n"
+}
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main/package-lock.json' failed; ex=Error: spawn ENOTDIR
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main/package.json' failed; ex=Error: spawn ENOTDIR
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main/src' failed; ex=Failed to execute git {
+  "exitCode": 128,
+  "gitCommand": "rev-parse",
+  "stdout": "",
+  "stderr": "fatal: no es un repositorio git (ni ninguno de los directorios superiores): .git\n"
+}
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main/uploads' failed; ex=Failed to execute git {
+  "exitCode": 128,
+  "gitCommand": "rev-parse",
+  "stdout": "",
+  "stderr": "fatal: no es un repositorio git (ni ninguno de los directorios superiores): .git\n"
+}
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main/~' failed; ex=Failed to execute git {
+  "exitCode": 128,
+  "gitCommand": "rev-parse",
+  "stdout": "",
+  "stderr": "fatal: no es un repositorio git (ni ninguno de los directorios superiores): .git\n"
+}
+Opening repository for path='/home/steban/desarrollo/nodejs/sistema-escolar-main' failed; ex=Failed to execute git {
+  "exitCode": 128,
+  "gitCommand": "rev-parse",
+  "stdout": "",
+  "stderr": "fatal: no es un repositorio git (ni ninguno de los directorios superiores): .git\n"
+}

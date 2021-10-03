@@ -1,0 +1,74 @@
+<%- include('partials/_header') %>
+
+<nav class="nav-section">
+    <div class="container">
+        <div class="nav-right">
+        
+            <a href="#">Acceder</a>
+        </div>
+        <ul class="main-menu">
+            <li ><a href="/">Inicio</a></li>
+            <li ><a href="/about">Nosotros</a></li>
+            <li><a href="/event">Eventos</a></li>
+            <li><a href="#">CATS</a></li>
+            
+            <li class="active"><a href="#">Contactos</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="contact-page spad pt-5">
+    <div class="container">
+        <div class="map-section">
+            <div class="contact-info-warp">
+                <div class="contact-info">
+                    <h4>Dirección</h4>
+                    <p>Av. Julio Robles  y Las Tejerías</p>
+                </div>
+                <div class="contact-info">
+                    <h4>Teléfono</h4>
+                    <p>062987006</p>
+                </div>
+                <div class="contact-info">
+                    <h4>Email</h4>
+                    <p>Unedc2000@yahoo.es</p>
+                </div>
+                <div class="contact-info">
+                    <h4>Horario de trabajo</h4>
+                    <p>Lunes - Viernes: 08 AM - 06 PM</p>
+                </div>
+            </div>
+            <!-- Google map -->
+            <div class="map" >
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.4299726554987!2d-77.74043728518866!3d0.7994198994168128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e296f8ecf2a822b%3A0x90f95f9b4b8d8d0b!2sColegio%20Monse%C3%B1or%20Leonidas%20Proa%C3%B1o!5e0!3m2!1ses!2sec!4v1633287022690!5m2!1ses!2sec" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+        <div class="contact-form spad pb-0">
+            <div class="section-title text-center">
+                <h3>PONERSE EN CONTACTO</h3>
+                <p>Contáctenos para obtener las mejores opiniones</p>
+            </div>
+            <form class="comment-form --contact">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <input type="text" placeholder="Su nombre">
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="text" placeholder="su email">
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="text" placeholder="Subjeto">
+                    </div>
+                    <div class="col-lg-12">
+                        <textarea placeholder="Mensaje"></textarea>
+                        <div class="text-center">
+                            <button class="site-btn">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/_footer') %>
