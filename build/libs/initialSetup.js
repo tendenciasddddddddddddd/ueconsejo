@@ -33,16 +33,7 @@ var createRoles = /*#__PURE__*/function () {
       }).save(), //moderator
       new _Role.default({
         name: "Admin"
-      }).save(), //admin
-      new _Role.default({
-        name: "Secretario"
-      }).save(), //-------+++
-      new _Role.default({
-        name: "Vicerrector"
-      }).save(), //-------+++
-      new _Role.default({
-        name: "Inpector"
-      }).save() //-------+++
+      }).save() //admin
       ]);
       console.log(values);
     } catch (error) {
