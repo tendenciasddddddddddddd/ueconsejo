@@ -65,10 +65,16 @@ export const updateMateriaById = async (req,res)=>{
 }
 
 export const deleteMateriaById = async (req,res)=>{
-    const { materiaId } = req.params;
-
-    await Materia.findByIdAndDelete(materiaId);
-  
-    // code 200 is ok too
+  try {
+    let cadenaId = req.params.id;
+    const array = cadenaId.split(",");
+    await Materia.deleteMany({
+      _id: {
+        $in: array,
+      },
+    });
     res.status(200).json();
+  } catch (e) {
+    return res.status(500).json();
+  }
 }

@@ -157,12 +157,18 @@ export const updateMatriculasById = async (req,res)=>{
 
 //-----------------------------------------------------------ELIMINAR MATRICULA CON MULTIPLES
 export const deleteMatriculasById = async (req,res)=>{
-    const { matriculaId } = req.params;
-
-    await Matriculas.findByIdAndDelete(matriculaId);
-  
-    // code 200 is ok too
+  try {
+    let cadenaId = req.params.id;
+    const array = cadenaId.split(",");
+    await Matriculas.deleteMany({
+      _id: {
+        $in: array,
+      },
+    });
     res.status(200).json();
+  } catch (e) {
+    return res.status(500).json();
+  }
 }
 
 

@@ -3,6 +3,8 @@ import User from "../models/User";
 
 import bcrypt from "bcryptjs";
 
+const faker = require('faker');
+
 export const createRoles = async () => {
   try {
     // Count Documents
@@ -47,4 +49,32 @@ export const createAdmin = async () => {
     });
     console.log('Admin User Created!')
   }
+};
+
+export const userdev = async () => {
+  const roles = await Role.find({ name: { $in: ["Docente"] } });
+  for(let i = 0; i < 30; i++) {
+    await User.create({
+      roles: roles.map((role) => role._id),
+      username: faker.internet.userName(),
+      email: faker.internet.email(),
+      nombres: faker.name.firstName(),
+      apellidos: faker.name.lastName(),
+      status:"1",
+      telefono: faker.phone.phoneNumber(),
+      foto: faker.image.avatar(),
+      cedula : faker.finance.routingNumber(),
+      typo:"DOCS",
+      fullname:faker.name.findName(),
+      password: await bcrypt.hash("123456", 10),
+      sexo:"Femenino",
+      fketnia:"Mestizo",
+      fknacionalidad:"Colombia",
+      fkparroquia:"Caldera",
+      titulo: "Titulo lic"
+    });
+       
+    
+}
+console.log('100 Records Created');
 };

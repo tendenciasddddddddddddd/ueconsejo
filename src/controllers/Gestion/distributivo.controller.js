@@ -32,7 +32,7 @@ export const getDistributivo = async (req,res)=>{
   const total = await Distributivo.countDocuments({nombre:{$in:[modal]}});
   const paginas = Math.ceil(total/limit);
   const materias = await Distributivo.find({nombre:{$in:[modal]}}).skip((limit * skip)-limit).limit(limit).sort({updatedAt:-1})
-  .populate('fdocente','nombres apellidos')
+  .populate('fdocente','fullname')
   .populate('fmateria','nombre')
   .populate('fnivel','nombres');
   const coleccion = {
@@ -75,10 +75,16 @@ export const updateDistributivoById = async (req,res)=>{
 }
 
 export const deleteDistributivoById = async (req,res)=>{
-    const { distributivoId } = req.params;
-
-    await Distributivo.findByIdAndDelete(distributivoId);
-  
-    // code 200 is ok too
+  try {
+    let cadenaId = req.params.id;
+    const array = cadenaId.split(",");
+    await Distributivo.deleteMany({
+      _id: {
+        $in: array,
+      },
+    });
     res.status(200).json();
+  } catch (e) {
+    return res.status(500).json();
+  }
 }

@@ -27,6 +27,6 @@ matriCtrl.createMatriculas);
 
 router.put("/:matriculaId", matriCtrl.updateMatriculasById);
 
-router.delete("/:matriculaId", matriCtrl.deleteMatriculasById);
+router.delete("/:id", matriCtrl.deleteMatriculasById);
 
 export default router;

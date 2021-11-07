@@ -12,7 +12,7 @@ router.get("/", materiaCtrl.getMateria);
 
 router.put("/:materiaId", materiaCtrl.updateMateriaById);
 
-router.delete("/:materiaId", materiaCtrl.deleteMateriaById);
+router.delete("/:id", materiaCtrl.deleteMateriaById);
 
 router.post("/", materiaCtrl.createMateria);
 

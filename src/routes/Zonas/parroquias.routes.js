@@ -14,7 +14,7 @@ router.post("/", parroquiaCtrl.createParroquias);
 
 router.put("/:parroquiasId", parroquiaCtrl.updateParroquiasById);
 
-router.delete("/:parroquiasId", parroquiaCtrl.deleteParroquiasById);
+router.delete("/:id", parroquiaCtrl.deleteParroquiasById);
 
 
 export default router;

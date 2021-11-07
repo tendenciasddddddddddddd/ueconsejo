@@ -4,13 +4,15 @@ const router = Router();
 import * as docCtrl from "../../controllers/Registros/docentes.controller";
 import { authJwt,verifySignup } from "../../middlewares";
 
+router.get("/buscadordocentes",[authJwt.verifyToken], docCtrl.getBuscadorUsuarios);
+
 router.get("/newdoc", docCtrl.getListasDocentes);
 
 router.get("/:id", docCtrl.getDocenteById);
 
 router.get(
     "/", 
-    [authJwt.verifyToken  ,  authJwt.isAdmin],
+    [authJwt.verifyToken ],
     docCtrl.getDocentes
     );
 

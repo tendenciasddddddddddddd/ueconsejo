@@ -66,10 +66,16 @@ export const updatePeriodoById = async (req,res)=>{
 }
 
 export const deletePeriodoById = async (req,res)=>{
-    const { periodoId } = req.params;
-
-    await Academicos.findByIdAndDelete(periodoId);
-  
-    // code 200 is ok too
+  try {
+    let cadenaId = req.params.id;
+    const array = cadenaId.split(",");
+    await Academicos.deleteMany({
+      _id: {
+        $in: array,
+      },
+    });
     res.status(200).json();
+  } catch (e) {
+    return res.status(500).json();
+  }
 }

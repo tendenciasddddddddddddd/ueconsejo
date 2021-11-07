@@ -1,0 +1,29 @@
+<?xml version='1.0'?>
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9' xmlns:image='http://www.google.com/schemas/sitemap-image/1.1'>
+    <url>
+        <loc>https://pcei-tulcan.com/</loc>
+        <lastmod>2021-08-06</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://res.cloudinary.com/stebann/image/upload/v1635615961/LOGO_COLEGIO_bgfeoz.webp</image:loc>
+            <image:caption>PCEI-tulcan Unidad Educativa Fiscomisional Mons. Leonidas Proaño</image:caption>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://pcei-tulcan.com/</loc>
+        <lastmod>2021-08-06</lastmod>
+        <image:image>
+            <image:loc>https://res.cloudinary.com/stebann/image/upload/v1635615961/LOGO_COLEGIO_bgfeoz.webp</image:loc>
+            <image:caption>Unidad Educativa Monsenor Leonidas Proaño tulcan</image:caption>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://pcei-tulcan.com/</loc>
+        <lastmod>2021-08-06</lastmod>
+        <image:image>
+            <image:loc>https://res.cloudinary.com/stebann/image/upload/v1635615961/LOGO_COLEGIO_bgfeoz.webp</image:loc>
+            <image:caption>Unidad Educativa Fiscomisional Mons. Leonidas Proaño tulcan</image:caption>
+        </image:image>
+    </url>
+</urlset>

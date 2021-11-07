@@ -8,9 +8,10 @@ export const getDocentes = async (req,res)=>{
     //if(req.query.take==null || req.query.take==null)return;
     const limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
     const skip = parseInt(req.query.page);
-    const usuarios = await User.find({typo:{$in:["DOCS"]}}).skip((limit * skip)-limit).limit(limit).sort({updatedAt:-1});
-    const total =  usuarios.length;
+    const total = await User.countDocuments({typo:{$in:["DOCS"]}});
     const paginas = Math.ceil(total/limit);
+    const usuarios = await User.find({typo:{$in:["DOCS"]}}).skip((limit * skip)-limit).limit(limit);
+
     
     const coleccion = {
       usuarios: usuarios,
@@ -20,6 +21,18 @@ export const getDocentes = async (req,res)=>{
     }
     return res.json(coleccion);
   }
+
+//----------------------------------OPTENER TODOS LOS ADMINISTRADORES
+
+export const getBuscadorUsuarios = async (req, res) => {
+  const usuarios = await User.find({ typo: { $in: ["DOCS"] } })
+    .lean()
+    .select({ fullname: 1, foto: 1, email: 1, status: 1 });
+    const coleccion = {
+    usuarios: usuarios,
+  };
+  return res.json(coleccion);
+};
 
 //--------------------------------LISTA PARA FILTROS [DISTRIBUTIVO, ]  --------------------
 export const getListasDocentes = async (req,res)=>{
@@ -58,11 +71,18 @@ export const updateDocenteById = async (req,res)=>{
   
   //--------------------------------ELIMINAR USUARIOS POR EL ID--------------------
   export const deleteDocenteById = async (req,res)=>{
-    
-    const  UsuariosId  = mongoose.Types.ObjectId(req.params.id);
-    await User.findByIdAndDelete(UsuariosId);
-  
-    res.status(200).json();
+    try {
+      let cadenaId = req.params.id;
+      const array = cadenaId.split(",");
+      await User.deleteMany({
+        _id: {
+          $in: array,
+        },
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   }
 
 //--------------------------------CREAR ESTUDIANTE--------------------

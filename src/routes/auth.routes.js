@@ -22,6 +22,12 @@ router.post("/signin", authCtrl.signin);
 
 router.post("/cuenta", authCtrl.cuenta);
 
+router.post("/resetPassword", authCtrl.resetPassword);
+
+router.post("/forgotPassword", authCtrl.forgotPassword);
+
+router.post("/GoogleAuthApis", authCtrl.googleAuthApi);
+
 router.put("/cuenta/:cuentaId", authCtrl.newPassword);
 
 export default router;

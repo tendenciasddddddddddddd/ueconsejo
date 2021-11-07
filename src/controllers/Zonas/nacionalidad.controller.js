@@ -61,3 +61,15 @@ export const deleteNacionalidadById = async (req,res)=>{
     // code 200 is ok too
     res.status(200).json();
 }
+
+//-------------------COMPONENTES CHILDS ------
+
+
+export const getChildNacionalidad = async (req, res) => {
+  const documentos = await Nacionalidad.find({})
+    .lean()
+    const coleccion = {
+      datas: documentos,
+  };
+  return res.json(coleccion);
+};

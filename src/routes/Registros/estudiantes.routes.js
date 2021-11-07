@@ -4,13 +4,15 @@ const router = Router();
 import * as estCtrl from "../../controllers/Registros/estudiantes.controller";
 import { authJwt,verifySignup } from "../../middlewares";
 
+router.get("/buscadorestudiantes",[authJwt.verifyToken], estCtrl.getBuscadorUsuarios);
+
 router.get("/newstud", estCtrl.getListasEstudiantes);
 
 router.get("/:id", estCtrl.getEstudianteById);
 
 router.get(
     "/", 
-    [authJwt.verifyToken  ,  authJwt.isAdmin],
+    [authJwt.verifyToken ],
     estCtrl.getEstudiantes
     );
 

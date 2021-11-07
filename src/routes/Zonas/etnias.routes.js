@@ -4,11 +4,13 @@ const router = Router();
 import * as etniasCtrl from "../../controllers/Zonas/etnias.controller";
 import { authJwt } from "../../middlewares";
 
-router.post("/", etniasCtrl.createEtnias);
+router.get("/childEtnia", etniasCtrl.getChildEtnia);
+
+router.get("/:etniasId", etniasCtrl.getEtniasById);
 
 router.get("/", etniasCtrl.getEtnias);
 
-router.get("/:etniasId", etniasCtrl.getEtniasById);
+router.post("/", etniasCtrl.createEtnias);
 
 router.put("/:etniasId", etniasCtrl.updateEtniasById);
 

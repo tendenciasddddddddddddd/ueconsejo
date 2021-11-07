@@ -14,7 +14,7 @@ router.post("/", cantonCtrl.createCantones);
 
 router.put("/:cantonesId", cantonCtrl.updateCantonesById);
 
-router.delete("/:cantonesId", cantonCtrl.deleteCantonesById);
+router.delete("/:id", cantonCtrl.deleteCantonesById);
 
 
 export default router;

@@ -12,6 +12,6 @@ router.get("/:provinciasId", provinciasCtrl.getProvinciasById);
 
 router.put("/:provinciasId", provinciasCtrl.updateProvinciasById);
 
-router.delete("/:provinciasId", provinciasCtrl.deleteProvinciasById);
+router.delete("/:id", provinciasCtrl.deleteProvinciasById);
 
 export default router;

@@ -21,6 +21,19 @@ export const getEstudiantes = async (req,res)=>{
     return res.json(coleccion);
   }
 
+//----------------------------------OPTENER TODOS LOS ADMINISTRADORES
+
+export const getBuscadorUsuarios = async (req, res) => {
+  const usuarios = await User.find({ typo: { $in: ["ESTS"] } })
+    .lean()
+    .select({ fullname: 1, foto: 1, email: 1, status: 1 });
+    const coleccion = {
+    usuarios: usuarios,
+  };
+  return res.json(coleccion);
+};
+
+
 //--------------------------------LISTA PARA FILTROS [MATRICULAS, ]  --------------------
 export const getListasEstudiantes = async (req,res)=>{
   const modalidad = req.query.mod;
@@ -31,7 +44,7 @@ export const getListasEstudiantes = async (req,res)=>{
       modalidad : {
         $in:[modalidad]
       }
-    }).lean().select({fullname: 1, foto: 1});
+    }).lean().select({fullname: 1, foto: 1, email: 1, status: 1});
     return res.json(products);
 }
 //--------------------------------OPTENEMOS UN USUARIO POR ID--------------------
@@ -59,11 +72,18 @@ export const updateEstudianteById = async (req,res)=>{
   
   //--------------------------------ELIMINAR USUARIOS POR EL ID--------------------
   export const deleteEstudianteById = async (req,res)=>{
-    
-    const  UsuariosId  = mongoose.Types.ObjectId(req.params.id);
-    await User.findByIdAndDelete(UsuariosId);
-  
-    res.status(200).json();
+    try {
+      let cadenaId = req.params.id;
+      const array = cadenaId.split(",");
+      await User.deleteMany({
+        _id: {
+          $in: array,
+        },
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   }
 
 //--------------------------------CREAR ESTUDIANTE--------------------
@@ -95,7 +115,7 @@ export const updateEstudianteById = async (req,res)=>{
             savedUser
         });
     } catch (error) {
-        console.error(error);
+        console.error('error duplicado');
         
     }
 };

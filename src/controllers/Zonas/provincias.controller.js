@@ -54,10 +54,16 @@ export const updateProvinciasById = async (req,res)=>{
 }
 
 export const deleteProvinciasById = async (req,res)=>{
-    const { provinciasId } = req.params;
-
-    await Provincias.findByIdAndDelete(provinciasId);
-  
-    // code 200 is ok too
+  try {
+    let cadenaId = req.params.id;
+    const array = cadenaId.split(",");
+    await Provincias.deleteMany({
+      _id: {
+        $in: array,
+      },
+    });
     res.status(200).json();
+  } catch (e) {
+    return res.status(500).json();
+  }
 }

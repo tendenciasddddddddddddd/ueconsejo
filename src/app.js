@@ -28,12 +28,16 @@ import taskRoutes from "./routes/AulaVirtual/task.routes"
 //PUBLIC
 import publico from "./public/routes/index"
 
+//SITEMAP
+ import sitemapRouter from "./service/sitemap"
 
-import { createRoles, createAdmin} from "./libs/initialSetup";
+
+import { createRoles, createAdmin, userdev} from "./libs/initialSetup";
 
 const app = express();
 //createRoles();//
 //createAdmin();
+//userdev();
 
 import cors from "cors";
 
@@ -85,6 +89,7 @@ app.use("/api/notas", notasRoutes);
 app.use("/api/aulas", aulasRoutes);
 app.use("/api/tasks", taskRoutes)
 //public
-
+//sitemap
+app.use("/sitemap.xml", sitemapRouter);
 
 export default app;

@@ -61,12 +61,18 @@ export const updateCantonesById = async (req,res)=>{
 }
 
 export const deleteCantonesById = async (req,res)=>{
-  const { cantonesId } = req.params;
-
-  await Cantones.findByIdAndDelete(cantonesId);
-
-  // code 200 is ok too
-  res.status(200).json();
+  try {
+    let cadenaId = req.params.id;
+    const array = cadenaId.split(",");
+    await Cantones.deleteMany({
+      _id: {
+        $in: array,
+      },
+    });
+    res.status(200).json();
+  } catch (e) {
+    return res.status(500).json();
+  }
 }
 //-----------------------OPTENEMOS LISTA COMPLETA DE LAS PROVINCIAS 
 

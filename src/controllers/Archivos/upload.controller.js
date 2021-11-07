@@ -36,7 +36,7 @@ export const resizeImages = async (req, res, next) => {
       .toFile(`src/static/${nombre}`);
 
     req.body.images.push(nombre); */
-   const resultado = await cloudinary.v2.uploader.upload(req.file.path, { width: 200,height: 200, crop: "pad" });
+   const resultado = await cloudinary.v2.uploader.upload(req.file.path, { height: 128, crop: "pad" });
    res.json(resultado.secure_url);
 
     next();

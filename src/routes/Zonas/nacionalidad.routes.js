@@ -4,11 +4,14 @@ const router = Router();
 import * as nacionalidadCtrl from "../../controllers/Zonas/nacionalidad.controller";
 import { authJwt } from "../../middlewares";
 
-router.post("/", nacionalidadCtrl.createNacionalidad);
+
+router.get("/childnacionalidad", nacionalidadCtrl.getChildNacionalidad);
+
+router.get("/:nacionalidadId", nacionalidadCtrl.getNacionalidadById);
 
 router.get("/", nacionalidadCtrl.getNacionalidad);
 
-router.get("/:nacionalidadId", nacionalidadCtrl.getNacionalidadById);
+router.post("/", nacionalidadCtrl.createNacionalidad);
 
 router.put("/:nacionalidadId", nacionalidadCtrl.updateNacionalidadById);
 

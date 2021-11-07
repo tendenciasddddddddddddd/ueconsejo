@@ -61,12 +61,18 @@ export const updateParroquiasById = async (req,res)=>{
 }
 
 export const deleteParroquiasById = async (req,res)=>{
-  const { parroquiasId } = req.params;
-
-  await Parroquias.findByIdAndDelete(parroquiasId);
-
-  // code 200 is ok too
-  res.status(200).json();
+  try {
+    let cadenaId = req.params.id;
+    const array = cadenaId.split(",");
+    await Parroquias.deleteMany({
+      _id: {
+        $in: array,
+      },
+    });
+    res.status(200).json();
+  } catch (e) {
+    return res.status(500).json();
+  }
 }
 //-----------------------OPTENEMOS LISTA COMPLETA DE LAS PROVINCIAS 
 

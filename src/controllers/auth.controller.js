@@ -4,7 +4,7 @@ import Role from "../models/Role";
 import jwt from "jsonwebtoken";
 import config from "../config";
 
-import Seccion from "../models/Seccion";
+import ResetEmail from "../conf/ResetEmail";
 
 //const timer1 = (ms) => new Promise((res) => setTimeout(res, ms));
 export const signUp = async (req, res) => {
@@ -100,9 +100,63 @@ export const signin = async (req, res) => {
 
         const token = jwt.sign({
             id: userFound._id,
-            role: toles
+            role: toles,
         }, config.SECRET, {
-            expiresIn: '48h', // 24 hours
+            expiresIn: '5d', // 24 hours
+        });
+
+        if(!userFound.modalidad){
+            userFound.modalidad= 'none';
+        }
+
+        //REGISTRO INICIO DE SECCION
+        const isaccesos = {
+            tokens: token,
+            foto: userFound.foto,
+            nombre: userFound.fullname,
+            email: userFound.email,
+            modalidad : userFound.modalidad,
+        }
+        res.status(200).json({
+            isaccesos
+        });
+
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+//---------------------------------------------------------VUE OUTH GOOGLE API--------------------------
+export const googleAuthApi = async (req, res) => {
+    try {
+        // EL CUERPO DE CORREO O EL CUERPO DE USERNAME
+        const userFound = await User.findOne({
+            email: req.body.email
+        }).populate(
+            "roles"
+        );
+        //VERIFICAR sI EL USUARIO EXISTE EN BASE DE DATOS
+        if (!userFound) return res.status(400).json({
+            message: "User Not Found 1"
+        });
+       
+        //OPTENERMOS EL ROL
+        var toles = null
+        const roles = await Role.find({
+            _id: {
+                $in: userFound.roles
+            }
+        });
+        for (let i = 0; i < roles.length; i++) {
+            toles = roles[0].name
+        }
+
+        const token = jwt.sign({
+            id: userFound._id,
+            role: toles,
+        }, config.SECRET, {
+            expiresIn: '5d', // 24 hours
         });
 
         if(!userFound.modalidad){
@@ -163,6 +217,55 @@ export const newPassword = async (req, res) => {
         req.body.password = await User.encryptPassword(req.body.password);
         const updatedPassword = await User.findByIdAndUpdate(
             req.params.cuentaId,
+            req.body, {
+                new: true,
+            }
+        );
+        res.status(200).json(updatedPassword);
+    } catch (err) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
+};
+
+//RESET PASWWORF----------------------------------
+
+const  generateRandomString = (num) => {
+    let result1= Math.random().toString(36).substring(0,num);       
+
+    return result1;
+}
+
+export const resetPassword = async (req, res)  => {
+    try {
+       
+        const userFound = await User.findOne({
+            email: req.body.email
+        });
+        if (!userFound) return res.status(400).json({
+            message: "User Not Found 1"
+        });
+        let code = generateRandomString(6);
+        ResetEmail.sendMail(req.body.email, code)
+        res.status(200).json({
+            code
+        });
+
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+
+};
+
+export const forgotPassword = async (req, res) => {
+
+    try {
+        const userFound = await User.findOne({
+            email: req.body.email
+        });
+        req.body.password = await User.encryptPassword(req.body.password);
+        const updatedPassword = await User.findByIdAndUpdate(
+            userFound._id,
             req.body, {
                 new: true,
             }

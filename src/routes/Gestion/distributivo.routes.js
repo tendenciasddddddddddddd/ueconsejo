@@ -16,6 +16,6 @@ router.get("/", distributivoCtrl.getDistributivo);
 
 router.put("/:distributivoId", distributivoCtrl.updateDistributivoById);
 
-router.delete("/:distributivoId", distributivoCtrl.deleteDistributivoById);
+router.delete("/:id", distributivoCtrl.deleteDistributivoById);
 
 export default router;

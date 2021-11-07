@@ -61,3 +61,14 @@ export const deleteEtniasById = async (req,res)=>{
     // code 200 is ok too
     res.status(200).json();
 }
+
+//-------------------COMPONENTES CHILDS ------
+
+export const getChildEtnia = async (req, res) => {
+  const documentos = await Etnias.find({})
+    .lean()
+    const coleccion = {
+      datas: documentos,
+  };
+  return res.json(coleccion);
+};
