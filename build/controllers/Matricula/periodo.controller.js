@@ -120,12 +120,18 @@ exports.updatePeriodoById = updatePeriodoById;
 
 var deletePeriodoById = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var {
-      periodoId
-    } = req.params;
-    yield _Academicos.default.findByIdAndDelete(periodoId); // code 200 is ok too
-
-    res.status(200).json();
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _Academicos.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
   return function deletePeriodoById(_x11, _x12) {

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUser = exports.getUsers = exports.createUser = exports.getRoles = exports.deleteUsuariosById = exports.updateUsuariosById = exports.getUsuariosById = exports.getUsuarios = void 0;
+exports.getUser = exports.getUsers = exports.createUser = exports.getRoles = exports.deleteUsuariosById = exports.updateUsuariosById = exports.getUsuariosById = exports.getBuscadorUsuarios = exports.getUsuarios = void 0;
 
 var _User = _interopRequireDefault(require("../models/User"));
 
@@ -15,7 +15,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var mongoose = require('mongoose'); //--------------------------------PAGINACION DE TABLA DEFAULT 7 EN 7--------------------
+var mongoose = require("mongoose"); //--------------------------------PAGINACION DE TABLA DEFAULT 7 EN 7--------------------
 
 
 var getUsuarios = /*#__PURE__*/function () {
@@ -46,20 +46,46 @@ var getUsuarios = /*#__PURE__*/function () {
   return function getUsuarios(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}(); //--------------------------------OPTENEMOS UN USUARIO POR ID--------------------
+}(); //----------------------------------OPTENER TODOS LOS ADMINISTRADORES
 
 
 exports.getUsuarios = getUsuarios;
 
-var getUsuariosById = /*#__PURE__*/function () {
+var getBuscadorUsuarios = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
+    var usuarios = yield _User.default.find({
+      typo: {
+        $in: ["ADMS"]
+      }
+    }).lean().select({
+      fullname: 1,
+      cedula: 1,
+      email: 1,
+      status: 1
+    });
+    var coleccion = {
+      usuarios: usuarios
+    };
+    return res.json(coleccion);
+  });
+
+  return function getBuscadorUsuarios(_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}(); //--------------------------------OPTENEMOS UN USUARIO POR ID--------------------
+
+
+exports.getBuscadorUsuarios = getBuscadorUsuarios;
+
+var getUsuariosById = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* (req, res) {
     var UsuariosId = mongoose.Types.ObjectId(req.params.id);
     var usuarios = yield _User.default.findById(UsuariosId);
     res.status(200).json(usuarios);
   });
 
-  return function getUsuariosById(_x3, _x4) {
-    return _ref2.apply(this, arguments);
+  return function getUsuariosById(_x5, _x6) {
+    return _ref3.apply(this, arguments);
   };
 }(); //--------------------------------EDITAR USUARIO POR EL ID--------------------
 
@@ -67,7 +93,7 @@ var getUsuariosById = /*#__PURE__*/function () {
 exports.getUsuariosById = getUsuariosById;
 
 var updateUsuariosById = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator(function* (req, res) {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
     try {
       req.body.roles = req.body.role;
       var updatedUsuarios = yield _User.default.findByIdAndUpdate(req.params.usuariosId, req.body, {
@@ -79,8 +105,8 @@ var updateUsuariosById = /*#__PURE__*/function () {
     }
   });
 
-  return function updateUsuariosById(_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function updateUsuariosById(_x7, _x8) {
+    return _ref4.apply(this, arguments);
   };
 }(); //--------------------------------ELIMINAR USUARIOS POR EL ID--------------------
 
@@ -88,14 +114,23 @@ var updateUsuariosById = /*#__PURE__*/function () {
 exports.updateUsuariosById = updateUsuariosById;
 
 var deleteUsuariosById = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator(function* (req, res) {
-    var UsuariosId = mongoose.Types.ObjectId(req.params.id);
-    yield _User.default.findByIdAndDelete(UsuariosId);
-    res.status(200).json();
+  var _ref5 = _asyncToGenerator(function* (req, res) {
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _User.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
-  return function deleteUsuariosById(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function deleteUsuariosById(_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
 }(); //--------------------------------RETORNAR LA LISTA DE ROLES--------------------
 
@@ -103,17 +138,17 @@ var deleteUsuariosById = /*#__PURE__*/function () {
 exports.deleteUsuariosById = deleteUsuariosById;
 
 var getRoles = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator(function* (req, res) {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
     var roless = yield _Role.default.find({
       name: {
-        $in: ["Admin", "Inpector", "Vicerrector", "Secretario"]
+        $in: ["Admin"]
       }
     });
     return res.json(roless);
   });
 
-  return function getRoles(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function getRoles(_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }(); //--------------------------------CREAR UN NUEVO USUARIOS --------------------
 
@@ -121,7 +156,7 @@ var getRoles = /*#__PURE__*/function () {
 exports.getRoles = getRoles;
 
 var createUser = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator(function* (req, res) {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
     try {
       var {
         username,
@@ -157,28 +192,28 @@ var createUser = /*#__PURE__*/function () {
     }
   });
 
-  return function createUser(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function createUser(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
 exports.createUser = createUser;
 
 var getUsers = /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator(function* (req, res) {});
+  var _ref8 = _asyncToGenerator(function* (req, res) {});
 
-  return function getUsers(_x13, _x14) {
-    return _ref7.apply(this, arguments);
+  return function getUsers(_x15, _x16) {
+    return _ref8.apply(this, arguments);
   };
 }();
 
 exports.getUsers = getUsers;
 
 var getUser = /*#__PURE__*/function () {
-  var _ref8 = _asyncToGenerator(function* (req, res) {});
+  var _ref9 = _asyncToGenerator(function* (req, res) {});
 
-  return function getUser(_x15, _x16) {
-    return _ref8.apply(this, arguments);
+  return function getUser(_x17, _x18) {
+    return _ref9.apply(this, arguments);
   };
 }();
 

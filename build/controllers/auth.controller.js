@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.newPassword = exports.cuenta = exports.signin = exports.signUp = void 0;
+exports.forgotPassword = exports.resetPassword = exports.newPassword = exports.cuenta = exports.googleAuthApi = exports.signin = exports.signUp = void 0;
 
 var _User = _interopRequireDefault(require("../models/User"));
 
@@ -13,7 +13,7 @@ var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _config = _interopRequireDefault(require("../config"));
 
-var _Seccion = _interopRequireDefault(require("../models/Seccion"));
+var _ResetEmail = _interopRequireDefault(require("../conf/ResetEmail"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -118,7 +118,7 @@ var signin = /*#__PURE__*/function () {
         id: userFound._id,
         role: toles
       }, _config.default.SECRET, {
-        expiresIn: '48h' // 24 hours
+        expiresIn: '5d' // 24 hours
 
       });
 
@@ -145,12 +145,71 @@ var signin = /*#__PURE__*/function () {
   return function signin(_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
-}();
+}(); //---------------------------------------------------------VUE OUTH GOOGLE API--------------------------
+
 
 exports.signin = signin;
 
-var cuenta = /*#__PURE__*/function () {
+var googleAuthApi = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
+    try {
+      // EL CUERPO DE CORREO O EL CUERPO DE USERNAME
+      var userFound = yield _User.default.findOne({
+        email: req.body.email
+      }).populate("roles"); //VERIFICAR sI EL USUARIO EXISTE EN BASE DE DATOS
+
+      if (!userFound) return res.status(400).json({
+        message: "User Not Found 1"
+      }); //OPTENERMOS EL ROL
+
+      var toles = null;
+      var roles = yield _Role.default.find({
+        _id: {
+          $in: userFound.roles
+        }
+      });
+
+      for (var i = 0; i < roles.length; i++) {
+        toles = roles[0].name;
+      }
+
+      var token = _jsonwebtoken.default.sign({
+        id: userFound._id,
+        role: toles
+      }, _config.default.SECRET, {
+        expiresIn: '5d' // 24 hours
+
+      });
+
+      if (!userFound.modalidad) {
+        userFound.modalidad = 'none';
+      } //REGISTRO INICIO DE SECCION
+
+
+      var isaccesos = {
+        tokens: token,
+        foto: userFound.foto,
+        nombre: userFound.fullname,
+        email: userFound.email,
+        modalidad: userFound.modalidad
+      };
+      res.status(200).json({
+        isaccesos
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  return function googleAuthApi(_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.googleAuthApi = googleAuthApi;
+
+var cuenta = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
     try {
       var userFound = yield _User.default.findOne({
         _id: req.body.id
@@ -171,15 +230,15 @@ var cuenta = /*#__PURE__*/function () {
     }
   });
 
-  return function cuenta(_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function cuenta(_x7, _x8) {
+    return _ref4.apply(this, arguments);
   };
 }();
 
 exports.cuenta = cuenta;
 
 var newPassword = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator(function* (req, res) {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
     try {
       req.body.password = yield _User.default.encryptPassword(req.body.password);
       var updatedPassword = yield _User.default.findByIdAndUpdate(req.params.cuentaId, req.body, {
@@ -192,9 +251,67 @@ var newPassword = /*#__PURE__*/function () {
     }
   });
 
-  return function newPassword(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function newPassword(_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}(); //RESET PASWWORF----------------------------------
+
+
+exports.newPassword = newPassword;
+
+var generateRandomString = num => {
+  var result1 = Math.random().toString(36).substring(0, num);
+  return result1;
+};
+
+var resetPassword = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    try {
+      var userFound = yield _User.default.findOne({
+        email: req.body.email
+      });
+      if (!userFound) return res.status(400).json({
+        message: "User Not Found 1"
+      });
+      var code = generateRandomString(6);
+
+      _ResetEmail.default.sendMail(req.body.email, code);
+
+      res.status(200).json({
+        code
+      });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  });
+
+  return function resetPassword(_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }();
 
-exports.newPassword = newPassword;
+exports.resetPassword = resetPassword;
+
+var forgotPassword = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
+    try {
+      var userFound = yield _User.default.findOne({
+        email: req.body.email
+      });
+      req.body.password = yield _User.default.encryptPassword(req.body.password);
+      var updatedPassword = yield _User.default.findByIdAndUpdate(userFound._id, req.body, {
+        new: true
+      });
+      res.status(200).json(updatedPassword);
+    } catch (err) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  });
+
+  return function forgotPassword(_x13, _x14) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.forgotPassword = forgotPassword;

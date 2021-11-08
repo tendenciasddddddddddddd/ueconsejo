@@ -21,6 +21,6 @@ router.get("/:distributivoId", distributivoCtrl.getDistributivoById);
 router.post("/", distributivoCtrl.createDistributivo);
 router.get("/", distributivoCtrl.getDistributivo);
 router.put("/:distributivoId", distributivoCtrl.updateDistributivoById);
-router.delete("/:distributivoId", distributivoCtrl.deleteDistributivoById);
+router.delete("/:id", distributivoCtrl.deleteDistributivoById);
 var _default = router;
 exports.default = _default;

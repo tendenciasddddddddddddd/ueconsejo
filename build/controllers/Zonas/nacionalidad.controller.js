@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteNacionalidadById = exports.updateNacionalidadById = exports.getNacionalidadById = exports.getNacionalidad = exports.createNacionalidad = void 0;
+exports.getChildNacionalidad = exports.deleteNacionalidadById = exports.updateNacionalidadById = exports.getNacionalidadById = exports.getNacionalidad = exports.createNacionalidad = void 0;
 
 var _Nacionalidad = _interopRequireDefault(require("../../models/Zonas/Nacionalidad"));
 
@@ -110,6 +110,23 @@ var deleteNacionalidadById = /*#__PURE__*/function () {
   return function deleteNacionalidadById(_x9, _x10) {
     return _ref5.apply(this, arguments);
   };
-}();
+}(); //-------------------COMPONENTES CHILDS ------
+
 
 exports.deleteNacionalidadById = deleteNacionalidadById;
+
+var getChildNacionalidad = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    var documentos = yield _Nacionalidad.default.find({}).lean();
+    var coleccion = {
+      datas: documentos
+    };
+    return res.json(coleccion);
+  });
+
+  return function getChildNacionalidad(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.getChildNacionalidad = getChildNacionalidad;

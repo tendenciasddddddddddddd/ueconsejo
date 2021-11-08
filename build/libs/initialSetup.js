@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createAdmin = exports.createRoles = void 0;
+exports.userdev = exports.createAdmin = exports.createRoles = void 0;
 
 var _Role = _interopRequireDefault(require("../models/Role"));
 
@@ -16,6 +16,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var faker = require('faker');
 
 var createRoles = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* () {
@@ -87,3 +89,43 @@ var createAdmin = /*#__PURE__*/function () {
 }();
 
 exports.createAdmin = createAdmin;
+
+var userdev = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* () {
+    var roles = yield _Role.default.find({
+      name: {
+        $in: ["Docente"]
+      }
+    });
+
+    for (var i = 0; i < 30; i++) {
+      yield _User.default.create({
+        roles: roles.map(role => role._id),
+        username: faker.internet.userName(),
+        email: faker.internet.email(),
+        nombres: faker.name.firstName(),
+        apellidos: faker.name.lastName(),
+        status: "1",
+        telefono: faker.phone.phoneNumber(),
+        foto: faker.image.avatar(),
+        cedula: faker.finance.routingNumber(),
+        typo: "DOCS",
+        fullname: faker.name.findName(),
+        password: yield _bcryptjs.default.hash("123456", 10),
+        sexo: "Femenino",
+        fketnia: "Mestizo",
+        fknacionalidad: "Colombia",
+        fkparroquia: "Caldera",
+        titulo: "Titulo lic"
+      });
+    }
+
+    console.log('100 Records Created');
+  });
+
+  return function userdev() {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.userdev = userdev;

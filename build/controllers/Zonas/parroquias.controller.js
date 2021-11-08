@@ -104,12 +104,18 @@ exports.updateParroquiasById = updateParroquiasById;
 
 var deleteParroquiasById = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator(function* (req, res) {
-    var {
-      parroquiasId
-    } = req.params;
-    yield _Parroquias.default.findByIdAndDelete(parroquiasId); // code 200 is ok too
-
-    res.status(200).json();
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _Parroquias.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
   return function deleteParroquiasById(_x9, _x10) {

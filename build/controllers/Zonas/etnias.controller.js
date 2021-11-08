@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteEtniasById = exports.updateEtniasById = exports.getEtniasById = exports.getEtnias = exports.createEtnias = void 0;
+exports.getChildEtnia = exports.deleteEtniasById = exports.updateEtniasById = exports.getEtniasById = exports.getEtnias = exports.createEtnias = void 0;
 
 var _Etnias = _interopRequireDefault(require("../../models/Zonas/Etnias"));
 
@@ -110,6 +110,23 @@ var deleteEtniasById = /*#__PURE__*/function () {
   return function deleteEtniasById(_x9, _x10) {
     return _ref5.apply(this, arguments);
   };
-}();
+}(); //-------------------COMPONENTES CHILDS ------
+
 
 exports.deleteEtniasById = deleteEtniasById;
+
+var getChildEtnia = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    var documentos = yield _Etnias.default.find({}).lean();
+    var coleccion = {
+      datas: documentos
+    };
+    return res.json(coleccion);
+  });
+
+  return function getChildEtnia(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.getChildEtnia = getChildEtnia;

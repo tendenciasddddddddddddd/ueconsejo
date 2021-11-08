@@ -20,7 +20,7 @@ router.get("/level", nivelCtrl.getListasNiveles);
 router.get("/:id", nivelCtrl.getNivelById);
 router.get("/", nivelCtrl.getNivel);
 router.put("/:nivelId", nivelCtrl.updateNivelById);
-router.delete("/:nivelId", nivelCtrl.deleteNivelById);
+router.delete("/:id", nivelCtrl.deleteNivelById);
 router.post("/", nivelCtrl.createNivel);
 var _default = router;
 exports.default = _default;

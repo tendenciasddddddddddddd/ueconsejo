@@ -8,5 +8,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _app.default.listen(process.env.PORT || 3000);
 
-console.log('escucha 300', 3000);
-console.log('bien');
+console.log('Port', 3000);

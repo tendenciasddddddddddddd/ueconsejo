@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createEstudiante = exports.deleteEstudianteById = exports.updateEstudianteById = exports.getEstudianteById = exports.getListasEstudiantes = exports.getEstudiantes = void 0;
+exports.createEstudiante = exports.deleteEstudianteById = exports.updateEstudianteById = exports.getEstudianteById = exports.getListasEstudiantes = exports.getBuscadorUsuarios = exports.getEstudiantes = void 0;
 
 var _User = _interopRequireDefault(require("../../models/User"));
 
@@ -49,13 +49,39 @@ var getEstudiantes = /*#__PURE__*/function () {
   return function getEstudiantes(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}(); //--------------------------------LISTA PARA FILTROS [MATRICULAS, ]  --------------------
+}(); //----------------------------------OPTENER TODOS LOS ADMINISTRADORES
 
 
 exports.getEstudiantes = getEstudiantes;
 
-var getListasEstudiantes = /*#__PURE__*/function () {
+var getBuscadorUsuarios = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
+    var usuarios = yield _User.default.find({
+      typo: {
+        $in: ["ESTS"]
+      }
+    }).lean().select({
+      fullname: 1,
+      foto: 1,
+      email: 1,
+      status: 1
+    });
+    var coleccion = {
+      usuarios: usuarios
+    };
+    return res.json(coleccion);
+  });
+
+  return function getBuscadorUsuarios(_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}(); //--------------------------------LISTA PARA FILTROS [MATRICULAS, ]  --------------------
+
+
+exports.getBuscadorUsuarios = getBuscadorUsuarios;
+
+var getListasEstudiantes = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* (req, res) {
     var modalidad = req.query.mod;
     var products = yield _User.default.find({
       typo: {
@@ -66,13 +92,15 @@ var getListasEstudiantes = /*#__PURE__*/function () {
       }
     }).lean().select({
       fullname: 1,
-      foto: 1
+      foto: 1,
+      email: 1,
+      status: 1
     });
     return res.json(products);
   });
 
-  return function getListasEstudiantes(_x3, _x4) {
-    return _ref2.apply(this, arguments);
+  return function getListasEstudiantes(_x5, _x6) {
+    return _ref3.apply(this, arguments);
   };
 }(); //--------------------------------OPTENEMOS UN USUARIO POR ID--------------------
 
@@ -80,14 +108,14 @@ var getListasEstudiantes = /*#__PURE__*/function () {
 exports.getListasEstudiantes = getListasEstudiantes;
 
 var getEstudianteById = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator(function* (req, res) {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
     var UsuariosId = mongoose.Types.ObjectId(req.params.id);
     var usuarios = yield _User.default.findById(UsuariosId);
     res.status(200).json(usuarios);
   });
 
-  return function getEstudianteById(_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function getEstudianteById(_x7, _x8) {
+    return _ref4.apply(this, arguments);
   };
 }(); //--------------------------------EDITAR USUARIO POR EL ID--------------------
 
@@ -95,7 +123,7 @@ var getEstudianteById = /*#__PURE__*/function () {
 exports.getEstudianteById = getEstudianteById;
 
 var updateEstudianteById = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator(function* (req, res) {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
     try {
       var updatedUsuarios = yield _User.default.findByIdAndUpdate(req.params.usuariosId, req.body, {
         new: true
@@ -106,8 +134,8 @@ var updateEstudianteById = /*#__PURE__*/function () {
     }
   });
 
-  return function updateEstudianteById(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function updateEstudianteById(_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
 }(); //--------------------------------ELIMINAR USUARIOS POR EL ID--------------------
 
@@ -115,14 +143,23 @@ var updateEstudianteById = /*#__PURE__*/function () {
 exports.updateEstudianteById = updateEstudianteById;
 
 var deleteEstudianteById = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator(function* (req, res) {
-    var UsuariosId = mongoose.Types.ObjectId(req.params.id);
-    yield _User.default.findByIdAndDelete(UsuariosId);
-    res.status(200).json();
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _User.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
-  return function deleteEstudianteById(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function deleteEstudianteById(_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }(); //--------------------------------CREAR ESTUDIANTE--------------------
 
@@ -130,7 +167,7 @@ var deleteEstudianteById = /*#__PURE__*/function () {
 exports.deleteEstudianteById = deleteEstudianteById;
 
 var createEstudiante = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator(function* (req, res) {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
     try {
       // Getting the Request Body
       var {
@@ -181,12 +218,12 @@ var createEstudiante = /*#__PURE__*/function () {
         savedUser
       });
     } catch (error) {
-      console.error(error);
+      console.error('error duplicado');
     }
   });
 
-  return function createEstudiante(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function createEstudiante(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();
 

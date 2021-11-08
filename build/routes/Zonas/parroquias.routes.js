@@ -21,6 +21,6 @@ router.get("/:parroquiasId", parroquiaCtrl.getParroquiasById);
 router.get("/", parroquiaCtrl.getParroquias);
 router.post("/", parroquiaCtrl.createParroquias);
 router.put("/:parroquiasId", parroquiaCtrl.updateParroquiasById);
-router.delete("/:parroquiasId", parroquiaCtrl.deleteParroquiasById);
+router.delete("/:id", parroquiaCtrl.deleteParroquiasById);
 var _default = router;
 exports.default = _default;

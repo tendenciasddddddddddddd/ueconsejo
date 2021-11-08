@@ -67,7 +67,7 @@ var getDistributivo = /*#__PURE__*/function () {
       }
     }).skip(limit * skip - limit).limit(limit).sort({
       updatedAt: -1
-    }).populate('fdocente', 'nombres apellidos').populate('fmateria', 'nombre').populate('fnivel', 'nombres');
+    }).populate('fdocente', 'fullname').populate('fmateria', 'nombre').populate('fnivel', 'nombres');
     var coleccion = {
       niveles: materias,
       pagina: skip,
@@ -139,12 +139,18 @@ exports.updateDistributivoById = updateDistributivoById;
 
 var deleteDistributivoById = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var {
-      distributivoId
-    } = req.params;
-    yield _Distributivo.default.findByIdAndDelete(distributivoId); // code 200 is ok too
-
-    res.status(200).json();
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _Distributivo.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
   return function deleteDistributivoById(_x11, _x12) {

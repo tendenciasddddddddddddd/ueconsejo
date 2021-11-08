@@ -99,12 +99,18 @@ exports.updateProvinciasById = updateProvinciasById;
 
 var deleteProvinciasById = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator(function* (req, res) {
-    var {
-      provinciasId
-    } = req.params;
-    yield _Provincias.default.findByIdAndDelete(provinciasId); // code 200 is ok too
-
-    res.status(200).json();
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _Provincias.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
   return function deleteProvinciasById(_x9, _x10) {

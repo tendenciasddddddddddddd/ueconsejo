@@ -55,6 +55,8 @@ var _task = _interopRequireDefault(require("./routes/AulaVirtual/task.routes"));
 
 var _index = _interopRequireDefault(require("./public/routes/index"));
 
+var _sitemap = _interopRequireDefault(require("./service/sitemap"));
+
 var _initialSetup = require("./libs/initialSetup");
 
 var _cors = _interopRequireDefault(require("cors"));
@@ -65,6 +67,7 @@ var path = require('path');
 
 var app = (0, _express.default)(); //createRoles();//
 //createAdmin();
+//userdev();
 
 var corsOptions = {
   origin: '*',
@@ -107,6 +110,8 @@ app.use("/api/distributivo", _distributivo.default);
 app.use("/api/notas", _notas.default);
 app.use("/api/aulas", _aulas.default);
 app.use("/api/tasks", _task.default); //public
+//sitemap
 
+app.use("/sitemap.xml", _sitemap.default);
 var _default = app;
 exports.default = _default;

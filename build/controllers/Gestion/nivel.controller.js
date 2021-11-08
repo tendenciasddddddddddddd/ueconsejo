@@ -69,7 +69,7 @@ exports.getNivel = getNivel;
 
 var getListasNiveles = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    //CONSULTA OPTIMIZADA 
+    //CONSULTA OPTIMIZADA
     var products = yield _Nivel.default.find().lean().select({
       modalidad: 1,
       nombres: 1
@@ -117,12 +117,18 @@ exports.updateNivelById = updateNivelById;
 
 var deleteNivelById = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var {
-      nivelId
-    } = req.params;
-    yield _Nivel.default.findByIdAndDelete(nivelId); // code 200 is ok too
-
-    res.status(200).json();
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _Nivel.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
   return function deleteNivelById(_x11, _x12) {

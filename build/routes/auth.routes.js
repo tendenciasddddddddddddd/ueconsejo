@@ -23,6 +23,9 @@ router.use((req, res, next) => {
 router.post("/signup", [_middlewares.verifySignup.checkDuplicateUsernameOrEmail, _middlewares.verifySignup.checkRolesExisted], authCtrl.signUp);
 router.post("/signin", authCtrl.signin);
 router.post("/cuenta", authCtrl.cuenta);
+router.post("/resetPassword", authCtrl.resetPassword);
+router.post("/forgotPassword", authCtrl.forgotPassword);
+router.post("/GoogleAuthApis", authCtrl.googleAuthApi);
 router.put("/cuenta/:cuentaId", authCtrl.newPassword);
 var _default = router;
 exports.default = _default;

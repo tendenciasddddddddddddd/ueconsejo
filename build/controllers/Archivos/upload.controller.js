@@ -53,8 +53,7 @@ var resizeImages = /*#__PURE__*/function () {
         .toFile(`src/static/${nombre}`);
        req.body.images.push(nombre); */
       var resultado = yield cloudinary.v2.uploader.upload(req.file.path, {
-        width: 200,
-        height: 200,
+        height: 128,
         crop: "pad"
       });
       res.json(resultado.secure_url);

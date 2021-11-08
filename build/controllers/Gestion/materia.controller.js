@@ -117,12 +117,18 @@ exports.updateMateriaById = updateMateriaById;
 
 var deleteMateriaById = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var {
-      materiaId
-    } = req.params;
-    yield _Materia.default.findByIdAndDelete(materiaId); // code 200 is ok too
-
-    res.status(200).json();
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _Materia.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
   return function deleteMateriaById(_x11, _x12) {

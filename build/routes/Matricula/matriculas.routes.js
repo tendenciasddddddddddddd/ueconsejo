@@ -21,6 +21,6 @@ router.post("/", periodoCtrl.createPeriodo);
 router.get("/", periodoCtrl.getPeriodo);
 router.get("/:periodoId", periodoCtrl.getPeriodoById);
 router.put("/:periodoId", periodoCtrl.updatePeriodoById);
-router.delete("/:periodoId", periodoCtrl.deletePeriodoById);
+router.delete("/:id", periodoCtrl.deletePeriodoById);
 var _default = router;
 exports.default = _default;

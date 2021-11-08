@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createDocentes = exports.deleteDocenteById = exports.updateDocenteById = exports.getDocenteById = exports.getListasDocentes = exports.getDocentes = void 0;
+exports.createDocentes = exports.deleteDocenteById = exports.updateDocenteById = exports.getDocenteById = exports.getListasDocentes = exports.getBuscadorUsuarios = exports.getDocentes = void 0;
 
 var _User = _interopRequireDefault(require("../../models/User"));
 
@@ -24,15 +24,17 @@ var getDocentes = /*#__PURE__*/function () {
     var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
 
     var skip = parseInt(req.query.page);
+    var total = yield _User.default.countDocuments({
+      typo: {
+        $in: ["DOCS"]
+      }
+    });
+    var paginas = Math.ceil(total / limit);
     var usuarios = yield _User.default.find({
       typo: {
         $in: ["DOCS"]
       }
-    }).skip(limit * skip - limit).limit(limit).sort({
-      updatedAt: -1
-    });
-    var total = usuarios.length;
-    var paginas = Math.ceil(total / limit);
+    }).skip(limit * skip - limit).limit(limit);
     var coleccion = {
       usuarios: usuarios,
       pagina: skip,
@@ -45,13 +47,39 @@ var getDocentes = /*#__PURE__*/function () {
   return function getDocentes(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}(); //--------------------------------LISTA PARA FILTROS [DISTRIBUTIVO, ]  --------------------
+}(); //----------------------------------OPTENER TODOS LOS ADMINISTRADORES
 
 
 exports.getDocentes = getDocentes;
 
-var getListasDocentes = /*#__PURE__*/function () {
+var getBuscadorUsuarios = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
+    var usuarios = yield _User.default.find({
+      typo: {
+        $in: ["DOCS"]
+      }
+    }).lean().select({
+      fullname: 1,
+      foto: 1,
+      email: 1,
+      status: 1
+    });
+    var coleccion = {
+      usuarios: usuarios
+    };
+    return res.json(coleccion);
+  });
+
+  return function getBuscadorUsuarios(_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}(); //--------------------------------LISTA PARA FILTROS [DISTRIBUTIVO, ]  --------------------
+
+
+exports.getBuscadorUsuarios = getBuscadorUsuarios;
+
+var getListasDocentes = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* (req, res) {
     var products = yield _User.default.find({
       typo: {
         $in: ["DOCS"]
@@ -62,8 +90,8 @@ var getListasDocentes = /*#__PURE__*/function () {
     return res.json(products);
   });
 
-  return function getListasDocentes(_x3, _x4) {
-    return _ref2.apply(this, arguments);
+  return function getListasDocentes(_x5, _x6) {
+    return _ref3.apply(this, arguments);
   };
 }(); //--------------------------------OPTENEMOS UN USUARIO POR ID--------------------
 
@@ -71,14 +99,14 @@ var getListasDocentes = /*#__PURE__*/function () {
 exports.getListasDocentes = getListasDocentes;
 
 var getDocenteById = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator(function* (req, res) {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
     var UsuariosId = mongoose.Types.ObjectId(req.params.id);
     var usuarios = yield _User.default.findById(UsuariosId);
     res.status(200).json(usuarios);
   });
 
-  return function getDocenteById(_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function getDocenteById(_x7, _x8) {
+    return _ref4.apply(this, arguments);
   };
 }(); //--------------------------------EDITAR USUARIO POR EL ID--------------------
 
@@ -86,7 +114,7 @@ var getDocenteById = /*#__PURE__*/function () {
 exports.getDocenteById = getDocenteById;
 
 var updateDocenteById = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator(function* (req, res) {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
     try {
       var updatedUsuarios = yield _User.default.findByIdAndUpdate(req.params.usuariosId, req.body, {
         new: true
@@ -97,8 +125,8 @@ var updateDocenteById = /*#__PURE__*/function () {
     }
   });
 
-  return function updateDocenteById(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function updateDocenteById(_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
 }(); //--------------------------------ELIMINAR USUARIOS POR EL ID--------------------
 
@@ -106,14 +134,23 @@ var updateDocenteById = /*#__PURE__*/function () {
 exports.updateDocenteById = updateDocenteById;
 
 var deleteDocenteById = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator(function* (req, res) {
-    var UsuariosId = mongoose.Types.ObjectId(req.params.id);
-    yield _User.default.findByIdAndDelete(UsuariosId);
-    res.status(200).json();
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _User.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
-  return function deleteDocenteById(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function deleteDocenteById(_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }(); //--------------------------------CREAR ESTUDIANTE--------------------
 
@@ -121,7 +158,7 @@ var deleteDocenteById = /*#__PURE__*/function () {
 exports.deleteDocenteById = deleteDocenteById;
 
 var createDocentes = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator(function* (req, res) {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
     try {
       // Getting the Request Body
       var {
@@ -177,8 +214,8 @@ var createDocentes = /*#__PURE__*/function () {
     }
   });
 
-  return function createDocentes(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function createDocentes(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();
 

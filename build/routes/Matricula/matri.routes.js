@@ -29,6 +29,6 @@ router.get("/:matriculaId", matriCtrl.getMatriculasById);
 router.get("/", matriCtrl.getMatriculas);
 router.post("/", _middlewares.verifySignup.matriculaDuplicada, matriCtrl.createMatriculas);
 router.put("/:matriculaId", matriCtrl.updateMatriculasById);
-router.delete("/:matriculaId", matriCtrl.deleteMatriculasById);
+router.delete("/:id", matriCtrl.deleteMatriculasById);
 var _default = router;
 exports.default = _default;

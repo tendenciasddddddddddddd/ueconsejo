@@ -104,12 +104,18 @@ exports.updateCantonesById = updateCantonesById;
 
 var deleteCantonesById = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator(function* (req, res) {
-    var {
-      cantonesId
-    } = req.params;
-    yield _Cantones.default.findByIdAndDelete(cantonesId); // code 200 is ok too
-
-    res.status(200).json();
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _Cantones.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
   return function deleteCantonesById(_x9, _x10) {

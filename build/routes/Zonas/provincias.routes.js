@@ -20,6 +20,6 @@ router.post("/", provinciasCtrl.createProvincias);
 router.get("/", provinciasCtrl.getProvincias);
 router.get("/:provinciasId", provinciasCtrl.getProvinciasById);
 router.put("/:provinciasId", provinciasCtrl.updateProvinciasById);
-router.delete("/:provinciasId", provinciasCtrl.deleteProvinciasById);
+router.delete("/:id", provinciasCtrl.deleteProvinciasById);
 var _default = router;
 exports.default = _default;
