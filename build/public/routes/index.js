@@ -43,4 +43,13 @@ router.get('/event', /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }());
+router.get('/cats', /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
+    res.render('cats', {});
+  });
+
+  return function (_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}());
 module.exports = router;

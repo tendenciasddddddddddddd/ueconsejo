@@ -21,4 +21,9 @@ router.get('/about', async (req, res) => {
     });
   });
 
+  router.get('/cats', async (req, res) => {
+    res.render('cats', {
+    });
+  });
+
 module.exports = router;
