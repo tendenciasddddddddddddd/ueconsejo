@@ -25,5 +25,9 @@ router.get('/about', async (req, res) => {
     res.render('cats', {
     });
   });
+  router.get('/galeria', async (req, res) => {
+    res.render('galeria', {
+    });
+  });
 
 module.exports = router;

@@ -12,7 +12,7 @@ var ejs = require("ejs");
 
 var createTrans = () => {
   var tansport = nodemailer.createTransport(nodemailerSendgrid({
-    apiKey: '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'
+    apiKey: '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'
   }));
   return tansport;
 };
@@ -25,7 +25,7 @@ var sendMail = /*#__PURE__*/function () {
       });
       var trasporter = createTrans();
       yield trasporter.sendMail({
-        from: '"Mons. Leonidas Proaño"<10004095632w@gmail.com> ',
+        from: '"Mons. Leonidas Proaño"<esthelita.martinez98@gmail.com> ',
         to: "".concat(user),
         subject: 'Restablece tu contraseña de PCEI',
         html: data

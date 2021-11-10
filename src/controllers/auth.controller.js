@@ -238,7 +238,7 @@ const  generateRandomString = (num) => {
 
 export const resetPassword = async (req, res)  => {
     try {
-       
+        
         const userFound = await User.findOne({
             email: req.body.email
         });

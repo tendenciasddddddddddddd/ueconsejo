@@ -52,4 +52,13 @@ router.get('/cats', /*#__PURE__*/function () {
     return _ref5.apply(this, arguments);
   };
 }());
+router.get('/galeria', /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    res.render('galeria', {});
+  });
+
+  return function (_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}());
 module.exports = router;
