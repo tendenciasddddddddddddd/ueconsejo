@@ -88,8 +88,9 @@ var getReportes = /*#__PURE__*/function () {
         $in: [curs]
       }
     }).lean().select({
-      curso: 1
-    }).populate('fkestudiante', 'fullname');
+      curso: 1,
+      nombre: 1
+    });
     return res.json(matriculas);
   });
 
@@ -102,6 +103,7 @@ exports.getReportes = getReportes;
 
 var getInfoMat = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
+    //NO RESULEV NADA
     if (req.query.h) {
       var academic = req.query.h;
       var version = req.query.m;
@@ -213,7 +215,7 @@ var getMatriculasById = /*#__PURE__*/function () {
     var {
       matriculaId
     } = req.params;
-    var niveles = yield _Matriculas.default.findById(matriculaId).populate('fkestudiante', 'nombres apellidos').populate('fknivel', 'nombres').populate('academico', 'nombre');
+    var niveles = yield _Matriculas.default.findById(matriculaId).populate('fknivel', 'nombres').populate('academico', 'nombre');
     res.status(200).json(niveles);
   });
 

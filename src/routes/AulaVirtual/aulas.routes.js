@@ -5,16 +5,16 @@ import * as aulaCtrl from "../../controllers/AulasVirtuales/aulas.controller";
 import { authJwt } from "../../middlewares";
 import { verifySignup } from "../../middlewares";
 
-router.get("/studen", aulaCtrl.getAllAulasEstu);
+router.get("/studen",[authJwt.verifyToken], aulaCtrl.getAllAulasEstu);
 
-router.get("/newlist", aulaCtrl.getAulasVirtuales);
+router.get("/newlist",[authJwt.verifyToken], aulaCtrl.getAulasVirtuales);
 //router.get("/", aulaCtrl.createAulasVirtuales);
 
-router.get("/:aulaId", aulaCtrl.getAulassById);
+router.get("/:aulaId",[authJwt.verifyToken], aulaCtrl.getAulassById);
 
-router.post("/", aulaCtrl.createAulasVirtuales);
+router.post("/",[authJwt.verifyToken], aulaCtrl.createAulasVirtuales);
 
-router.delete("/:aulaId", aulaCtrl.deleteAulaById);
+router.delete("/:aulaId",[authJwt.verifyToken], aulaCtrl.deleteAulaById);
 
 router.put("/:aulaId", aulaCtrl.createAulaById);
 

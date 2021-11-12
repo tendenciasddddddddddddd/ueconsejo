@@ -33,7 +33,6 @@ var sendMail = /*#__PURE__*/function () {
       return;
     } catch (error) {
       console.error('Error sending test email');
-      console.log(error);
     }
   });
 

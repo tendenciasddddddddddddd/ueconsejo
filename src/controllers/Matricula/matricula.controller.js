@@ -48,12 +48,12 @@ export const getReportes = async (req,res)=>{ //RESUELVE LOS REPORTES
     fknivel: {
       $in:[curs]
     }
-  }).lean().select({curso: 1}).populate('fkestudiante','fullname');
+  }).lean().select({curso: 1, nombre:1});
 
   return res.json(matriculas);
 }
 
-export const getInfoMat = async (req,res)=>{
+export const getInfoMat = async (req,res)=>{//NO RESULEV NADA
   if(req.query.h){
     const academic = req.query.h;
     const version = req.query.m;
@@ -135,7 +135,6 @@ export const getMatriculasById = async (req,res)=>{
     const { matriculaId } = req.params;
 
   const niveles = await Matriculas.findById(matriculaId)
-  .populate('fkestudiante','nombres apellidos')
   .populate('fknivel','nombres')
   .populate('academico','nombre');
   res.status(200).json(niveles);
