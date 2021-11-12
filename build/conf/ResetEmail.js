@@ -8,14 +8,28 @@ var nodemailer = require('nodemailer');
 
 var nodemailerSendgrid = require('nodemailer-sendgrid');
 
-var ejs = require("ejs");
+var ejs = require("ejs"); // const createTrans = () => {
+//     const tansport = nodemailer.createTransport(
+//         nodemailerSendgrid({
+//             apiKey: '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'
+//         }) 
+//     );
+//     return tansport;
+// }
 
-var createTrans = () => {
-  var tansport = nodemailer.createTransport(nodemailerSendgrid({
-    apiKey: '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'
-  }));
-  return tansport;
-};
+
+var transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  // true for 465, false for other ports
+  auth: {
+    user: 'unidadeducativa.pcei@gmail.com',
+    // generated ethereal user
+    pass: 'Medid100.' // generated ethereal password
+
+  }
+});
 
 var sendMail = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (user, code) {
@@ -23,22 +37,39 @@ var sendMail = /*#__PURE__*/function () {
       var data = yield ejs.renderFile(__dirname + "/resetTemplate.ejs", {
         codigo: code
       });
-      var trasporter = createTrans();
-      yield trasporter.sendMail({
-        from: '"Mons. Leonidas Proaño"<esthelita.martinez98@gmail.com> ',
+      yield transporter.sendMail({
+        from: '"Mons. Leonidas Proaño" <unidadeducativa.pcei@gmail.com>',
+        // sender address
         to: "".concat(user),
-        subject: 'Restablece tu contraseña de PCEI',
+        subject: "Restablece tu contraseña de PCEI-tulcan",
+        // Subject line
         html: data
       });
-      return;
     } catch (error) {
-      console.error('Error sending test email');
+      console.log('fallo email');
     }
   });
 
   return function sendMail(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}();
+}(); // const sendMails = async (user, code) => {
+//     try {
+//         const data = await ejs.renderFile(__dirname + "/resetTemplate.ejs", { codigo: code });
+//         const trasporter = createTrans();
+//         await trasporter.sendMail({
+//             from : '"Mons. Leonidas Proaño"<esthelita.martinez98@gmail.com> ',
+//             to : `${user}`,
+//             subject : 'Restablece tu contraseña de PCEI',
+//             html : data
+//         });
+//         console.log('Admin User Created!')
+//         return
+//     }catch (error) {
+//         console.error('Error sending test email');
+//         console.log(error);
+//     }
+// }
+
 
 exports.sendMail = (user, code) => sendMail(user, code);
