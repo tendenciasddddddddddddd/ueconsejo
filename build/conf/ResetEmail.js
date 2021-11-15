@@ -20,13 +20,13 @@ var ejs = require("ejs"); // const createTrans = () => {
 
 var transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+  port: 465,
+  secure: true,
   // true for 465, false for other ports
   auth: {
     user: 'unidadeducativa.pcei@gmail.com',
     // generated ethereal user
-    pass: 'Medid100.' // generated ethereal password
+    pass: 'himxmjedflbpszjp' // generated ethereal password
 
   }
 });
