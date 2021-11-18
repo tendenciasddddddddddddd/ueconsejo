@@ -159,12 +159,8 @@ exports.getInfoMat = getInfoMat;
 var getListaMatricula = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator(function* (req, res) {
     //RESUELVE LISTA DE MATRICULA [ELIMINAR, PARALELOS]
-    var modalidad = req.query.modalidad;
     var curso = req.query.curso;
     var mat = yield _Matriculas.default.find({
-      typo: {
-        $in: [modalidad]
-      },
       fknivel: {
         $in: [curso]
       }
@@ -222,16 +218,27 @@ var getMatriculasById = /*#__PURE__*/function () {
   return function getMatriculasById(_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
-}();
+}(); //-----------------------------------------------------------PARALELOS [ADMINISTRADOR]
+
 
 exports.getMatriculasById = getMatriculasById;
 
 var updateMatriculasById = /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator(function* (req, res) {
-    var updatedMateria = yield _Matriculas.default.findByIdAndUpdate(req.params.matriculaId, req.body, {
-      new: true
-    });
-    res.status(200).json(updatedMateria);
+    try {
+      var cadenaId = req.params.matriculaId;
+      var array = cadenaId.split(",");
+      var updatedMateria = yield _Matriculas.default.updateMany({
+        _id: {
+          $in: array
+        }
+      }, req.body, {
+        new: true
+      });
+      res.status(200).json(updatedMateria);
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
   return function updateMatriculasById(_x15, _x16) {

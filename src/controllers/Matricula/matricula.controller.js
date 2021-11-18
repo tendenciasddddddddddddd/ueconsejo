@@ -99,12 +99,8 @@ export const getInfoMat = async (req,res)=>{//NO RESULEV NADA
 
 
 export const getListaMatricula = async (req,res)=>{  //RESUELVE LISTA DE MATRICULA [ELIMINAR, PARALELOS]
-  const modalidad = req.query.modalidad;
   const curso = req.query.curso;
     const mat = await Matriculas.find({
-      typo : {
-        $in:[modalidad]
-      },
       fknivel : {
         $in:[curso]
       }
@@ -141,16 +137,24 @@ export const getMatriculasById = async (req,res)=>{
     
 }
 
+//-----------------------------------------------------------PARALELOS [ADMINISTRADOR]
 export const updateMatriculasById = async (req,res)=>{
-   
-    const updatedMateria = await Matriculas.findByIdAndUpdate(
-        req.params.matriculaId,
-        req.body,
-        {
-          new: true,
-        }
-      );
+
+   try {
+    let cadenaId = req.params.matriculaId;
+    const array = cadenaId.split(",");
+    const updatedMateria = await Matriculas.updateMany(
+        {_id: {$in: array}},
+          req.body,
+          {
+            new: true,
+          }
+        );
       res.status(200).json(updatedMateria);
+   } catch (e) {
+    return res.status(500).json();
+   }
+   
 }
 
 

@@ -19,7 +19,7 @@ export const createTaskById = async (req,res)=>{
     
   }
 
-  //------------------------------------- INSERTA TAREAS
+  //------------------------------------- INSERTA TAREAS [ESTUDIANTES, ]
 
 export const createTaskArbol2ById = async (req,res)=>{
   try{
@@ -39,10 +39,12 @@ export const createTaskArbol2ById = async (req,res)=>{
 //------------------------------------- ELIMINAR TAREAS [DOCENTE, ]
 
 export const deleteTaskById = async (req,res)=>{
+  
   try{
+    let cadenaId = req.body;
     await Aulavirtual.updateOne(
       {'_id': req.params.taskId},
-      {  $pull: { 'task': {'_id' : req.body._id}} },
+      {  $pull: { 'task': {'_id' : cadenaId}} },
       {
         new: true,
       }

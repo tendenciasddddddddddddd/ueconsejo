@@ -36,7 +36,7 @@ var createTaskById = /*#__PURE__*/function () {
   return function createTaskById(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}(); //------------------------------------- INSERTA TAREAS
+}(); //------------------------------------- INSERTA TAREAS [ESTUDIANTES, ]
 
 
 exports.createTaskById = createTaskById;
@@ -72,12 +72,13 @@ exports.createTaskArbol2ById = createTaskArbol2ById;
 var deleteTaskById = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
     try {
+      var cadenaId = req.body;
       yield _Aulavirtual.default.updateOne({
         '_id': req.params.taskId
       }, {
         $pull: {
           'task': {
-            '_id': req.body._id
+            '_id': cadenaId
           }
         }
       }, {

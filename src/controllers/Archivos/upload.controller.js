@@ -25,9 +25,10 @@ const upload = multer({ storage: storage });
 exports.upload = upload.single("myFile");
 
 export const resizeImages = async (req, res, next) => {
+  
   //let nombre = `${Date.now()}-${req.file.filename}`;
   var ext = path.extname(req.file.filename).toLowerCase();
-  if (ext === ".png" || ext === ".jpg" || ext === ".jpeg") {
+  if (ext!= ".png" ) {
     /* req.body.images = [];
    await sharp(req.file.path)
       .resize(200, 200)
