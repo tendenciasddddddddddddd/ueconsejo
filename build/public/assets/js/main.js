@@ -40,7 +40,6 @@ $(document).ready(function() {
     });
 
  
-
     //------- Superfist nav menu  js --------//  
 
     $('.nav-menu').superfish({

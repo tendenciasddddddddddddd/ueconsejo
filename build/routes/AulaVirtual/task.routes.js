@@ -16,7 +16,9 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 var router = (0, _express.Router)();
 router.put("/send/:taskId", taskCtrl.createTaskArbol2ById); //INSERTAMOS DATOS DE MATERIA Y DOCENTES EN NOTAS
 
-router.put("/removetask/:taskId", taskCtrl.deleteTaskById);
+router.put("/removetask/:taskId", taskCtrl.deleteTaskById); //EDITARMOS DATOS DE LA TAREA
+
+router.put("/editTask/:aulaId", taskCtrl.editTaskById);
 router.put("/:aulaId", taskCtrl.createTaskById); //RUTA CREAR NUEVA TAREAS DE DOCENTES
 
 var _default = router;

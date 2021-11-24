@@ -40,9 +40,7 @@ const nivelSchema = new Schema(
           quimestre: String,
           promedio : String,
           examen : String,
-          ap11 : String, ap12 : String, ap13 : String, ap14 : String, ap15 : String,
-          ap21 : String, ap22 : String, ap23 : String, ap24 : String, ap25 : String,
-          ap31 : String, ap32 : String, ap33 : String, ap34 : String, ap35 : String,
+          arraysNote : String, 
         }]
       }],
      

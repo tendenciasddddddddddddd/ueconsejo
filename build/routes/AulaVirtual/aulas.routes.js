@@ -19,7 +19,8 @@ var router = (0, _express.Router)();
 router.get("/studen", [_middlewares.authJwt.verifyToken], aulaCtrl.getAllAulasEstu);
 router.get("/newlist", [_middlewares.authJwt.verifyToken], aulaCtrl.getAulasVirtuales); //router.get("/", aulaCtrl.createAulasVirtuales);
 
-router.get("/:aulaId", [_middlewares.authJwt.verifyToken], aulaCtrl.getAulassById);
+router.get("/mainlist/:aulaId", aulaCtrl.getAulasMainById);
+router.get("/:aulaId", aulaCtrl.getAulassById);
 router.post("/", [_middlewares.authJwt.verifyToken], aulaCtrl.createAulasVirtuales);
 router.delete("/:aulaId", [_middlewares.authJwt.verifyToken], aulaCtrl.deleteAulaById);
 router.put("/:aulaId", aulaCtrl.createAulaById);

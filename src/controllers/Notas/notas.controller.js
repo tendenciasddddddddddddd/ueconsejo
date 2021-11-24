@@ -39,25 +39,32 @@ export const getMatriculasNotaById = async (req,res)=>{
 }
 
 
-//-------------------------------------------------------REFORMA DE CALIFICACIONES -------------------------------------
+//-------------------------------------------------------REFORMA DE CALIFICACIONES RESUELVE [DOCENTE, ]-------------------------------------
 
 export const createNotaArbol1ById = async (req,res)=>{
-  await Matriculas.findByIdAndUpdate(
-      req.params.matriculaId,
-      { $push: { 'calificaciones': req.body.calificaciones} },
-      {
-        new: true,
-      }
-    );
+  try {
+    let cadenaId = req.params.matriculaId;
+    const array = cadenaId.split(",");
+    await Matriculas.updateMany(
+       {_id: {$in: array}},
+       { $push: { 'calificaciones': req.body.calificaciones} },
+       {
+         new: true,
+       }
+     );
     res.status(200).json('crearnote');
+  } catch (error) {
+    return res.status(500).json();
+  }
+  
 }
 
-//------------------------------------- INSERTA LAS NOTAS
+//------------------------------------- INSERTA LAS NOTAS-------------------------------------
 
 export const createNotaArbol2ById = async (req,res)=>{
   try{
     await Matriculas.updateOne(
-      {'calificaciones._id': req.params.matriculaId},
+      {_id : req.params.matriculaId, 'calificaciones._id': req.body.calificaciones._id},
       { $push: { 'calificaciones.$.notas': req.body.calificaciones.notas} },
       {
         new: true,
@@ -72,10 +79,9 @@ export const createNotaArbol2ById = async (req,res)=>{
 
 //confirmar las notas---
 export const createNotaArbol3ById = async (req,res)=>{
-  console.log(req.body.calificaciones.promediof)
   try{
     await Matriculas.updateOne(
-      {'calificaciones._id': req.params.matriculaId},
+      {_id : req.params.matriculaId, 'calificaciones._id': req.body.calificaciones._id},
       { $set: { 'calificaciones.$.promediof': req.body.calificaciones.promediof} },
       {
         new: true,

@@ -118,7 +118,7 @@ var signin = /*#__PURE__*/function () {
         id: userFound._id,
         role: toles
       }, _config.default.SECRET, {
-        expiresIn: '5d' // 24 hours
+        expiresIn: '40d' // 24 hours
 
       });
 

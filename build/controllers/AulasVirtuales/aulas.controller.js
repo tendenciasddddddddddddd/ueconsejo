@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createAulaById = exports.getAllAulasEstu = exports.getAulassById = exports.deleteAulaById = exports.getAulasVirtuales = exports.createAulasVirtuales = void 0;
+exports.createAulaById = exports.getAllAulasEstu = exports.getAulassById = exports.getAulasMainById = exports.deleteAulaById = exports.getAulasVirtuales = exports.createAulasVirtuales = void 0;
 
 var _Aulavirtual = _interopRequireDefault(require("../../models/aulavirtual/Aulavirtual"));
 
@@ -91,26 +91,51 @@ var deleteAulaById = /*#__PURE__*/function () {
   return function deleteAulaById(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
-}(); //TRAEMOS AULA PARA EL DOCENTES
+}(); //TRAEMOS AULA SOLO EN NOMBRE RESUELVE [DOCENTE => AULA-PRINCIPAL]
 
 
 exports.deleteAulaById = deleteAulaById;
 
-var getAulassById = /*#__PURE__*/function () {
+var getAulasMainById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
     try {
       var {
         aulaId
       } = req.params;
-      var aulas = yield _Aulavirtual.default.findById(aulaId);
+      var aulas = yield _Aulavirtual.default.findById(aulaId).lean().select({
+        materia: 1,
+        nombre: 1,
+        estudiantes: 1
+      });
       res.status(200).json(aulas);
     } catch (err) {
       res.status(500).json('error del servidor');
     }
   });
 
-  return function getAulassById(_x7, _x8) {
+  return function getAulasMainById(_x7, _x8) {
     return _ref4.apply(this, arguments);
+  };
+}(); //TRAEMOS AULA PARA EL DOCENTES
+
+
+exports.getAulasMainById = getAulasMainById;
+
+var getAulassById = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
+    try {
+      var {
+        aulaId
+      } = req.params;
+      var aulas = yield _Aulavirtual.default.findById(aulaId).lean();
+      res.status(200).json(aulas);
+    } catch (err) {
+      res.status(500).json('error del servidor');
+    }
+  });
+
+  return function getAulassById(_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
 }(); //PARA MATRICULA DE ESTUDIANTES OSEA TRE PARA QUE SE MATRICULE 
 
@@ -118,7 +143,7 @@ var getAulassById = /*#__PURE__*/function () {
 exports.getAulassById = getAulassById;
 
 var getAllAulasEstu = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator(function* (req, res) {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
     var modalidad = req.query.id;
     var matriculas = yield _Aulavirtual.default.find({
       icono: {
@@ -134,8 +159,8 @@ var getAllAulasEstu = /*#__PURE__*/function () {
     return res.json(matriculas);
   });
 
-  return function getAllAulasEstu(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function getAllAulasEstu(_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }(); //EMPUJAR USUARIO O ESTUDIANTE A CADA AARREGLO
 
@@ -143,7 +168,7 @@ var getAllAulasEstu = /*#__PURE__*/function () {
 exports.getAllAulasEstu = getAllAulasEstu;
 
 var createAulaById = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator(function* (req, res) {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
     yield _Aulavirtual.default.findByIdAndUpdate(req.params.aulaId, {
       $push: {
         'estudiantes': req.body.estudiantes
@@ -154,8 +179,8 @@ var createAulaById = /*#__PURE__*/function () {
     res.status(200).json(req.params.aulaId);
   });
 
-  return function createAulaById(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function createAulaById(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();
 

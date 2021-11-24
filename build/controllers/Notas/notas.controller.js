@@ -84,27 +84,37 @@ var getMatriculasNotaById = /*#__PURE__*/function () {
   return function getMatriculasNotaById(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
-}(); //-------------------------------------------------------REFORMA DE CALIFICACIONES -------------------------------------
+}(); //-------------------------------------------------------REFORMA DE CALIFICACIONES RESUELVE [DOCENTE, ]-------------------------------------
 
 
 exports.getMatriculasNotaById = getMatriculasNotaById;
 
 var createNotaArbol1ById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    yield _Matriculas.default.findByIdAndUpdate(req.params.matriculaId, {
-      $push: {
-        'calificaciones': req.body.calificaciones
-      }
-    }, {
-      new: true
-    });
-    res.status(200).json('crearnote');
+    try {
+      var cadenaId = req.params.matriculaId;
+      var array = cadenaId.split(",");
+      yield _Matriculas.default.updateMany({
+        _id: {
+          $in: array
+        }
+      }, {
+        $push: {
+          'calificaciones': req.body.calificaciones
+        }
+      }, {
+        new: true
+      });
+      res.status(200).json('crearnote');
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function createNotaArbol1ById(_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
-}(); //------------------------------------- INSERTA LAS NOTAS
+}(); //------------------------------------- INSERTA LAS NOTAS-------------------------------------
 
 
 exports.createNotaArbol1ById = createNotaArbol1ById;
@@ -113,7 +123,8 @@ var createNotaArbol2ById = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator(function* (req, res) {
     try {
       yield _Matriculas.default.updateOne({
-        'calificaciones._id': req.params.matriculaId
+        _id: req.params.matriculaId,
+        'calificaciones._id': req.body.calificaciones._id
       }, {
         $push: {
           'calificaciones.$.notas': req.body.calificaciones.notas
@@ -139,11 +150,10 @@ exports.createNotaArbol2ById = createNotaArbol2ById;
 
 var createNotaArbol3ById = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    console.log(req.body.calificaciones.promediof);
-
     try {
       yield _Matriculas.default.updateOne({
-        'calificaciones._id': req.params.matriculaId
+        _id: req.params.matriculaId,
+        'calificaciones._id': req.body.calificaciones._id
       }, {
         $set: {
           'calificaciones.$.promediof': req.body.calificaciones.promediof

@@ -10,7 +10,9 @@ router.get("/studen",[authJwt.verifyToken], aulaCtrl.getAllAulasEstu);
 router.get("/newlist",[authJwt.verifyToken], aulaCtrl.getAulasVirtuales);
 //router.get("/", aulaCtrl.createAulasVirtuales);
 
-router.get("/:aulaId",[authJwt.verifyToken], aulaCtrl.getAulassById);
+router.get("/mainlist/:aulaId" , aulaCtrl.getAulasMainById);
+
+router.get("/:aulaId", aulaCtrl.getAulassById);
 
 router.post("/",[authJwt.verifyToken], aulaCtrl.createAulasVirtuales);
 

@@ -47,12 +47,26 @@ export const deleteAulaById = async (req,res)=>{
   
 }
 
+//TRAEMOS AULA SOLO EN NOMBRE RESUELVE [DOCENTE => AULA-PRINCIPAL]
+
+export const getAulasMainById = async (req,res)=>{
+  try{
+    const { aulaId } = req.params;
+    const aulas = await Aulavirtual.findById(aulaId).lean().select({materia: 1, nombre: 1, estudiantes: 1});
+    res.status(200).json(aulas);
+  }
+  catch(err){
+    res.status(500).json('error del servidor');
+  }
+ 
+}
+
 //TRAEMOS AULA PARA EL DOCENTES
 
 export const getAulassById = async (req,res)=>{
   try{
     const { aulaId } = req.params;
-    const aulas = await Aulavirtual.findById(aulaId)
+    const aulas = await Aulavirtual.findById(aulaId).lean();
     res.status(200).json(aulas);
   }
   catch(err){
