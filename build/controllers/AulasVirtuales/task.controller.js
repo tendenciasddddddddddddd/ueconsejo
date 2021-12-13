@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteTaskById = exports.createTaskArbol2ById = exports.editTaskById = exports.createTaskById = void 0;
+exports.deleteTaskById = exports.createTaskArbol2ById = exports.reviewTaskById = exports.calificarTaskById = exports.editTaskById = exports.createTaskById = void 0;
 
 var _Aulavirtual = _interopRequireDefault(require("../../models/aulavirtual/Aulavirtual"));
 
@@ -71,13 +71,95 @@ var editTaskById = /*#__PURE__*/function () {
   return function editTaskById(_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
-}(); //------------------------------------- INSERTA TAREAS [ESTUDIANTES, ]
+}(); //----------------------------------------------------CALIFICAR TAREA [DOCENTES, ]
 
 
 exports.editTaskById = editTaskById;
 
-var createTaskArbol2ById = /*#__PURE__*/function () {
+var calificarTaskById = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
+    try {
+      var cadenaId = req.params.aulaId;
+      var array = cadenaId.split(",");
+
+      if (array) {
+        yield _Aulavirtual.default.updateOne({
+          _id: array[0]
+        }, {
+          $set: {
+            "task.$[perf].entrega.$[est].nota": req.body.nota
+          }
+        }, {
+          arrayFilters: [{
+            "perf._id": {
+              $eq: array[1]
+            }
+          }, {
+            "est._id": {
+              $eq: array[2]
+            }
+          }],
+          new: true
+        });
+        res.status(200).json("req.params.aulaId");
+      } else {
+        res.status(200).json("req.params.aulaId");
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(500).json("error del servidor");
+    }
+  });
+
+  return function calificarTaskById(_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}(); //----------------------------------------------------MARCAR COMO TAREA REVISADA [DOCENTES, ]
+
+
+exports.calificarTaskById = calificarTaskById;
+
+var reviewTaskById = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
+    try {
+      var cadenaId = req.params.aulaId;
+      var array = cadenaId.split(",");
+
+      if (array) {
+        yield _Aulavirtual.default.updateOne({
+          _id: array[0]
+        }, {
+          $set: {
+            "task.$[perf].estado": '1'
+          }
+        }, {
+          arrayFilters: [{
+            "perf._id": {
+              $eq: array[1]
+            }
+          }],
+          new: true
+        });
+        res.status(200).json("req.params.aulaId");
+      } else {
+        res.status(200).json("req.params.aulaId");
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(500).json("error del servidor");
+    }
+  });
+
+  return function reviewTaskById(_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}(); //------------------------------------- INSERTA TAREAS [ESTUDIANTES, ]
+
+
+exports.reviewTaskById = reviewTaskById;
+
+var createTaskArbol2ById = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
     try {
       console.log(req.body);
       yield _Aulavirtual.default.updateOne({
@@ -98,8 +180,8 @@ var createTaskArbol2ById = /*#__PURE__*/function () {
     }
   });
 
-  return function createTaskArbol2ById(_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function createTaskArbol2ById(_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
 }(); //------------------------------------- ELIMINAR TAREAS [DOCENTE, ]
 
@@ -107,7 +189,7 @@ var createTaskArbol2ById = /*#__PURE__*/function () {
 exports.createTaskArbol2ById = createTaskArbol2ById;
 
 var deleteTaskById = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator(function* (req, res) {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
     try {
       var cadenaId = req.body;
       yield _Aulavirtual.default.updateOne({
@@ -129,8 +211,8 @@ var deleteTaskById = /*#__PURE__*/function () {
     }
   });
 
-  return function deleteTaskById(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function deleteTaskById(_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }();
 

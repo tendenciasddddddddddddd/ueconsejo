@@ -41,9 +41,9 @@ const nivelSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User",
           },
-          nombres : String,
           link : String,
-          nota : String
+          nota : String,
+          observar : String,
         }]
       }],
     },

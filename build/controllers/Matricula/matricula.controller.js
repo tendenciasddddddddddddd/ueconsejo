@@ -164,10 +164,10 @@ var getListaMatricula = /*#__PURE__*/function () {
       fknivel: {
         $in: [curso]
       }
-    }).select({
+    }).lean().select({
       curso: 1,
       nombre: 1
-    }).populate('fknivel', 'nombres');
+    });
     var coleccion = {
       matriculados: mat
     };

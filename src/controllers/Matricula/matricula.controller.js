@@ -104,7 +104,7 @@ export const getListaMatricula = async (req,res)=>{  //RESUELVE LISTA DE MATRICU
       fknivel : {
         $in:[curso]
       }
-    }).select({curso: 1, nombre: 1}).populate('fknivel','nombres');
+    }).lean().select({curso: 1, nombre: 1});
     const coleccion = {
       matriculados : mat
     }

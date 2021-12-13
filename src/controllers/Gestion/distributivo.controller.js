@@ -55,7 +55,6 @@ export const getInfoDistributivo = async (req, res) => {  //RESUELVE LA LISTA DE
 
 export const getDistributivoById = async (req,res)=>{
     const { distributivoId } = req.params;
-
   const niveles = await Distributivo.findById(distributivoId)
   .populate('fmateria','nombre')
   .populate('fnivel','nombres');

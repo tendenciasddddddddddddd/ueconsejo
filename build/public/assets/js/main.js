@@ -39,7 +39,8 @@ $(document).ready(function() {
         fixedContentPos: false
     });
 
- 
+
+
     //------- Superfist nav menu  js --------//  
 
     $('.nav-menu').superfish({

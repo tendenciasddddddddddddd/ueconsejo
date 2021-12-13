@@ -70,17 +70,21 @@ var getAulasVirtuales = /*#__PURE__*/function () {
   return function getAulasVirtuales(_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
-}();
+}(); //----------------------------ELIMINAR AULAS VIRTUALES [DOCENTES]
+
 
 exports.getAulasVirtuales = getAulasVirtuales;
 
 var deleteAulaById = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
     try {
-      var {
-        aulaId
-      } = req.params;
-      yield _Aulavirtual.default.findByIdAndDelete(aulaId); // code 200 is ok too
+      var cadenaId = req.params.aulaId;
+      var array = cadenaId.split(",");
+      yield _Aulavirtual.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      }); // code 200 is ok too
 
       res.status(200).json();
     } catch (error) {

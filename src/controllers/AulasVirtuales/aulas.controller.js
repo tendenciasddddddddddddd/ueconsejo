@@ -35,10 +35,17 @@ export const getAulasVirtuales = async (req,res)=>{
   return res.json(matriculas);
 }
 
+//----------------------------ELIMINAR AULAS VIRTUALES [DOCENTES]
+
 export const deleteAulaById = async (req,res)=>{
   try {
-    const { aulaId } = req.params;
-    await Aulavirtual.findByIdAndDelete(aulaId);
+    let cadenaId = req.params.aulaId;
+    const array = cadenaId.split(",");
+    await Aulavirtual.deleteMany({
+      _id: {
+        $in: array,
+      },
+    });
     // code 200 is ok too
     res.status(200).json();
   } catch (error) {

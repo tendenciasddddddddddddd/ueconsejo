@@ -43,9 +43,9 @@ var nivelSchema = new _mongoose.Schema({
         type: _mongoose.Schema.Types.ObjectId,
         ref: "User"
       },
-      nombres: String,
       link: String,
-      nota: String
+      nota: String,
+      observar: String
     }]
   }]
 }, {

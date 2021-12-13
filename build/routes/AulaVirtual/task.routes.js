@@ -18,7 +18,12 @@ router.put("/send/:taskId", taskCtrl.createTaskArbol2ById); //INSERTAMOS DATOS D
 
 router.put("/removetask/:taskId", taskCtrl.deleteTaskById); //EDITARMOS DATOS DE LA TAREA
 
-router.put("/editTask/:aulaId", taskCtrl.editTaskById);
+router.put("/editTask/:aulaId", taskCtrl.editTaskById); // EDITA NO SE PARA QUE A
+
+router.put("/calificarTask/:aulaId", taskCtrl.calificarTaskById); // CALIFICAR TAREA [DOCENTES,]
+
+router.put("/reviewTask/:aulaId", taskCtrl.reviewTaskById); // CALIFICAR TAREA [DOCENTES,]
+
 router.put("/:aulaId", taskCtrl.createTaskById); //RUTA CREAR NUEVA TAREAS DE DOCENTES
 
 var _default = router;

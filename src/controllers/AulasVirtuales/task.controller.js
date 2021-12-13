@@ -41,6 +41,61 @@ export const editTaskById = async (req, res) => {
   }
 };
 
+//----------------------------------------------------CALIFICAR TAREA [DOCENTES, ]
+export const calificarTaskById = async (req, res) => {
+  try {
+    let cadenaId = req.params.aulaId;
+    const array = cadenaId.split(",");
+    if (array) {
+      await Aulavirtual.updateOne(
+        { _id: array[0] },
+        { $set: 
+          { "task.$[perf].entrega.$[est].nota": req.body.nota} 
+        },
+        {
+          arrayFilters: [{
+            "perf._id": {$eq : array[1]}},
+            {"est._id": {$eq : array[2]}}],
+          new: true,
+        }
+      );
+      res.status(200).json("req.params.aulaId");
+    } else {
+      res.status(200).json("req.params.aulaId");
+    }
+  } catch (e) {
+    console.log(e)
+    res.status(500).json("error del servidor");
+  }
+};
+
+
+//----------------------------------------------------MARCAR COMO TAREA REVISADA [DOCENTES, ]
+export const reviewTaskById = async (req, res) => {
+  try {
+    let cadenaId = req.params.aulaId;
+    const array = cadenaId.split(",");
+    if (array) {
+      await Aulavirtual.updateOne(
+        { _id: array[0] },
+        { $set: 
+          { "task.$[perf].estado": '1'} 
+        },
+        {
+          arrayFilters: [{
+            "perf._id": {$eq : array[1]}}],
+            new: true,
+        }
+      );
+      res.status(200).json("req.params.aulaId");
+    } else {
+      res.status(200).json("req.params.aulaId");
+    }
+  } catch (e) {
+    console.log(e)
+    res.status(500).json("error del servidor");
+  }
+};
 //------------------------------------- INSERTA TAREAS [ESTUDIANTES, ]
 
 export const createTaskArbol2ById = async (req, res) => {
