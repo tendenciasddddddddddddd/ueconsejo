@@ -39,6 +39,9 @@ $(document).ready(function() {
         fixedContentPos: false
     });
 
+    //------- Datepicker  js --------//  
+
+
 
 
     //------- Superfist nav menu  js --------//  

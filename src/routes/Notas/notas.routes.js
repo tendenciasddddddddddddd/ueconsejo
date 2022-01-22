@@ -14,7 +14,13 @@ router.put("/reform/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaArb
 
 router.put("/ref2/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaArbol2ById); //INSERTAMOS DATOS DE MATERIA Y DOCENTES EN NOTAS
 
-router.put("/ref3/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaArbol3ById); //CONFIRMAR LAS NORAS DE ESTUDIANTES
+router.put("/ref3/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaArbol3ById); //CONFIRMAR LAS NORAS DE ESTUDIANTES //createFullNote
+
+router.put("/createfullnote/:matriculaId",[authJwt.verifyToken], matriCtrl.createFullNote);
+
+router.put("/deleteallnote/:matriculaId",[authJwt.verifyToken], matriCtrl.deleteNoteById);
+
+router.put("/confirmfullnote/:matriculaId",[authJwt.verifyToken], matriCtrl.confirmFullNoteById);
 
 
 export default router;

@@ -42,7 +42,7 @@ const app = express();
 import cors from "cors";
 
 var corsOptions = {
-  origin: '*', // ['https://back-ends.web.app', 'https://plataformas-pcei.netlify.app','http://localhost:8080']
+  origin: ['https://back-ends.web.app', 'https://plataformas-pcei.netlify.app','http://localhost:8080'], // Reemplazar con dominio
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 app.use(cors(corsOptions));

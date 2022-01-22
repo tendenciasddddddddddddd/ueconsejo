@@ -25,9 +25,11 @@ export const editTaskById = async (req, res) => {
     const array = cadenaId.split(",");
     if (array[0] != null && array[1] != null) {
       await Aulavirtual.updateOne(
-        { _id: array[0], "task._id": array[1] },
-        { $set: { "task.$": req.body.task } },
+        { _id: array[0]},
+        { $set: { "task.$[perf].finicio": req.body.task.finicio } },
         {
+          arrayFilters: [{
+            "perf._id": {$eq : array[1]}}],
           new: true,
         }
       );

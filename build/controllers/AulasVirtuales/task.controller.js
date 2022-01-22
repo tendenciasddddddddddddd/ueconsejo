@@ -49,13 +49,17 @@ var editTaskById = /*#__PURE__*/function () {
 
       if (array[0] != null && array[1] != null) {
         yield _Aulavirtual.default.updateOne({
-          _id: array[0],
-          "task._id": array[1]
+          _id: array[0]
         }, {
           $set: {
-            "task.$": req.body.task
+            "task.$[perf].finicio": req.body.task.finicio
           }
         }, {
+          arrayFilters: [{
+            "perf._id": {
+              $eq: array[1]
+            }
+          }],
           new: true
         });
         res.status(200).json("req.params.aulaId");

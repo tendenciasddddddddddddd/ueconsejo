@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createNotaArbol3ById = exports.createNotaArbol2ById = exports.createNotaArbol1ById = exports.getMatriculasNotaById = exports.getMatriculaAsistencia = exports.getMatriculaNota = void 0;
+exports.confirmFullNoteById = exports.deleteNoteById = exports.createFullNote = exports.createNotaArbol3ById = exports.createNotaArbol2ById = exports.createNotaArbol1ById = exports.getMatriculasNotaById = exports.getMatriculaAsistencia = exports.getMatriculaNota = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
@@ -49,7 +49,7 @@ var getMatriculaAsistencia = /*#__PURE__*/function () {
       fknivel: {
         $in: [idCurso]
       }
-    }).select({
+    }).lean().select({
       curso: 1,
       nombre: 1
     });
@@ -173,6 +173,120 @@ var createNotaArbol3ById = /*#__PURE__*/function () {
   return function createNotaArbol3ById(_x11, _x12) {
     return _ref6.apply(this, arguments);
   };
-}();
+}(); //----------------CGRABAR NOTAS DE FORMA MASIVA [DOCENTES, ]
+
 
 exports.createNotaArbol3ById = createNotaArbol3ById;
+
+var createFullNote = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
+    try {
+      var array = req.body;
+
+      for (var i = 0; i < array.length; i++) {
+        var model = {
+          quimestre: array[i].quimestre,
+          promedio: array[i].promedio,
+          arraysNote: array[i].arraysNote,
+          examen: array[i].examen
+        };
+        yield _Matriculas.default.updateOne({
+          _id: array[i].id,
+          'calificaciones._id': array[i].fora
+        }, {
+          $push: {
+            'calificaciones.$.notas': model
+          }
+        }, {
+          new: true
+        });
+      }
+
+      res.status(200).json('crearnote');
+    } catch (e) {
+      res.status(500).json({
+        message: "No mat found"
+      });
+    }
+  });
+
+  return function createFullNote(_x13, _x14) {
+    return _ref7.apply(this, arguments);
+  };
+}(); //------------------------------------- ELIMINAR NOTAS [DOCENTE, ]
+
+
+exports.createFullNote = createFullNote;
+
+var deleteNoteById = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator(function* (req, res) {
+    try {
+      var array = req.body;
+
+      for (var i = 0; i < array.length; i++) {
+        yield _Matriculas.default.updateOne({
+          _id: array[i].id,
+          'calificaciones._id': array[i].fora
+        }, {
+          $set: {
+            'calificaciones.$.notas': []
+          }
+        }, {
+          new: true
+        });
+      }
+
+      res.status(200).json('crearnote');
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({
+        message: "No mat found"
+      });
+    }
+  });
+
+  return function deleteNoteById(_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}(); //------------------------------------CONFIRMAR NOTAS [DOCENTE, ]
+
+
+exports.deleteNoteById = deleteNoteById;
+
+var confirmFullNoteById = /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator(function* (req, res) {
+    try {
+      var array = req.body;
+
+      for (var i = 0; i < array.length; i++) {
+        yield _Matriculas.default.updateOne({
+          _id: array[i].id
+        }, {
+          $set: {
+            "calificaciones.$[perf].promediof": array[i].promedio
+          }
+        }, {
+          arrayFilters: [{
+            "perf._id": {
+              $eq: array[i].fora
+            }
+          }],
+          new: true
+        });
+      }
+
+      res.status(200).json('crearnote');
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({
+        message: "No mat found"
+      });
+    }
+  });
+
+  return function confirmFullNoteById(_x17, _x18) {
+    return _ref9.apply(this, arguments);
+  };
+}();
+
+exports.confirmFullNoteById = confirmFullNoteById;

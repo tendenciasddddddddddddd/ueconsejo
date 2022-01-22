@@ -23,6 +23,7 @@ router.get("/mainlist/:aulaId", aulaCtrl.getAulasMainById);
 router.get("/:aulaId", aulaCtrl.getAulassById);
 router.post("/", [_middlewares.authJwt.verifyToken], aulaCtrl.createAulasVirtuales);
 router.delete("/:aulaId", [_middlewares.authJwt.verifyToken], aulaCtrl.deleteAulaById);
+router.put("/users/:taskId", aulaCtrl.deleteUserById);
 router.put("/:aulaId", aulaCtrl.createAulaById);
 var _default = router;
 exports.default = _default;

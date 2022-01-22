@@ -106,3 +106,21 @@ export const createAulaById = async (req,res)=>{
     );
     res.status(200).json(req.params.aulaId);
 }
+
+//------------------------------------- ELIMINAR ESTUDIANTES DEL CURSO [DOCENTE, ]
+
+export const deleteUserById = async (req, res) => {
+  try {
+    let cadenaId = req.body;
+    await Aulavirtual.updateOne(
+      { _id: req.params.taskId },
+      { $pull: { estudiantes : { _id: cadenaId } } },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json("crearnote");
+  } catch (e) {
+    res.status(500).json({ message: "No mat found" });
+  }
+};

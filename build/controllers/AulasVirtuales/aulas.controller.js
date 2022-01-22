@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createAulaById = exports.getAllAulasEstu = exports.getAulassById = exports.getAulasMainById = exports.deleteAulaById = exports.getAulasVirtuales = exports.createAulasVirtuales = void 0;
+exports.deleteUserById = exports.createAulaById = exports.getAllAulasEstu = exports.getAulassById = exports.getAulasMainById = exports.deleteAulaById = exports.getAulasVirtuales = exports.createAulasVirtuales = void 0;
 
 var _Aulavirtual = _interopRequireDefault(require("../../models/aulavirtual/Aulavirtual"));
 
@@ -186,6 +186,37 @@ var createAulaById = /*#__PURE__*/function () {
   return function createAulaById(_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
-}();
+}(); //------------------------------------- ELIMINAR ESTUDIANTES DEL CURSO [DOCENTE, ]
+
 
 exports.createAulaById = createAulaById;
+
+var deleteUserById = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator(function* (req, res) {
+    try {
+      var cadenaId = req.body;
+      yield _Aulavirtual.default.updateOne({
+        _id: req.params.taskId
+      }, {
+        $pull: {
+          estudiantes: {
+            _id: cadenaId
+          }
+        }
+      }, {
+        new: true
+      });
+      res.status(200).json("crearnote");
+    } catch (e) {
+      res.status(500).json({
+        message: "No mat found"
+      });
+    }
+  });
+
+  return function deleteUserById(_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+
+exports.deleteUserById = deleteUserById;

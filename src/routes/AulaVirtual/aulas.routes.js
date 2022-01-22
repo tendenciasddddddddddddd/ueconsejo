@@ -18,6 +18,8 @@ router.post("/",[authJwt.verifyToken], aulaCtrl.createAulasVirtuales);
 
 router.delete("/:aulaId",[authJwt.verifyToken], aulaCtrl.deleteAulaById);
 
+router.put("/users/:taskId", aulaCtrl.deleteUserById);
+
 router.put("/:aulaId", aulaCtrl.createAulaById);
 
 export default router;

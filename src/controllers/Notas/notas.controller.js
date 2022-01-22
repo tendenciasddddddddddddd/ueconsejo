@@ -18,7 +18,7 @@ export const getMatriculaAsistencia = async (req, res) => {
   const distributivo = await Matriculas.find({
       fknivel:{$in:[idCurso]},
   })
-  .select({curso: 1, nombre: 1});
+  .lean().select({curso: 1, nombre: 1});
   return res.json(distributivo);
 };
 
@@ -93,3 +93,76 @@ export const createNotaArbol3ById = async (req,res)=>{
     res.status(500).json({ message: "No mat found" });
   } 
 }
+
+//----------------CGRABAR NOTAS DE FORMA MASIVA [DOCENTES, ]
+
+export const createFullNote = async (req,res)=>{
+  try{
+    let array = req.body;
+    
+    for (let i = 0; i < array.length; i++) {
+      let model = {
+         quimestre:array[i].quimestre,
+         promedio: array[i].promedio,
+         arraysNote: array[i].arraysNote,
+         examen: array[i].examen,
+      }
+      await Matriculas.updateOne(
+        {_id : array[i].id, 'calificaciones._id': array[i].fora},
+        { $push: { 'calificaciones.$.notas': model} },
+        {
+          new: true,
+        }
+      ); 
+    }
+    res.status(200).json('crearnote');
+  }catch(e){
+    res.status(500).json({ message: "No mat found" });
+  } 
+}
+
+//------------------------------------- ELIMINAR NOTAS [DOCENTE, ]
+
+export const deleteNoteById = async (req, res) => {
+  try{
+    let array = req.body;
+    
+    for (let i = 0; i < array.length; i++) {
+      await Matriculas.updateOne(
+        { _id: array[i].id,'calificaciones._id': array[i].fora },
+        { $set: { 'calificaciones.$.notas': [] } },
+        {
+          new: true,
+        },
+      );
+    }
+   
+    res.status(200).json('crearnote');
+  }catch(e){
+    console.log(e)
+    res.status(500).json({ message: "No mat found" });
+  } 
+};
+
+//------------------------------------CONFIRMAR NOTAS [DOCENTE, ]
+export const confirmFullNoteById = async (req, res) => {
+  try{
+    let array = req.body;
+    
+    for (let i = 0; i < array.length; i++) {
+      await Matriculas.updateOne(
+        { _id: array[i].id,},
+        { $set:  { "calificaciones.$[perf].promediof": array[i].promedio}  },
+        {
+          arrayFilters: [{
+            "perf._id": {$eq : array[i].fora}}],
+            new: true,
+        }
+      );
+    }
+    res.status(200).json('crearnote');
+  }catch(e){
+    console.log(e)
+    res.status(500).json({ message: "No mat found" });
+  } 
+};
