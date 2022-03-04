@@ -53,6 +53,8 @@ var _aulas = _interopRequireDefault(require("./routes/AulaVirtual/aulas.routes")
 
 var _task = _interopRequireDefault(require("./routes/AulaVirtual/task.routes"));
 
+var _migracion = _interopRequireDefault(require("./routes/Migracion/migracion.routes"));
+
 var _index = _interopRequireDefault(require("./public/routes/index"));
 
 var _sitemap = _interopRequireDefault(require("./service/sitemap"));
@@ -68,15 +70,16 @@ var path = require('path');
 var app = (0, _express.default)(); //createRoles();//
 //createAdmin();
 //userdev();
+//userest();
 
 var corsOptions = {
-  origin: ['https://back-ends.web.app', 'https://plataformas-pcei.netlify.app', 'http://localhost:8080'],
-  // Reemplazar con dominio
+  origin: ['https://back-ends.web.app', 'https://plataformas-pcei.netlify.app'],
+  // http://localhost:8080
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 
 };
-app.use((0, _cors.default)(corsOptions));
-app.use((0, _morgan.default)("dev"));
+app.use((0, _cors.default)(corsOptions)); //app.use(morgan("dev"));
+
 app.use(_express.default.json()); // Settings
 // settings
 
@@ -109,7 +112,8 @@ app.use("/api/userdelles", _userdetalles.default);
 app.use("/api/distributivo", _distributivo.default);
 app.use("/api/notas", _notas.default);
 app.use("/api/aulas", _aulas.default);
-app.use("/api/tasks", _task.default); //public
+app.use("/api/tasks", _task.default);
+app.use("/api/migracion", _migracion.default); //migracion
 //sitemap
 
 app.use("/sitemap.xml", _sitemap.default);

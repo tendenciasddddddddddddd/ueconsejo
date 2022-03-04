@@ -37,7 +37,7 @@ export const createAdmin = async () => {
     await User.create({
       username: "admin",
       email: "10004095632w@gmail.com",
-      password: await bcrypt.hash("Imperio 789.", 10),
+      password: await bcrypt.hash("Medid100.", 10),
       roles: roles.map((role) => role._id),//****APARTIR DE A1QUI LOS NUEVOS DATOS
       nombres: "Esteban Wladimir",
       apellidos: "Martinez Martinez",
@@ -53,7 +53,7 @@ export const createAdmin = async () => {
 
 export const userdev = async () => {
   const roles = await Role.find({ name: { $in: ["Docente"] } });
-  for(let i = 0; i < 30; i++) {
+  for(let i = 0; i < 60; i++) {
     await User.create({
       roles: roles.map((role) => role._id),
       username: faker.internet.userName(),
@@ -62,7 +62,7 @@ export const userdev = async () => {
       apellidos: faker.name.lastName(),
       status:"1",
       telefono: faker.phone.phoneNumber(),
-      foto: faker.image.avatar(),
+      foto: "https://res.cloudinary.com/stebann/image/upload/v1631310792/profile_b9t64l.png",
       cedula : faker.finance.routingNumber(),
       typo:"DOCS",
       fullname:faker.name.findName(),
@@ -72,6 +72,33 @@ export const userdev = async () => {
       fknacionalidad:"Colombia",
       fkparroquia:"Caldera",
       titulo: "Titulo lic"
+    });
+       
+    
+}
+console.log('100 Records Created');
+};
+export const userest = async () => {
+  const roles = await Role.find({ name: { $in: ["Estudiante"] } });
+  for(let i = 0; i < 150; i++) {
+    await User.create({
+      roles: roles.map((role) => role._id),
+      username: faker.internet.userName(),
+      email: faker.internet.email(),
+      nombres: faker.name.firstName(),
+      apellidos: faker.name.lastName(),
+      status:"1",
+      telefono: faker.phone.phoneNumber(),
+      foto: "https://res.cloudinary.com/stebann/image/upload/v1631310792/profile_b9t64l.png",
+      cedula : faker.finance.routingNumber(),
+      typo:"ESTS",
+      fullname:faker.name.findName(),
+      password: await bcrypt.hash("123456", 10),
+      sexo:"Masculino",
+      fketnia:"Mestizo",
+      fknacionalidad:"Colombia",
+      fkparroquia:"Monte Olivo",
+      modalidad: "Intensivo"
     });
        
     

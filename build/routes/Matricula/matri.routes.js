@@ -27,7 +27,7 @@ router.get("/fullmatricula", matriCtrl.getListaMatricula); //RUTA DE CONSULTA TO
 router.get("/report", matriCtrl.getReportes);
 router.get("/:matriculaId", matriCtrl.getMatriculasById);
 router.get("/", matriCtrl.getMatriculas);
-router.post("/", _middlewares.verifySignup.matriculaDuplicada, matriCtrl.createMatriculas);
+router.post("/", matriCtrl.createMatriculas);
 router.put("/:matriculaId", matriCtrl.updateMatriculasById);
 router.delete("/:id", matriCtrl.deleteMatriculasById);
 var _default = router;

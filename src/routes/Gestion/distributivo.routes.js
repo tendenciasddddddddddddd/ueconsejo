@@ -1,10 +1,12 @@
 import { Router } from "express";
 const router = Router();
 
+const { cacheInit } = require("../../middlewares/cache")
+
 import * as distributivoCtrl from "../../controllers/Gestion/distributivo.controller";
 import { authJwt } from "../../middlewares";
 
-router.get("/nuedist", distributivoCtrl.getInfoDistributivo);
+router.get("/nuedist", cacheInit, distributivoCtrl.getInfoDistributivo);
 
 router.get("/:distributivoId", distributivoCtrl.getDistributivoById);
 

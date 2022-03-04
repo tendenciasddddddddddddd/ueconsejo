@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createEstudiante = exports.deleteEstudianteById = exports.updateEstudianteById = exports.getEstudianteById = exports.getListasEstudiantes = exports.getBuscadorUsuarios = exports.getEstudiantes = void 0;
+exports.createEstudianteMany = exports.createEstudiante = exports.deleteEstudianteById = exports.updateEstudianteById = exports.getEstudianteById = exports.getListasEstudiantes = exports.getBuscadorUsuarios = exports.getEstudiantes = void 0;
 
 var _User = _interopRequireDefault(require("../../models/User"));
 
@@ -225,6 +225,58 @@ var createEstudiante = /*#__PURE__*/function () {
   return function createEstudiante(_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
-}();
+}(); //--------------------------------CREAR ESTUDIANTE--------------------
+
 
 exports.createEstudiante = createEstudiante;
+
+var createEstudianteMany = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator(function* (req, res) {
+    try {
+      var array = req.body;
+      var docs = [];
+      var duplicados = [];
+      var role = yield _Role.default.findOne({
+        name: "Estudiante"
+      });
+
+      for (var i = 0; i < array.length; i++) {
+        var ifemail = yield _User.default.findOne({
+          email: array[i].email
+        });
+        var ifuser = yield _User.default.findOne({
+          cedula: req.body.cedula
+        });
+
+        if (ifemail || ifuser) {
+          duplicados.push(array[i]);
+        } else {
+          array[i].password = yield _User.default.encryptPassword(array[i].password);
+          array[i].roles = [role._id];
+          docs.push(array[i]);
+        }
+      }
+
+      if (docs) {
+        var options = {
+          ordered: true
+        };
+        yield _User.default.insertMany(docs, options);
+      }
+
+      return res.status(200).json({
+        duplicados
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Problem'
+      });
+    }
+  });
+
+  return function createEstudianteMany(_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+
+exports.createEstudianteMany = createEstudianteMany;

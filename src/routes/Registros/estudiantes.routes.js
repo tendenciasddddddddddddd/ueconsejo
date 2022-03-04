@@ -21,8 +21,11 @@ router.put("/:usuariosId", estCtrl.updateEstudianteById);
 
 router.delete("/:id", estCtrl.deleteEstudianteById);
 
+router.post("/alumnosMany", estCtrl.createEstudianteMany);
+
 router.post("/",
 [verifySignup.checkDuplicateUsernameOrEmail],
 estCtrl.createEstudiante);
+
 
 export default router;

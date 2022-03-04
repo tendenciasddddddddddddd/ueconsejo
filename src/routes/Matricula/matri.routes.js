@@ -21,7 +21,6 @@ router.get("/:matriculaId", matriCtrl.getMatriculasById);
 router.get("/", matriCtrl.getMatriculas);
 
 router.post("/", 
-verifySignup.matriculaDuplicada,
 matriCtrl.createMatriculas);
 
 

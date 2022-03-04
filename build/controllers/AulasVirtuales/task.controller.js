@@ -165,7 +165,6 @@ exports.reviewTaskById = reviewTaskById;
 var createTaskArbol2ById = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator(function* (req, res) {
     try {
-      console.log(req.body);
       yield _Aulavirtual.default.updateOne({
         "task._id": req.params.taskId
       }, {

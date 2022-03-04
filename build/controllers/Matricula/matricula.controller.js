@@ -17,37 +17,58 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var createMatriculas = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
-    var {
-      fecha,
-      fkestudiante,
-      fknivel,
-      nmatricula,
-      nombre,
-      folio,
-      curso,
-      estado,
-      typo,
-      academico
-    } = req.body;
-
     try {
-      var newPeriodo = new _Matriculas.default({
-        fecha,
-        fkestudiante,
-        fknivel,
-        nmatricula,
-        nombre,
-        folio,
-        curso,
-        estado,
-        typo,
-        academico
+      var array = req.body;
+      var docs = [];
+      var duplicados = [];
+      var modalidad = req.query.modalidad;
+      var contador = 0;
+      var aux = 0;
+      var ultimaMatricula = yield _Matriculas.default.findOne({
+        typo: {
+          $in: [modalidad]
+        }
+      }).sort({
+        $natural: -1
       });
-      var PeriodoSaved = yield newPeriodo.save();
-      res.status(201).json(PeriodoSaved);
+      var resultUltimaMatricula = 0;
+
+      if (ultimaMatricula) {
+        resultUltimaMatricula = parseInt(ultimaMatricula.nmatricula);
+      }
+
+      for (var i = 0; i < array.length; i++) {
+        var ifmatricula = yield _Matriculas.default.findOne({
+          // academico: array[i].academico,
+          fkestudiante: array[i].fkestudiante
+        });
+
+        if (ifmatricula) {
+          duplicados.push(array[i]);
+        } else {
+          contador++;
+          aux = resultUltimaMatricula + contador;
+          array[i].nmatricula = aux;
+          array[i].folio = Math.ceil(aux / 2);
+          docs.push(array[i]);
+        }
+      }
+
+      if (docs) {
+        var options = {
+          ordered: true
+        };
+        yield _Matriculas.default.insertMany(docs, options);
+      }
+
+      return res.status(200).json({
+        duplicados
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({
+        message: "Problem"
+      });
     }
   });
 
@@ -64,7 +85,7 @@ var getMatriculas = /*#__PURE__*/function () {
     var matriculas = yield _Matriculas.default.find().lean().select({
       curso: 1,
       typo: 1
-    }).populate('fkestudiante', 'fullname cedula email fkparroquia sexo').populate('fknivel', 'nombres');
+    }).populate("fkestudiante", "fullname cedula email fkparroquia sexo").populate("fknivel", "nombres");
     return res.json(matriculas);
   });
 
@@ -118,8 +139,8 @@ var getInfoMat = /*#__PURE__*/function () {
         fknivel: {
           $in: [curs]
         }
-      }).populate('fkestudiante', 'nombres apellidos foto').populate('fknivel', 'nombres');
-      console.log('entro 1 ');
+      }).populate("fkestudiante", "nombres apellidos foto").populate("fknivel", "nombres");
+      console.log("entro 1 ");
       var _coleccion = {
         matriculados: matriz
       };
@@ -211,7 +232,7 @@ var getMatriculasById = /*#__PURE__*/function () {
     var {
       matriculaId
     } = req.params;
-    var niveles = yield _Matriculas.default.findById(matriculaId).populate('fknivel', 'nombres').populate('academico', 'nombre');
+    var niveles = yield _Matriculas.default.findById(matriculaId).populate("fknivel", "nombres").populate("academico", "nombre");
     res.status(200).json(niveles);
   });
 
@@ -281,7 +302,7 @@ var getMatriculasNotaBykEY = /*#__PURE__*/function () {
       } = req.params;
       var matricula = yield _Matriculas.default.findOne({
         fkestudiante: matriculaId
-      }).populate('fknivel', 'nombres').populate('academico', 'nombre');
+      }).populate("fknivel", "nombres").populate("academico", "nombre");
       res.status(200).json(matricula);
     } catch (error) {
       res.status(500).json({

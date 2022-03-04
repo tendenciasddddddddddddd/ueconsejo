@@ -24,6 +24,7 @@ import distributivoRoutes from "./routes/Gestion/distributivo.routes"
 import notasRoutes from "./routes/Notas/notas.routes"
 import aulasRoutes from "./routes/AulaVirtual/aulas.routes"
 import taskRoutes from "./routes/AulaVirtual/task.routes"
+import migracion from "./routes/Migracion/migracion.routes";
 
 //PUBLIC
 import publico from "./public/routes/index"
@@ -32,22 +33,22 @@ import publico from "./public/routes/index"
  import sitemapRouter from "./service/sitemap"
 
 
-import { createRoles, createAdmin, userdev} from "./libs/initialSetup";
+import { createRoles, createAdmin, userdev, userest} from "./libs/initialSetup";
 
 const app = express();
 //createRoles();//
 //createAdmin();
 //userdev();
-
+//userest();
 import cors from "cors";
 
 var corsOptions = {
-  origin: ['https://back-ends.web.app', 'https://plataformas-pcei.netlify.app','http://localhost:8080'], // Reemplazar con dominio
+  origin: ['https://back-ends.web.app', 'https://plataformas-pcei.netlify.app'], // http://localhost:8080
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 app.use(cors(corsOptions));
 
-app.use(morgan("dev"));
+//app.use(morgan("dev"));
 app.use(express.json());
 // Settings
 
@@ -87,8 +88,9 @@ app.use("/api/userdelles", userdetallesRoutes);
 app.use("/api/distributivo", distributivoRoutes);
 app.use("/api/notas", notasRoutes);
 app.use("/api/aulas", aulasRoutes);
-app.use("/api/tasks", taskRoutes)
-//public
+app.use("/api/tasks", taskRoutes);
+app.use("/api/migracion", migracion);
+//migracion
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);
 

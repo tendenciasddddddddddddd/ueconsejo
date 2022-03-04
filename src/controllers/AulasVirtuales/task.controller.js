@@ -102,7 +102,6 @@ export const reviewTaskById = async (req, res) => {
 
 export const createTaskArbol2ById = async (req, res) => {
   try {
-    console.log(req.body)
     await Aulavirtual.updateOne(
       { "task._id": req.params.taskId },
       { $push: { "task.$.entrega": req.body.task.entrega } },
