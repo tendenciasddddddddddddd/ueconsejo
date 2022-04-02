@@ -14,6 +14,8 @@ router.post("/", etniasCtrl.createEtnias);
 
 router.put("/:etniasId", etniasCtrl.updateEtniasById);
 
-router.delete("/:etniasId", etniasCtrl.deleteEtniasById);
+router.delete("/:id", etniasCtrl.deleteEtniasById);
+
+router.put('/activate/:id',etniasCtrl.activate);
 
 export default router;

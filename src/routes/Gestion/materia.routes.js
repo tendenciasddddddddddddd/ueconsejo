@@ -16,4 +16,6 @@ router.delete("/:id", materiaCtrl.deleteMateriaById);
 
 router.post("/", materiaCtrl.createMateria);
 
+router.put('/activate/:id',materiaCtrl.activate);
+
 export default router;

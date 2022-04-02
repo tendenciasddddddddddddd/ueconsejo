@@ -8,7 +8,6 @@ const cantonesSchema = new Schema({
         type: String,
         required: true,
     },
-    icono: String,
     fnivel: {
         type: Schema.Types.ObjectId,
         ref: "Nivel",

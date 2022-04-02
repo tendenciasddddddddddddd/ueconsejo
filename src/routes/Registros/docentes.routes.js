@@ -8,6 +8,8 @@ router.get("/buscadordocentes",[authJwt.verifyToken], docCtrl.getBuscadorUsuario
 
 router.get("/newdoc", docCtrl.getListasDocentes);
 
+router.get("/query", docCtrl.query);
+
 router.get("/:id", docCtrl.getDocenteById);
 
 router.get(

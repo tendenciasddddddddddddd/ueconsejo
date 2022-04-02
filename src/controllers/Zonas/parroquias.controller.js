@@ -4,14 +4,12 @@ import Parroquias from "../../models/Zonas/Parroquias";
 export const createParroquias = async (req, res) => {
   const {
     nombre,
-    estado,
     fkCanton,
     cant
   } = req.body;
   try {
     const newParroquias = new Parroquias({
       nombre,
-      estado,
       fkCanton,
       cant
     });
@@ -86,3 +84,30 @@ export const getlistaCantones = async (req, res) => {
   });
   return res.json(provincia);
 }
+
+export const activate = async (req, res, next) => {
+  try {
+    const reg = await Parroquias.findByIdAndUpdate(
+      { _id: req.params.id },
+      { estado: req.query.state}
+    );
+    res.status(200).json(reg);
+  } catch (e) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+    next(e);
+  }
+}
+
+export const query = async (req, res) => {
+  try {
+    const querys = req.query.querys;
+    const result = await Parroquias.find({nombre: { '$regex' : querys, "$options": "i" }});
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+  } 
+};

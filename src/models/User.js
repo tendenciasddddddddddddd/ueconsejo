@@ -34,7 +34,7 @@ const productSchema = new Schema(
     },
     status: {
       type: String,
-      required: true,
+      default:1
     },
     telefono: {
       type: String,

@@ -1,11 +1,10 @@
 import Nacionalidad from "../../models/Zonas/Nacionalidad";
 
 export const createNacionalidad = async (req,res)=>{
-    const { nombre,estado } = req.body;
+    const { nombre } = req.body;
     try {
         const newNacionalidad = new Nacionalidad({
           nombre,
-          estado,
         });
     
         const NacionalidadSaved = await newNacionalidad.save();
@@ -54,12 +53,18 @@ export const updateNacionalidadById = async (req,res)=>{
 }
 
 export const deleteNacionalidadById = async (req,res)=>{
-    const { nacionalidadId } = req.params;
-
-    await Nacionalidad.findByIdAndDelete(nacionalidadId);
-  
-    // code 200 is ok too
+  try {
+    let cadenaId = req.params.id;
+    const array = cadenaId.split(",");
+    await Nacionalidad.deleteMany({
+      _id: {
+        $in: array,
+      },
+    });
     res.status(200).json();
+  } catch (e) {
+    return res.status(500).json();
+  }
 }
 
 //-------------------COMPONENTES CHILDS ------
@@ -73,3 +78,18 @@ export const getChildNacionalidad = async (req, res) => {
   };
   return res.json(coleccion);
 };
+
+export const activate = async (req, res, next) => {
+  try {
+    const reg = await Nacionalidad.findByIdAndUpdate(
+      { _id: req.params.id },
+      { estado: req.query.state}
+    );
+    res.status(200).json(reg);
+  } catch (e) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+    next(e);
+  }
+}

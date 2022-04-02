@@ -2,12 +2,15 @@ import { Schema, model } from "mongoose";
 
 const nivelSchema = new Schema(
     {
-      nombres: {
+      nombre: {
         type: String,
         required: true,
       },
       modalidad: String,
-      estado: String,
+      estado: {
+        type: String,
+        default:1
+      },
     },
     {
       timestamps: true,

@@ -6,7 +6,10 @@ const cantonesSchema = new Schema(
         type: String,
         unique: true,
       },
-      estado: String,
+      estado: {
+        type: String,
+        default:1
+      },
       fkCanton: String,
       //---------------TIPO MAS DATOS
      cant: 

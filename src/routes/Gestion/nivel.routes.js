@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
 
-import * as nivelCtrl from "../../controllers/Gestion/nivel.controller";
+import  nivelCtrl from "../../controllers/Gestion/nivel.controller";
 import { authJwt } from "../../middlewares";
 
 router.get("/level", nivelCtrl.getListasNiveles);
@@ -15,5 +15,7 @@ router.put("/:nivelId", nivelCtrl.updateNivelById);
 router.delete("/:id", nivelCtrl.deleteNivelById);
 
 router.post("/", nivelCtrl.createNivel);
+
+router.put('/activate/:id',nivelCtrl.activate);
 
 export default router;

@@ -9,8 +9,10 @@ const nivelSchema = new Schema(
       descripcion: {
         type: String,
       },
-      icono : String,
-      estado: String,
+      estado: {
+        type: String,
+        default:1
+      },
     },
     {
       timestamps: true,

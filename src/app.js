@@ -29,26 +29,26 @@ import migracion from "./routes/Migracion/migracion.routes";
 //PUBLIC
 import publico from "./public/routes/index"
 
-//SITEMAP
+//SITEMA
  import sitemapRouter from "./service/sitemap"
 
 
 import { createRoles, createAdmin, userdev, userest} from "./libs/initialSetup";
 
 const app = express();
-//createRoles();//
+//createRoles();
 //createAdmin();
 //userdev();
 //userest();
 import cors from "cors";
 
 var corsOptions = {
-  origin: ['https://back-ends.web.app', 'https://plataformas-pcei.netlify.app'], // http://localhost:8080
+  origin: ['https://back-ends.web.app', 'https://plataformas-pcei.netlify.app', 'http://localhost:8080'], // http://localhost:8080
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 app.use(cors(corsOptions));
 
-//app.use(morgan("dev"));
+app.use(morgan("dev"));
 app.use(express.json());
 // Settings
 

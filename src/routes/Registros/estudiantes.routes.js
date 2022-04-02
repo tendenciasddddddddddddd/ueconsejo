@@ -8,6 +8,8 @@ router.get("/buscadorestudiantes",[authJwt.verifyToken], estCtrl.getBuscadorUsua
 
 router.get("/newstud", estCtrl.getListasEstudiantes);
 
+router.get("/query", estCtrl.query);
+
 router.get("/:id", estCtrl.getEstudianteById);
 
 router.get(

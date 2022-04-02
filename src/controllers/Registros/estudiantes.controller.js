@@ -149,3 +149,15 @@ export const createEstudianteMany = async (req, res) => {
      return res.status(500).json({ message:'Problem'});  
   }
 };
+
+export const query = async (req, res) => {
+  try {
+    const querys = req.query.querys;
+    const result = await User.find({fullname: { '$regex' : querys, "$options": "i" }, typo: { $in: ["ESTS"] } });
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+  } 
+};

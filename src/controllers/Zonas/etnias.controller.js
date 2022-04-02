@@ -1,11 +1,10 @@
 import Etnias from "../../models/Zonas/Etnias";
 
 export const createEtnias = async (req,res)=>{
-    const { nombre,estado } = req.body;
+    const { nombre } = req.body;
     try {
         const newEtnias = new Etnias({
           nombre,
-          estado,
         });
     
         const EtniasSaved = await newEtnias.save();
@@ -54,12 +53,18 @@ export const updateEtniasById = async (req,res)=>{
 }
 
 export const deleteEtniasById = async (req,res)=>{
-    const { etniasId } = req.params;
-
-    await Etnias.findByIdAndDelete(etniasId);
-  
-    // code 200 is ok too
-    res.status(200).json();
+    try {
+      let cadenaId = req.params.id;
+      const array = cadenaId.split(",");
+      await Etnias.deleteMany({
+        _id: {
+          $in: array,
+        },
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
 }
 
 //-------------------COMPONENTES CHILDS ------
@@ -72,3 +77,18 @@ export const getChildEtnia = async (req, res) => {
   };
   return res.json(coleccion);
 };
+
+export const activate = async (req, res, next) => {
+  try {
+    const reg = await Etnias.findByIdAndUpdate(
+      { _id: req.params.id },
+      { estado: req.query.state}
+    );
+    res.status(200).json(reg);
+  } catch (e) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+    next(e);
+  }
+}

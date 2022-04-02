@@ -14,7 +14,7 @@ router.post(
     filesCtrl.upload,
     filesCtrl.resizeImages,
     
-    //filesCtrl.uploadFile,
+    //filesCtrl.uploadFile,pp
     
 )
 

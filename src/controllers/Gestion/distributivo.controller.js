@@ -34,7 +34,7 @@ export const getDistributivo = async (req,res)=>{
   const materias = await Distributivo.find({nombre:{$in:[modal]}}).skip((limit * skip)-limit).limit(limit).sort({updatedAt:-1})
   .populate('fdocente','fullname')
   .populate('fmateria','nombre')
-  .populate('fnivel','nombres');
+  .populate('fnivel','nombre');
   const coleccion = {
     niveles: materias,
     pagina: skip,
@@ -48,7 +48,7 @@ export const getInfoDistributivo = async (req, res) => {  //RESUELVE LA LISTA DE
   const idDocente = req.query.id;
   const distributivo = await Distributivo.find({fdocente:{$in:[idDocente]}}).select({nombre: 1, paralelo: 1})
   .populate('fmateria','nombre')
-  .populate('fnivel','nombres');
+  .populate('fnivel','nombre');
   return res.json(distributivo);
 };
 
@@ -57,7 +57,7 @@ export const getDistributivoById = async (req,res)=>{
     const { distributivoId } = req.params;
   const niveles = await Distributivo.findById(distributivoId)
   .populate('fmateria','nombre')
-  .populate('fnivel','nombres');
+  .populate('fnivel','nombre');
   res.status(200).json(niveles);
     
 }

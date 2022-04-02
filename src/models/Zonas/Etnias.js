@@ -6,7 +6,10 @@ const etniasSchema = new Schema(
         type: String,
         unique: true,
       },
-      estado: String,
+      estado: {
+        type: String,
+        default:1
+      },
     },
     {
       timestamps: true,

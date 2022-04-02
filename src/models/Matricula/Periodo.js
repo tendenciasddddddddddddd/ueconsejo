@@ -8,7 +8,10 @@ const nivelSchema = new Schema(
       },
       inicia : String,
       finaliza : String,
-      estado: String,
+      estado: {
+        type: String,
+        default:1
+      },
       typo: String,
     },
     {

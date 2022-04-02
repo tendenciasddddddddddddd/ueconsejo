@@ -114,4 +114,31 @@ export const createUser = async (req, res) => {
 
 export const getUsers = async (req, res) => {};
 
-export const getUser = async (req, res) => {};
+
+
+export const activate = async (req, res, next) => {
+  try {
+    const reg = await User.findByIdAndUpdate(
+      { _id: req.params.id },
+      { status: req.query.state }
+    );
+    res.status(200).json(reg);
+  } catch (e) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+    next(e);
+  }
+}
+
+export const query = async (req, res) => {
+  try {
+    const querys = req.query.querys;
+    const result = await User.find({fullname: { '$regex' : querys, "$options": "i" }, typo: { $in: ["ADMS"] } });
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+  } 
+};

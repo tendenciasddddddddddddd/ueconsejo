@@ -4,14 +4,12 @@ import Provincias from "../../models/Zonas/Provincias";
 export const createCantones = async (req, res) => {
   const {
     nombre,
-    estado,
     fkProvincia,
     prov
   } = req.body;
   try {
     const newCantones = new Cantones({
       nombre,
-      estado,
       fkProvincia,
       prov
     });
@@ -86,3 +84,30 @@ export const getlistaProvincias = async (req, res) => {
   });
   return res.json(provincia);
 }
+
+export const activate = async (req, res, next) => {
+  try {
+    const reg = await Cantones.findByIdAndUpdate(
+      { _id: req.params.id },
+      { estado: req.query.state}
+    );
+    res.status(200).json(reg);
+  } catch (e) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+    next(e);
+  }
+}
+
+export const query = async (req, res) => {
+  try {
+    const querys = req.query.querys;
+    const result = await Cantones.find({nombre: { '$regex' : querys, "$options": "i" }});
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+  } 
+};

@@ -16,4 +16,6 @@ router.put("/:periodoId", periodoCtrl.updatePeriodoById);
 
 router.delete("/:id", periodoCtrl.deletePeriodoById);
 
+router.put('/activate/:id',periodoCtrl.activate);
+
 export default router;

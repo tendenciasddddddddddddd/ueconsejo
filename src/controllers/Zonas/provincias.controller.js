@@ -1,11 +1,10 @@
 import Provincias from "../../models/Zonas/Provincias";
 
 export const createProvincias = async (req,res)=>{
-    const { nombre,estado } = req.body;
+    const { nombre } = req.body;
     try {
         const newProvincias = new Provincias({
           nombre,
-          estado,
         });
     
         const ProvinciasSaved = await newProvincias.save();
@@ -67,3 +66,30 @@ export const deleteProvinciasById = async (req,res)=>{
     return res.status(500).json();
   }
 }
+
+export const activate = async (req, res, next) => {
+  try {
+    const reg = await Provincias.findByIdAndUpdate(
+      { _id: req.params.id },
+      { estado: req.query.state}
+    );
+    res.status(200).json(reg);
+  } catch (e) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+    next(e);
+  }
+}
+
+export const query = async (req, res) => {
+  try {
+    const querys = req.query.querys;
+    const result = await Provincias.find({nombre: { '$regex' : querys, "$options": "i" }});
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).send({
+      message: "Ocurrió un error",
+    });
+  } 
+};
