@@ -12,7 +12,7 @@ router.get("/consult", matriCtrl.getMatriculaFolio); //RUTA PARA CONSULTAR NUM M
 
 router.get("/fullmatricula", matriCtrl.getListaMatricula); //RUTA DE CONSULTA TODOS LOS MATRICULADOS
 
-//router.get("/info", matriCtrl.getInfoMat);
+router.get("/queryMatricula", matriCtrl.getQueryAll);
 
 router.get("/report", matriCtrl.getReportes);
 

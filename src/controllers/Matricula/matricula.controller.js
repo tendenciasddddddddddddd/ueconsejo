@@ -208,3 +208,13 @@ export const getMatriculasNotaBykEY = async (req, res) => {
     res.status(500).json({ message: "No mat found" });
   }
 };
+
+export const getQueryAll = async (req, res) => {
+  const matriculas = await Matriculas.find({})
+    .lean()
+    .select({ curso: 1, nombre: 1, fecha:1, typo: 1, fknivel: 1 });
+  const coleccion = {
+    data: matriculas,
+  };
+  return res.json(coleccion);
+};

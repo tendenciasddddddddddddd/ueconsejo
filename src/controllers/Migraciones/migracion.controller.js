@@ -32,3 +32,19 @@ export const deleteMatriculasMany = async (req,res)=>{
     return res.status(500).json();
   }
 }
+
+
+export const getQueryAll = async (req,res)=>{
+  const limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
+  const skip = parseInt(req.query.page);
+  const total = await Provincias.countDocuments();
+  const paginas = Math.ceil(total/limit);
+  const usuarios = await MigracionMatricula.find({}).skip((limit * skip)-limit).limit(limit);
+  const coleccion = {
+    usuarios: usuarios,
+    pagina: skip,
+    paginas: paginas,
+    total: total
+  }
+  return res.json(coleccion);
+}

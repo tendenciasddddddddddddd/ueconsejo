@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteMatriculasMany = exports.createMigracionMatricula = void 0;
+exports.getQueryAll = exports.deleteMatriculasMany = exports.createMigracionMatricula = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
@@ -62,3 +62,27 @@ var deleteMatriculasMany = /*#__PURE__*/function () {
 }();
 
 exports.deleteMatriculasMany = deleteMatriculasMany;
+
+var getQueryAll = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* (req, res) {
+    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
+
+    var skip = parseInt(req.query.page);
+    var total = yield Provincias.countDocuments();
+    var paginas = Math.ceil(total / limit);
+    var usuarios = yield _MigracionMatricula.default.find({}).skip(limit * skip - limit).limit(limit);
+    var coleccion = {
+      usuarios: usuarios,
+      pagina: skip,
+      paginas: paginas,
+      total: total
+    };
+    return res.json(coleccion);
+  });
+
+  return function getQueryAll(_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.getQueryAll = getQueryAll;

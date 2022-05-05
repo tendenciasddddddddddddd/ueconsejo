@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMatriculasNotaBykEY = exports.deleteMatriculasById = exports.updateMatriculasById = exports.getMatriculasById = exports.getMatriculaFolio = exports.getListaMatricula = exports.getInfoMat = exports.getReportes = exports.getMatriculas = exports.createMatriculas = void 0;
+exports.getQueryAll = exports.getMatriculasNotaBykEY = exports.deleteMatriculasById = exports.updateMatriculasById = exports.getMatriculasById = exports.getMatriculaFolio = exports.getListaMatricula = exports.getInfoMat = exports.getReportes = exports.getMatriculas = exports.createMatriculas = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
@@ -316,3 +316,25 @@ var getMatriculasNotaBykEY = /*#__PURE__*/function () {
 }();
 
 exports.getMatriculasNotaBykEY = getMatriculasNotaBykEY;
+
+var getQueryAll = /*#__PURE__*/function () {
+  var _ref11 = _asyncToGenerator(function* (req, res) {
+    var matriculas = yield _Matriculas.default.find({}).lean().select({
+      curso: 1,
+      nombre: 1,
+      fecha: 1,
+      typo: 1,
+      fknivel: 1
+    });
+    var coleccion = {
+      data: matriculas
+    };
+    return res.json(coleccion);
+  });
+
+  return function getQueryAll(_x21, _x22) {
+    return _ref11.apply(this, arguments);
+  };
+}();
+
+exports.getQueryAll = getQueryAll;

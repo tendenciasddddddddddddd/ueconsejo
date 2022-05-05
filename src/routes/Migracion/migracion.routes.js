@@ -5,6 +5,8 @@ import * as migracionCtrl from "../../controllers/Migraciones/migracion.controll
 import { authJwt } from "../../middlewares";
 import { verifySignup } from "../../middlewares"; 
 
+router.get("/", migracionCtrl.getQueryAll);
+
 router.post("/matricula", migracionCtrl.createMigracionMatricula);
 
 router.delete("/matricula", migracionCtrl.deleteMatriculasMany);

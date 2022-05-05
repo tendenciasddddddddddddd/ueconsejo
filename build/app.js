@@ -73,7 +73,7 @@ var app = (0, _express.default)(); //createRoles();
 //userest();
 
 var corsOptions = {
-  origin: ['https://back-ends.web.app', 'https://plataformas-pcei.netlify.app', 'http://localhost:8080' , 'https://plataformas-pcei.vercel.app/'],
+  origin: ['https://back-ends.web.app', 'https://plataformas-pcei.netlify.app', 'http://localhost:8080', 'https://plataformas-pcei.vercel.app/'],
   // http://localhost:8080
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 
