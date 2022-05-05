@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getlistaProvincias = exports.deleteCantonesById = exports.updateCantonesById = exports.getCantonesById = exports.getCantones = exports.createCantones = void 0;
+exports.query = exports.activate = exports.getlistaProvincias = exports.deleteCantonesById = exports.updateCantonesById = exports.getCantonesById = exports.getCantones = exports.createCantones = void 0;
 
 var _Cantones = _interopRequireDefault(require("../../models/Zonas/Cantones"));
 
@@ -19,7 +19,6 @@ var createCantones = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
     var {
       nombre,
-      estado,
       fkProvincia,
       prov
     } = req.body;
@@ -27,7 +26,6 @@ var createCantones = /*#__PURE__*/function () {
     try {
       var newCantones = new _Cantones.default({
         nombre,
-        estado,
         fkProvincia,
         prov
       });
@@ -144,3 +142,52 @@ var getlistaProvincias = /*#__PURE__*/function () {
 }();
 
 exports.getlistaProvincias = getlistaProvincias;
+
+var activate = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(function* (req, res, next) {
+    try {
+      var reg = yield _Cantones.default.findByIdAndUpdate({
+        _id: req.params.id
+      }, {
+        estado: req.query.state
+      });
+      res.status(200).json(reg);
+    } catch (e) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+      next(e);
+    }
+  });
+
+  return function activate(_x13, _x14, _x15) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.activate = activate;
+
+var query = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator(function* (req, res) {
+    try {
+      var querys = req.query.querys;
+      var result = yield _Cantones.default.find({
+        nombre: {
+          '$regex': querys,
+          "$options": "i"
+        }
+      });
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+    }
+  });
+
+  return function query(_x16, _x17) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+
+exports.query = query;

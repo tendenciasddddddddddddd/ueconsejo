@@ -21,6 +21,7 @@ router.get("/:etniasId", etniasCtrl.getEtniasById);
 router.get("/", etniasCtrl.getEtnias);
 router.post("/", etniasCtrl.createEtnias);
 router.put("/:etniasId", etniasCtrl.updateEtniasById);
-router.delete("/:etniasId", etniasCtrl.deleteEtniasById);
+router.delete("/:id", etniasCtrl.deleteEtniasById);
+router.put('/activate/:id', etniasCtrl.activate);
 var _default = router;
 exports.default = _default;

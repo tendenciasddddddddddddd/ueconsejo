@@ -19,7 +19,7 @@ router.get('/', filesCtrl.downloadFiles);
  * Ruta: /user GET
  */
 
-router.post("/", filesCtrl.upload, filesCtrl.resizeImages //filesCtrl.uploadFile,
+router.post("/", filesCtrl.upload, filesCtrl.resizeImages //filesCtrl.uploadFile,pp
 );
 router.get("/files", filesCtrl.getListFiles //filesCtrl.uploadFile,
 );

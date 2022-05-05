@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deletePeriodoById = exports.updatePeriodoById = exports.getPeriodoById = exports.getAllPeriodo = exports.getPeriodo = exports.createPeriodo = void 0;
+exports.activate = exports.deletePeriodoById = exports.updatePeriodoById = exports.getPeriodoById = exports.getAllPeriodo = exports.getPeriodo = exports.createPeriodo = void 0;
 
 var _Academicos = _interopRequireDefault(require("../../models/Matricula/Academicos"));
 
@@ -140,3 +140,27 @@ var deletePeriodoById = /*#__PURE__*/function () {
 }();
 
 exports.deletePeriodoById = deletePeriodoById;
+
+var activate = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(function* (req, res, next) {
+    try {
+      var reg = yield _Academicos.default.findByIdAndUpdate({
+        _id: req.params.id
+      }, {
+        estado: req.query.state
+      });
+      res.status(200).json(reg);
+    } catch (e) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+      next(e);
+    }
+  });
+
+  return function activate(_x13, _x14, _x15) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.activate = activate;

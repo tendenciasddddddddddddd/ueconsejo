@@ -17,10 +17,12 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 var router = (0, _express.Router)();
 router.get("/newcant", parroquiaCtrl.getlistaCantones);
+router.get("/query", parroquiaCtrl.query);
 router.get("/:parroquiasId", parroquiaCtrl.getParroquiasById);
 router.get("/", parroquiaCtrl.getParroquias);
 router.post("/", parroquiaCtrl.createParroquias);
 router.put("/:parroquiasId", parroquiaCtrl.updateParroquiasById);
 router.delete("/:id", parroquiaCtrl.deleteParroquiasById);
+router.put('/activate/:id', parroquiaCtrl.activate);
 var _default = router;
 exports.default = _default;

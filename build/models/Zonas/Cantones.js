@@ -12,7 +12,10 @@ var cantonesSchema = new _mongoose.Schema({
     type: String,
     unique: true
   },
-  estado: String,
+  estado: {
+    type: String,
+    default: 1
+  },
   fkProvincia: String,
   //---------------TIPO MAS DATOS
   prov: {

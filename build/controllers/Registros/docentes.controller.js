@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createDocentes = exports.deleteDocenteById = exports.updateDocenteById = exports.getDocenteById = exports.getListasDocentes = exports.getBuscadorUsuarios = exports.getDocentes = void 0;
+exports.query = exports.createDocentes = exports.deleteDocenteById = exports.updateDocenteById = exports.getDocenteById = exports.getListasDocentes = exports.getBuscadorUsuarios = exports.getDocentes = void 0;
 
 var _User = _interopRequireDefault(require("../../models/User"));
 
@@ -220,3 +220,31 @@ var createDocentes = /*#__PURE__*/function () {
 }();
 
 exports.createDocentes = createDocentes;
+
+var query = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator(function* (req, res) {
+    try {
+      var querys = req.query.querys;
+      var result = yield _User.default.find({
+        fullname: {
+          '$regex': querys,
+          "$options": "i"
+        },
+        typo: {
+          $in: ["DOCS"]
+        }
+      });
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+    }
+  });
+
+  return function query(_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+
+exports.query = query;

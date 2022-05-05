@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createEstudianteMany = exports.createEstudiante = exports.deleteEstudianteById = exports.updateEstudianteById = exports.getEstudianteById = exports.getListasEstudiantes = exports.getBuscadorUsuarios = exports.getEstudiantes = void 0;
+exports.query = exports.createEstudianteMany = exports.createEstudiante = exports.deleteEstudianteById = exports.updateEstudianteById = exports.getEstudianteById = exports.getListasEstudiantes = exports.getBuscadorUsuarios = exports.getEstudiantes = void 0;
 
 var _User = _interopRequireDefault(require("../../models/User"));
 
@@ -280,3 +280,31 @@ var createEstudianteMany = /*#__PURE__*/function () {
 }();
 
 exports.createEstudianteMany = createEstudianteMany;
+
+var query = /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator(function* (req, res) {
+    try {
+      var querys = req.query.querys;
+      var result = yield _User.default.find({
+        fullname: {
+          '$regex': querys,
+          "$options": "i"
+        },
+        typo: {
+          $in: ["ESTS"]
+        }
+      });
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+    }
+  });
+
+  return function query(_x17, _x18) {
+    return _ref9.apply(this, arguments);
+  };
+}();
+
+exports.query = query;

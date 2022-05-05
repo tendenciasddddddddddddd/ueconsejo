@@ -12,7 +12,6 @@ var cantonesSchema = new _mongoose.Schema({
     type: String,
     required: true
   },
-  icono: String,
   fnivel: {
     type: _mongoose.Schema.Types.ObjectId,
     ref: "Nivel"

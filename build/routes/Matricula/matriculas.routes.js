@@ -22,5 +22,6 @@ router.get("/", periodoCtrl.getPeriodo);
 router.get("/:periodoId", periodoCtrl.getPeriodoById);
 router.put("/:periodoId", periodoCtrl.updatePeriodoById);
 router.delete("/:id", periodoCtrl.deletePeriodoById);
+router.put('/activate/:id', periodoCtrl.activate);
 var _default = router;
 exports.default = _default;

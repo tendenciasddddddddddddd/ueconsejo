@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteMateriaById = exports.updateMateriaById = exports.getMateriaById = exports.getListasMaterias = exports.getMateria = exports.createMateria = void 0;
+exports.activate = exports.deleteMateriaById = exports.updateMateriaById = exports.getMateriaById = exports.getListasMaterias = exports.getMateria = exports.createMateria = void 0;
 
 var _Materia = _interopRequireDefault(require("../../models/Gestion/Materia"));
 
@@ -137,3 +137,27 @@ var deleteMateriaById = /*#__PURE__*/function () {
 }();
 
 exports.deleteMateriaById = deleteMateriaById;
+
+var activate = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(function* (req, res, next) {
+    try {
+      var reg = yield _Materia.default.findByIdAndUpdate({
+        _id: req.params.id
+      }, {
+        estado: req.query.state
+      });
+      res.status(200).json(reg);
+    } catch (e) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+      next(e);
+    }
+  });
+
+  return function activate(_x13, _x14, _x15) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.activate = activate;

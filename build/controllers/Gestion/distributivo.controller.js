@@ -67,7 +67,7 @@ var getDistributivo = /*#__PURE__*/function () {
       }
     }).skip(limit * skip - limit).limit(limit).sort({
       updatedAt: -1
-    }).populate('fdocente', 'fullname').populate('fmateria', 'nombre').populate('fnivel', 'nombres');
+    }).populate('fdocente', 'fullname').populate('fmateria', 'nombre').populate('fnivel', 'nombre');
     var coleccion = {
       niveles: materias,
       pagina: skip,
@@ -95,7 +95,7 @@ var getInfoDistributivo = /*#__PURE__*/function () {
     }).select({
       nombre: 1,
       paralelo: 1
-    }).populate('fmateria', 'nombre').populate('fnivel', 'nombres');
+    }).populate('fmateria', 'nombre').populate('fnivel', 'nombre');
     return res.json(distributivo);
   });
 
@@ -111,7 +111,7 @@ var getDistributivoById = /*#__PURE__*/function () {
     var {
       distributivoId
     } = req.params;
-    var niveles = yield _Distributivo.default.findById(distributivoId).populate('fmateria', 'nombre').populate('fnivel', 'nombres');
+    var niveles = yield _Distributivo.default.findById(distributivoId).populate('fmateria', 'nombre').populate('fnivel', 'nombre');
     res.status(200).json(niveles);
   });
 

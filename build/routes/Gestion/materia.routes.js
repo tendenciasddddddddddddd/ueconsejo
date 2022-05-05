@@ -22,5 +22,6 @@ router.get("/", materiaCtrl.getMateria);
 router.put("/:materiaId", materiaCtrl.updateMateriaById);
 router.delete("/:id", materiaCtrl.deleteMateriaById);
 router.post("/", materiaCtrl.createMateria);
+router.put('/activate/:id', materiaCtrl.activate);
 var _default = router;
 exports.default = _default;

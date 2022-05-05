@@ -12,7 +12,10 @@ var provinciasSchema = new _mongoose.Schema({
     type: String,
     unique: true
   },
-  estado: String
+  estado: {
+    type: String,
+    default: 1
+  }
 }, {
   timestamps: true,
   versionKey: false

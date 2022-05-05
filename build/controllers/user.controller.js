@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUser = exports.getUsers = exports.createUser = exports.getRoles = exports.deleteUsuariosById = exports.updateUsuariosById = exports.getUsuariosById = exports.getBuscadorUsuarios = exports.getUsuarios = void 0;
+exports.query = exports.activate = exports.getUsers = exports.createUser = exports.getRoles = exports.deleteUsuariosById = exports.updateUsuariosById = exports.getUsuariosById = exports.getBuscadorUsuarios = exports.getUsuarios = void 0;
 
 var _User = _interopRequireDefault(require("../models/User"));
 
@@ -209,12 +209,54 @@ var getUsers = /*#__PURE__*/function () {
 
 exports.getUsers = getUsers;
 
-var getUser = /*#__PURE__*/function () {
-  var _ref9 = _asyncToGenerator(function* (req, res) {});
+var activate = /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator(function* (req, res, next) {
+    try {
+      var reg = yield _User.default.findByIdAndUpdate({
+        _id: req.params.id
+      }, {
+        status: req.query.state
+      });
+      res.status(200).json(reg);
+    } catch (e) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+      next(e);
+    }
+  });
 
-  return function getUser(_x17, _x18) {
+  return function activate(_x17, _x18, _x19) {
     return _ref9.apply(this, arguments);
   };
 }();
 
-exports.getUser = getUser;
+exports.activate = activate;
+
+var query = /*#__PURE__*/function () {
+  var _ref10 = _asyncToGenerator(function* (req, res) {
+    try {
+      var querys = req.query.querys;
+      var result = yield _User.default.find({
+        fullname: {
+          '$regex': querys,
+          "$options": "i"
+        },
+        typo: {
+          $in: ["ADMS"]
+        }
+      });
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+    }
+  });
+
+  return function query(_x20, _x21) {
+    return _ref10.apply(this, arguments);
+  };
+}();
+
+exports.query = query;

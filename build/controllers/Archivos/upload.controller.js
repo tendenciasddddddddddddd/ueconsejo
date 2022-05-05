@@ -51,7 +51,7 @@ var resizeImages = /*#__PURE__*/function () {
         .toFormat("jpeg")
         .jpeg({ quality: 90 })
         .toFile(`src/static/${nombre}`);
-       req.body.images.push(nombre); */
+        req.body.images.push(nombre); */
       var resultado = yield cloudinary.v2.uploader.upload(req.file.path, {
         height: 128,
         crop: "thumb"

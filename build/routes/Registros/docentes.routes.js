@@ -18,6 +18,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 var router = (0, _express.Router)();
 router.get("/buscadordocentes", [_middlewares.authJwt.verifyToken], docCtrl.getBuscadorUsuarios);
 router.get("/newdoc", docCtrl.getListasDocentes);
+router.get("/query", docCtrl.query);
 router.get("/:id", docCtrl.getDocenteById);
 router.get("/", [_middlewares.authJwt.verifyToken], docCtrl.getDocentes);
 router.put("/:usuariosId", docCtrl.updateDocenteById);

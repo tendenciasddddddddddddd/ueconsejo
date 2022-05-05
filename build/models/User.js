@@ -47,7 +47,7 @@ var productSchema = new _mongoose.Schema({
   },
   status: {
     type: String,
-    required: true
+    default: 1
   },
   telefono: {
     type: String,

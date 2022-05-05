@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteProvinciasById = exports.updateProvinciasById = exports.getProvinciasById = exports.getProvincias = exports.createProvincias = void 0;
+exports.query = exports.activate = exports.deleteProvinciasById = exports.updateProvinciasById = exports.getProvinciasById = exports.getProvincias = exports.createProvincias = void 0;
 
 var _Provincias = _interopRequireDefault(require("../../models/Zonas/Provincias"));
 
@@ -16,14 +16,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var createProvincias = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
     var {
-      nombre,
-      estado
+      nombre
     } = req.body;
 
     try {
       var newProvincias = new _Provincias.default({
-        nombre,
-        estado
+        nombre
       });
       var ProvinciasSaved = yield newProvincias.save();
       res.status(201).json(ProvinciasSaved);
@@ -119,3 +117,52 @@ var deleteProvinciasById = /*#__PURE__*/function () {
 }();
 
 exports.deleteProvinciasById = deleteProvinciasById;
+
+var activate = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(function* (req, res, next) {
+    try {
+      var reg = yield _Provincias.default.findByIdAndUpdate({
+        _id: req.params.id
+      }, {
+        estado: req.query.state
+      });
+      res.status(200).json(reg);
+    } catch (e) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+      next(e);
+    }
+  });
+
+  return function activate(_x11, _x12, _x13) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.activate = activate;
+
+var query = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
+    try {
+      var querys = req.query.querys;
+      var result = yield _Provincias.default.find({
+        nombre: {
+          '$regex': querys,
+          "$options": "i"
+        }
+      });
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+    }
+  });
+
+  return function query(_x14, _x15) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.query = query;

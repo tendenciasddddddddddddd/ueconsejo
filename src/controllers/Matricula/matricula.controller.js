@@ -95,8 +95,7 @@ export const getInfoMat = async (req, res) => {
       },
     })
       .populate("fkestudiante", "nombres apellidos foto")
-      .populate("fknivel", "nombres");
-    console.log("entro 1 ");
+      .populate("fknivel", "nombre");
     const coleccion = {
       matriculados: matriz,
     };
@@ -157,7 +156,7 @@ export const getMatriculasById = async (req, res) => {
   const { matriculaId } = req.params;
 
   const niveles = await Matriculas.findById(matriculaId)
-    .populate("fknivel", "nombres")
+    .populate("fknivel", "nombre")
     .populate("academico", "nombre");
   res.status(200).json(niveles);
 };
@@ -202,7 +201,7 @@ export const getMatriculasNotaBykEY = async (req, res) => {
   try {
     const { matriculaId } = req.params;
     const matricula = await Matriculas.findOne({ fkestudiante: matriculaId })
-      .populate("fknivel", "nombres")
+      .populate("fknivel", "nombre")
       .populate("academico", "nombre");
     res.status(200).json(matricula);
   } catch (error) {

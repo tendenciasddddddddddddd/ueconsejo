@@ -18,9 +18,11 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 var router = (0, _express.Router)();
 router.get("/buscadorusuarioss", usuariosCtrl.getBuscadorUsuarios);
 router.get("/newrol", usuariosCtrl.getRoles);
+router.get("/query", usuariosCtrl.query);
 router.get("/:id", usuariosCtrl.getUsuariosById);
 router.get("/", [_middlewares.authJwt.verifyToken, _middlewares.authJwt.isAdmin], usuariosCtrl.getUsuarios);
 router.put("/:usuariosId", usuariosCtrl.updateUsuariosById);
 router.delete("/:id", usuariosCtrl.deleteUsuariosById);
+router.put('/activate/:id', usuariosCtrl.activate);
 var _default = router;
 exports.default = _default;

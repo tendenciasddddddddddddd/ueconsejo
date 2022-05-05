@@ -17,9 +17,11 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 var router = (0, _express.Router)();
 router.post("/", provinciasCtrl.createProvincias);
+router.get("/query", provinciasCtrl.query);
 router.get("/", provinciasCtrl.getProvincias);
 router.get("/:provinciasId", provinciasCtrl.getProvinciasById);
 router.put("/:provinciasId", provinciasCtrl.updateProvinciasById);
 router.delete("/:id", provinciasCtrl.deleteProvinciasById);
+router.put('/activate/:id', provinciasCtrl.activate);
 var _default = router;
 exports.default = _default;

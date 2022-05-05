@@ -139,8 +139,7 @@ var getInfoMat = /*#__PURE__*/function () {
         fknivel: {
           $in: [curs]
         }
-      }).populate("fkestudiante", "nombres apellidos foto").populate("fknivel", "nombres");
-      console.log("entro 1 ");
+      }).populate("fkestudiante", "nombres apellidos foto").populate("fknivel", "nombre");
       var _coleccion = {
         matriculados: matriz
       };
@@ -232,7 +231,7 @@ var getMatriculasById = /*#__PURE__*/function () {
     var {
       matriculaId
     } = req.params;
-    var niveles = yield _Matriculas.default.findById(matriculaId).populate("fknivel", "nombres").populate("academico", "nombre");
+    var niveles = yield _Matriculas.default.findById(matriculaId).populate("fknivel", "nombre").populate("academico", "nombre");
     res.status(200).json(niveles);
   });
 
@@ -302,7 +301,7 @@ var getMatriculasNotaBykEY = /*#__PURE__*/function () {
       } = req.params;
       var matricula = yield _Matriculas.default.findOne({
         fkestudiante: matriculaId
-      }).populate("fknivel", "nombres").populate("academico", "nombre");
+      }).populate("fknivel", "nombre").populate("academico", "nombre");
       res.status(200).json(matricula);
     } catch (error) {
       res.status(500).json({

@@ -98,7 +98,7 @@ export const userest = async () => {
       fketnia:"Mestizo",
       fknacionalidad:"Colombia",
       fkparroquia:"Monte Olivo",
-      modalidad: "Extraordinaria"
+      modalidad: "Intensivo"
     });
        
     

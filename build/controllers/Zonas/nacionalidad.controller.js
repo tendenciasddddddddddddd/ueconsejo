@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getChildNacionalidad = exports.deleteNacionalidadById = exports.updateNacionalidadById = exports.getNacionalidadById = exports.getNacionalidad = exports.createNacionalidad = void 0;
+exports.activate = exports.getChildNacionalidad = exports.deleteNacionalidadById = exports.updateNacionalidadById = exports.getNacionalidadById = exports.getNacionalidad = exports.createNacionalidad = void 0;
 
 var _Nacionalidad = _interopRequireDefault(require("../../models/Zonas/Nacionalidad"));
 
@@ -16,14 +16,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var createNacionalidad = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
     var {
-      nombre,
-      estado
+      nombre
     } = req.body;
 
     try {
       var newNacionalidad = new _Nacionalidad.default({
-        nombre,
-        estado
+        nombre
       });
       var NacionalidadSaved = yield newNacionalidad.save();
       res.status(201).json(NacionalidadSaved);
@@ -99,12 +97,18 @@ exports.updateNacionalidadById = updateNacionalidadById;
 
 var deleteNacionalidadById = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator(function* (req, res) {
-    var {
-      nacionalidadId
-    } = req.params;
-    yield _Nacionalidad.default.findByIdAndDelete(nacionalidadId); // code 200 is ok too
-
-    res.status(200).json();
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _Nacionalidad.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
   });
 
   return function deleteNacionalidadById(_x9, _x10) {
@@ -130,3 +134,27 @@ var getChildNacionalidad = /*#__PURE__*/function () {
 }();
 
 exports.getChildNacionalidad = getChildNacionalidad;
+
+var activate = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(function* (req, res, next) {
+    try {
+      var reg = yield _Nacionalidad.default.findByIdAndUpdate({
+        _id: req.params.id
+      }, {
+        estado: req.query.state
+      });
+      res.status(200).json(reg);
+    } catch (e) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+      next(e);
+    }
+  });
+
+  return function activate(_x13, _x14, _x15) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.activate = activate;

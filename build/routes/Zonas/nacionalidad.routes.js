@@ -21,6 +21,7 @@ router.get("/:nacionalidadId", nacionalidadCtrl.getNacionalidadById);
 router.get("/", nacionalidadCtrl.getNacionalidad);
 router.post("/", nacionalidadCtrl.createNacionalidad);
 router.put("/:nacionalidadId", nacionalidadCtrl.updateNacionalidadById);
-router.delete("/:nacionalidadId", nacionalidadCtrl.deleteNacionalidadById);
+router.delete("/:id", nacionalidadCtrl.deleteNacionalidadById);
+router.put('/activate/:id', nacionalidadCtrl.activate);
 var _default = router;
 exports.default = _default;
