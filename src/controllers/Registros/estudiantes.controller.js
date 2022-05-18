@@ -139,13 +139,14 @@ export const createEstudianteMany = async (req, res) => {
       }
     }
     if (docs) {
-      const options = { ordered: true };
+      const options = { ordered: false };
       await User.insertMany(docs, options);
     }
       return res.status(200).json({
          duplicados
       });
   } catch (error) {
+    console.log(error)
      return res.status(500).json({ message:'Problem'});  
   }
 };

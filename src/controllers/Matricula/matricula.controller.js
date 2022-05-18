@@ -34,7 +34,7 @@ export const createMatriculas = async (req, res) => {
        }
      }
      if (docs) {
-      const options = { ordered: true };
+      const options = { ordered: false };
       await Matriculas.insertMany(docs, options);
     }
     return res.status(200).json({

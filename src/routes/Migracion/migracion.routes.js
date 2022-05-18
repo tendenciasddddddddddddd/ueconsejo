@@ -5,6 +5,10 @@ import * as migracionCtrl from "../../controllers/Migraciones/migracion.controll
 import { authJwt } from "../../middlewares";
 import { verifySignup } from "../../middlewares"; 
 
+router.get("/query", migracionCtrl.query);
+
+router.get("/search", migracionCtrl.getByIdOfCourseAndPeriod);
+
 router.get("/", migracionCtrl.getQueryAll);
 
 router.post("/matricula", migracionCtrl.createMigracionMatricula);
