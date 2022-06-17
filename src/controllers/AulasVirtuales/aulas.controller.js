@@ -30,7 +30,7 @@ export const getAulasVirtuales = async (req,res)=>{
     fdocente: {
       $in:[idDocente]
     },
-  }).lean().select({nombre: 1, materia: 1, icono: 1})
+  }).lean().select({nombre: 1, materia: 1, icono: 1, fecha:1})
 
   return res.json(matriculas);
 }
@@ -89,7 +89,7 @@ export const getAllAulasEstu = async (req,res)=>{
     icono: {
       $in:[modalidad]
     },
-  }).lean().select({nombre: 1, materia: 1, doc: 1, codigo: 1, estudiantes: 1})
+  }).lean().select({nombre: 1, materia: 1, doc: 1, codigo: 1, estudiantes: 1, icono: 1, fecha:1})
 
   return res.json(matriculas);
 }

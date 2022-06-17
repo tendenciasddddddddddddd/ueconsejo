@@ -66,7 +66,6 @@ export const calificarTaskById = async (req, res) => {
       res.status(200).json("req.params.aulaId");
     }
   } catch (e) {
-    console.log(e)
     res.status(500).json("error del servidor");
   }
 };
@@ -111,11 +110,36 @@ export const createTaskArbol2ById = async (req, res) => {
     );
     res.status(200).json("crearnote");
   } catch (e) {
-    console.log(e);
     res.status(500).json({ message: "No mat found" });
   }
 };
-
+//----EDITAMOS LA ENTREGA DE TAREAS POR PARTE DE OS ESTUDIANTES
+export const updateTaskSend = async (req, res) => {
+  try {
+    let cadenaId = req.params.taskId;
+    const array = cadenaId.split(",");
+    if (array) {
+      await Aulavirtual.updateOne(
+        { _id: array[0] },
+        { $set: 
+          { "task.$[perf].entrega.$[est].link": req.body.link} 
+        },
+        {
+          arrayFilters: [{
+            "perf._id": {$eq : array[1]}},
+            {"est._id": {$eq : array[2]}}],
+          new: true,
+        }
+      );
+      res.status(200).json("req.params.aulaId");
+    } else {
+      res.status(200).json("req.params.aulaId");
+    }
+  } catch (e) {
+    console.log(e)
+    res.status(500).json("error del servidor");
+  }
+};
 //------------------------------------- ELIMINAR TAREAS [DOCENTE, ]
 
 export const deleteTaskById = async (req, res) => {
@@ -133,3 +157,14 @@ export const deleteTaskById = async (req, res) => {
     res.status(500).json({ message: "No mat found" });
   }
 };
+
+export const updateCodigoCourse = async (req, res) => {
+  const updatedProduct = await Aulavirtual.findByIdAndUpdate(
+    req.params.aulaId,
+    req.body,
+    {
+      new: true,
+    }
+  );
+  res.status(200).json(updatedProduct);
+}

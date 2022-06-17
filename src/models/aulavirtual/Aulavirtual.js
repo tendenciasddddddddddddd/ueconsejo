@@ -35,6 +35,7 @@ const nivelSchema = new Schema(
         finicio: String,
         ffin: String,
         estado: String,
+        fechad : String,
         entrega : [
           {
           idUser : {
