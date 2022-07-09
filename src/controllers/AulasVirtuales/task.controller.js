@@ -1,6 +1,4 @@
 import Aulavirtual from "../../models/aulavirtual/Aulavirtual";
-var mongoose = require("mongoose");
-var ObjectId = mongoose.Schema.Types.ObjectId;
 
 //----------------------------------------------------CREAR UNA NUEVA TAREA [DOCENTES, ]
 export const createTaskById = async (req, res) => {
@@ -26,7 +24,13 @@ export const editTaskById = async (req, res) => {
     if (array[0] != null && array[1] != null) {
       await Aulavirtual.updateOne(
         { _id: array[0]},
-        { $set: { "task.$[perf].finicio": req.body.task.finicio } },
+        { $set: { 
+                  "task.$[perf].nombre": req.body.task.nombre,
+                  "task.$[perf].descripcion": req.body.task.descripcion,
+                  "task.$[perf].archivo": req.body.task.archivo,
+                  "task.$[perf].finicio": req.body.task.finicio,
+                } 
+        },
         {
           arrayFilters: [{
             "perf._id": {$eq : array[1]}}],
@@ -52,7 +56,10 @@ export const calificarTaskById = async (req, res) => {
       await Aulavirtual.updateOne(
         { _id: array[0] },
         { $set: 
-          { "task.$[perf].entrega.$[est].nota": req.body.nota} 
+          { 
+            "task.$[perf].entrega.$[est].nota": req.body.nota,
+            "task.$[perf].entrega.$[est].observar": req.body.observar
+          } 
         },
         {
           arrayFilters: [{
@@ -103,7 +110,10 @@ export const createTaskArbol2ById = async (req, res) => {
   try {
     await Aulavirtual.updateOne(
       { "task._id": req.params.taskId },
-      { $push: { "task.$.entrega": req.body.task.entrega } },
+      { $push: { 
+                 "task.$.entrega": req.body,
+                } 
+      },
       {
         new: true,
       }
@@ -122,7 +132,10 @@ export const updateTaskSend = async (req, res) => {
       await Aulavirtual.updateOne(
         { _id: array[0] },
         { $set: 
-          { "task.$[perf].entrega.$[est].link": req.body.link} 
+          { 
+            "task.$[perf].entrega.$[est].link": req.body.link,
+            "task.$[perf].entrega.$[est].comentario": req.body.comentario,
+          } 
         },
         {
           arrayFilters: [{

@@ -25,6 +25,7 @@ import notasRoutes from "./routes/Notas/notas.routes"
 import aulasRoutes from "./routes/AulaVirtual/aulas.routes"
 import taskRoutes from "./routes/AulaVirtual/task.routes"
 import migracion from "./routes/Migracion/migracion.routes";
+import quizzRoutes from "./routes/AulaVirtual/quizz.routes";
 
 //PUBLIC
 import publico from "./public/routes/index"
@@ -49,9 +50,8 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(morgan("dev"));
-app.use(express.json());
-// Settings
-
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 
 
 // settings
@@ -90,6 +90,7 @@ app.use("/api/notas", notasRoutes);
 app.use("/api/aulas", aulasRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/migracion", migracion);
+app.use("/api/quizz", quizzRoutes)
 //migracion
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);
