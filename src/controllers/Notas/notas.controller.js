@@ -5,8 +5,7 @@ export const getMatriculaNota = async (req, res) => {
     const idCurso = req.query.curso;
     const distributivo = await Matriculas.find({
         fknivel:{$in:[idCurso]},
-    },{'curso': 1, 'nombre': 1, 'calificaciones.materia':1, 'calificaciones.notas.promedio':1,
-    'calificaciones.notas.quimestre':1, 'calificaciones.promediof':1, 'calificaciones._id':1,}) //aqui se produjo el error de 
+    },{'curso': 1, 'nombre': 1, 'calificaciones':1,}) //aqui se produjo el error de 
     .lean();
     return res.json(distributivo);
 };
@@ -43,6 +42,7 @@ export const getMatriculasNotaById = async (req,res)=>{
 
 export const createNotaArbol1ById = async (req,res)=>{
   try {
+    console.log(req.body.calificaciones)
     let cadenaId = req.params.matriculaId;
     const array = cadenaId.split(",");
     await Matriculas.updateMany(
@@ -99,17 +99,14 @@ export const createNotaArbol3ById = async (req,res)=>{
 export const createFullNote = async (req,res)=>{
   try{
     let array = req.body;
-    
     for (let i = 0; i < array.length; i++) {
-      let model = {
-         quimestre:array[i].quimestre,
-         promedio: array[i].promedio,
-         arraysNote: array[i].arraysNote,
-         examen: array[i].examen,
-      }
       await Matriculas.updateOne(
         {_id : array[i].id, 'calificaciones._id': array[i].fora},
-        { $push: { 'calificaciones.$.notas': model} },
+        { $set: { 
+                 'calificaciones.$.notas':array[i].notas,
+                 'calificaciones.$.promediof':array[i].promediof
+              } 
+        },
         {
           new: true,
         }
@@ -117,6 +114,34 @@ export const createFullNote = async (req,res)=>{
     }
     res.status(200).json('crearnote');
   }catch(e){
+    console.log(e);
+    res.status(500).json({ message: "No mat found" });
+  } 
+}
+
+//----------------CGRABAR NOTAS DE FORMA MASIVA [DOCENTES, ] PARA SUPLETORIOS
+
+export const createFullSupletorios = async (req,res)=>{
+  try{
+    let array = req.body;
+    for (let i = 0; i < array.length; i++) {
+      await Matriculas.updateOne(
+        {_id : array[i].id, 'calificaciones._id': array[i].fora},
+        { $set: { 
+                 'calificaciones.$.suple':array[i].suple,
+                 'calificaciones.$.reme':array[i].reme,
+                 'calificaciones.$.gracia':array[i].gracia,
+                 'calificaciones.$.pfinal':array[i].pfinal
+              } 
+          },
+        {
+          new: true,
+        }
+      ); 
+    }
+    res.status(200).json('crearnote');
+  }catch(e){
+    console.log(e);
     res.status(500).json({ message: "No mat found" });
   } 
 }
@@ -152,7 +177,9 @@ export const confirmFullNoteById = async (req, res) => {
     for (let i = 0; i < array.length; i++) {
       await Matriculas.updateOne(
         { _id: array[i].id,},
-        { $set:  { "calificaciones.$[perf].promediof": array[i].promedio}  },
+        { $set:  { 
+          "calificaciones.$[perf].promediof": array[i].promedio}  
+        },
         {
           arrayFilters: [{
             "perf._id": {$eq : array[i].fora}}],

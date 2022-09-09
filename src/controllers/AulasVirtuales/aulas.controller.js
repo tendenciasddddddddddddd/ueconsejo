@@ -84,12 +84,7 @@ export const getAulassById = async (req,res)=>{
 
 //PARA MATRICULA DE ESTUDIANTES OSEA TRE PARA QUE SE MATRICULE 
 export const getAllAulasEstu = async (req,res)=>{
-  const modalidad = req.query.id;
-  const matriculas = await Aulavirtual.find({
-    icono: {
-      $in:[modalidad]
-    },
-  }).lean().select({nombre: 1, materia: 1, doc: 1, codigo: 1, estudiantes: 1, icono: 1, fecha:1})
+  const matriculas = await Aulavirtual.find().lean().select({nombre: 1, materia: 1, doc: 1, codigo: 1, estudiantes: 1, icono: 1, fecha:1})
 
   return res.json(matriculas);
 }

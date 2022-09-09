@@ -4,24 +4,20 @@ const router = Router();
 import * as usuariosCtrl from "../controllers/user.controller";
 import { authJwt } from "../middlewares";
 
-router.get("/buscadorusuarioss", usuariosCtrl.getBuscadorUsuarios);
+router.get("/buscadorusuarioss", [authJwt.verifyToken], usuariosCtrl.getBuscadorUsuarios);
 
-router.get("/newrol", usuariosCtrl.getRoles);
+router.get("/newrol", [authJwt.verifyToken], usuariosCtrl.getRoles);
 
-router.get("/query", usuariosCtrl.query);
+router.get("/query", [authJwt.verifyToken], usuariosCtrl.query);
 
-router.get("/:id", usuariosCtrl.getUsuariosById);
+router.get("/:id", [authJwt.verifyToken], usuariosCtrl.getUsuariosById);
 
-router.get(
-    "/", 
-    [authJwt.verifyToken  ,  authJwt.isAdmin],
-    usuariosCtrl.getUsuarios
-    );
+router.get( "/",  [authJwt.verifyToken], usuariosCtrl.getUsuarios);
 
-router.put("/:usuariosId", usuariosCtrl.updateUsuariosById);
+router.put("/:usuariosId", [authJwt.verifyToken], usuariosCtrl.updateUsuariosById);
 
-router.delete("/:id", usuariosCtrl.deleteUsuariosById);
+router.delete("/:id", [authJwt.verifyToken], usuariosCtrl.deleteUsuariosById);
 
-router.put('/activate/:id',usuariosCtrl.activate);
+router.put('/activate/:id',[authJwt.verifyToken], usuariosCtrl.activate);
 
 export default router;

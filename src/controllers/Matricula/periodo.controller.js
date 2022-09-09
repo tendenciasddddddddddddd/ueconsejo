@@ -1,14 +1,13 @@
 import Academicos from "../../models/Matricula/Academicos";
 
 export const createPeriodo = async (req,res)=>{
-    const { nombre,estado,inicia, finaliza, typo} = req.body;
+    const { nombre,estado,inicia, finaliza} = req.body;
     try {
         const newPeriodo = new Academicos({
           nombre,
           inicia,
           finaliza,
           estado,
-          typo
         });
     
         const PeriodoSaved = await newPeriodo.save();

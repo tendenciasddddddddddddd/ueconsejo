@@ -6,34 +6,29 @@ export const createMatriculas = async (req, res) => {
     let array = req.body;
     const docs = [];
     const duplicados = [];
-    const modalidad = req.query.modalidad;
-    let contador =0;
+    let contador = 0;
     let aux = 0;
-    const ultimaMatricula = await Matriculas.findOne({
-      typo: {
-        $in: [modalidad],
-      },
-    }).sort({ $natural: -1 });
+    const ultimaMatricula = await Matriculas.findOne().sort({ $natural: -1 });
     let resultUltimaMatricula = 0;
     if (ultimaMatricula) {
       resultUltimaMatricula = parseInt(ultimaMatricula.nmatricula);
     }
-     for (let i = 0; i < array.length; i++) {
-       const ifmatricula = await Matriculas.findOne({
+    for (let i = 0; i < array.length; i++) {
+      const ifmatricula = await Matriculas.findOne({
         // academico: array[i].academico,
-         fkestudiante: array[i].fkestudiante,
-       });
-       if (ifmatricula) {
-         duplicados.push(array[i]);
-       } else {
-         contador++;
-         aux = resultUltimaMatricula + contador ;
-         array[i].nmatricula =  aux ;
-         array[i].folio = Math.ceil(aux / 2);
-         docs.push(array[i]);
-       }
-     }
-     if (docs) {
+        fkestudiante: array[i].fkestudiante,
+      });
+      if (ifmatricula) {
+        duplicados.push(array[i]);
+      } else {
+        contador++;
+        aux = resultUltimaMatricula + contador;
+        array[i].nmatricula = aux;
+        array[i].folio = Math.ceil(aux / 2);
+        docs.push(array[i]);
+      }
+    }
+    if (docs) {
       const options = { ordered: false };
       await Matriculas.insertMany(docs, options);
     }
@@ -53,25 +48,20 @@ export const getMatriculas = async (req, res) => {
     .lean()
     .select({ curso: 1, typo: 1 })
     .populate("fkestudiante", "fullname cedula email fkparroquia sexo")
-    .populate("fknivel", "nombres");
+    .populate("fknivel", "nombre");
 
   return res.json(matriculas);
 };
 
 export const getReportes = async (req, res) => {
-  //RESUELVE LOS REPORTES
-  const version = req.query.m;
   const curs = req.query.c;
   const matriculas = await Matriculas.find({
-    typo: {
-      $in: [version],
-    },
     fknivel: {
       $in: [curs],
     },
   })
     .lean()
-    .select({ curso: 1, nombre: 1 });
+    .select({ curso: 1, nombre: 1, fecha: 1 });
 
   return res.json(matriculas);
 };
@@ -80,33 +70,25 @@ export const getInfoMat = async (req, res) => {
   //NO RESULEV NADA
   if (req.query.h) {
     const academic = req.query.h;
-    const version = req.query.m;
     const curs = req.query.c;
 
     const matriz = await Matriculas.find({
       academico: {
         $in: [academic],
       },
-      typo: {
-        $in: [version],
-      },
       fknivel: {
         $in: [curs],
       },
     })
-      .populate("fkestudiante", "nombres apellidos foto")
+      .populate("fkestudiante", "nombre apellidos foto")
       .populate("fknivel", "nombre");
     const coleccion = {
       matriculados: matriz,
     };
     return res.json(coleccion);
   }
-  const modalidad = req.query.v; // Asegúrate de parsear el límite a número
   const periodo = req.query.p;
   const mat = await Matriculas.findOne({
-    typo: {
-      $in: [modalidad],
-    },
     estado: {
       $in: ["1"],
     },
@@ -122,29 +104,27 @@ export const getInfoMat = async (req, res) => {
 };
 
 export const getListaMatricula = async (req, res) => {
-  //RESUELVE LISTA DE MATRICULA [ELIMINAR, PARALELOS]
-  const curso = req.query.curso;
-  const mat = await Matriculas.find({
-    fknivel: {
-      $in: [curso],
-    },
-  })
-    .lean()
-    .select({ curso: 1, nombre: 1 });
-  const coleccion = {
-    matriculados: mat,
-  };
-  return res.json(coleccion);
+  try {
+    const curso = req.query.curso;
+    const mat = await Matriculas.find({
+      fknivel: {
+        $in: [curso],
+      },
+    })
+      .lean()
+      .select({ curso: 1, nombre: 1, fecha: 1, });
+    const coleccion = {
+      matriculados: mat,
+    };
+    return res.json(coleccion);
+  } catch (error) {
+    return res.status(500).json();
+  }
 };
 
 export const getMatriculaFolio = async (req, res) => {
   //RESUELVE NUMERO DE MATRICULA Y FOLIO
-  const modalidad = req.query.v;
-  const mat = await Matriculas.findOne({
-    typo: {
-      $in: [modalidad],
-    },
-  }).sort({ createdAt: -1 });
+  const mat = await Matriculas.findOne().sort({ createdAt: -1 });
   const coleccion = {
     num: 1,
     infor: mat,
@@ -159,6 +139,24 @@ export const getMatriculasById = async (req, res) => {
     .populate("fknivel", "nombre")
     .populate("academico", "nombre");
   res.status(200).json(niveles);
+};
+
+export const getMatriculaByIdReport = async (req, res) => {
+  try {
+    let result = [];
+    let cadenaId = req.params.matriculaId;
+    const array = cadenaId.split(",");
+    if (array !== '') {
+      for (let i = 0; i < array.length; i++) {
+        const niveles = await Matriculas.findById(array[i]).populate("fknivel", "nombre").populate("academico", "nombre");
+        result.push(niveles);
+      }
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json();
+  }
+
 };
 
 //-----------------------------------------------------------PARALELOS [ADMINISTRADOR]
@@ -212,7 +210,7 @@ export const getMatriculasNotaBykEY = async (req, res) => {
 export const getQueryAll = async (req, res) => {
   const matriculas = await Matriculas.find({})
     .lean()
-    .select({ curso: 1, nombre: 1, fecha:1, typo: 1, fknivel: 1 });
+    .select({ curso: 1, nombre: 1, fecha: 1, typo: 1, fknivel: 1 });
   const coleccion = {
     data: matriculas,
   };

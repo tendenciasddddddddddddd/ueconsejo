@@ -6,11 +6,11 @@ import { authJwt,verifySignup } from "../../middlewares";
 
 router.get("/buscadordocentes",[authJwt.verifyToken], docCtrl.getBuscadorUsuarios);
 
-router.get("/newdoc", docCtrl.getListasDocentes);
+router.get("/newdoc",[authJwt.verifyToken], docCtrl.getListasDocentes);
 
-router.get("/query", docCtrl.query);
+router.get("/query",[authJwt.verifyToken], docCtrl.query);
 
-router.get("/:id", docCtrl.getDocenteById);
+router.get("/:id",[authJwt.verifyToken], docCtrl.getDocenteById);
 
 router.get(
     "/", 
@@ -19,12 +19,10 @@ router.get(
     );
 
 
-router.put("/:usuariosId", docCtrl.updateDocenteById);
+router.put("/:usuariosId",[authJwt.verifyToken], docCtrl.updateDocenteById);
 
-router.delete("/:id", docCtrl.deleteDocenteById);
+router.delete("/:id",[authJwt.verifyToken], docCtrl.deleteDocenteById);
 
-router.post("/",
-[verifySignup.checkDuplicateUsernameOrEmail],
-docCtrl.createDocentes);
+router.post("/",[verifySignup.checkDuplicateUsernameOrEmail, authJwt.verifyToken],docCtrl.createDocentes);
 
 export default router;

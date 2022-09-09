@@ -4,18 +4,18 @@ const router = Router();
 import * as periodoCtrl from "../../controllers/Matricula/periodo.controller";
 import { authJwt } from "../../middlewares";
 
-router.get("/allPeriodos", periodoCtrl.getPeriodo);
+router.get("/allPeriodos",[authJwt.verifyToken], periodoCtrl.getPeriodo);
 
-router.post("/", periodoCtrl.createPeriodo);
+router.post("/",[authJwt.verifyToken], periodoCtrl.createPeriodo);
 
-router.get("/", periodoCtrl.getPeriodo);
+router.get("/",[authJwt.verifyToken], periodoCtrl.getPeriodo);
 
-router.get("/:periodoId", periodoCtrl.getPeriodoById);
+router.get("/:periodoId",[authJwt.verifyToken], periodoCtrl.getPeriodoById);
 
-router.put("/:periodoId", periodoCtrl.updatePeriodoById);
+router.put("/:periodoId",[authJwt.verifyToken], periodoCtrl.updatePeriodoById);
 
-router.delete("/:id", periodoCtrl.deletePeriodoById);
+router.delete("/:id",[authJwt.verifyToken], periodoCtrl.deletePeriodoById);
 
-router.put('/activate/:id',periodoCtrl.activate);
+router.put('/activate/:id',[authJwt.verifyToken],periodoCtrl.activate);
 
 export default router;

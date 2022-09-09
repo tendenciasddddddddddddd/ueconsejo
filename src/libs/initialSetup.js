@@ -80,7 +80,7 @@ console.log('100 Records Created');
 };
 export const userest = async () => {
   const roles = await Role.find({ name: { $in: ["Estudiante"] } });
-  for(let i = 0; i < 150; i++) {
+  for(let i = 0; i < 300; i++) {
     await User.create({
       roles: roles.map((role) => role._id),
       username: faker.internet.userName(),
@@ -98,7 +98,6 @@ export const userest = async () => {
       fketnia:"Mestizo",
       fknacionalidad:"Colombia",
       fkparroquia:"Monte Olivo",
-      modalidad: "Extraordinaria"
     });
        
     

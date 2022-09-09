@@ -5,14 +5,14 @@ import * as migracionCtrl from "../../controllers/Migraciones/migracion.controll
 import { authJwt } from "../../middlewares";
 import { verifySignup } from "../../middlewares"; 
 
-router.get("/query", migracionCtrl.query);
+router.get("/query",[authJwt.verifyToken], migracionCtrl.query);
 
-router.get("/search", migracionCtrl.getByIdOfCourseAndPeriod);
+router.get("/search",[authJwt.verifyToken], migracionCtrl.getByIdOfCourseAndPeriod);
 
-router.get("/", migracionCtrl.getQueryAll);
+router.get("/",[authJwt.verifyToken], migracionCtrl.getQueryAll);
 
-router.post("/matricula", migracionCtrl.createMigracionMatricula);
+router.post("/matricula",[authJwt.verifyToken], migracionCtrl.createMigracionMatricula);
 
-router.delete("/matricula", migracionCtrl.deleteMatriculasMany);
+router.delete("/matricula",[authJwt.verifyToken], migracionCtrl.deleteMatriculasMany);
 
 export default router;

@@ -28,7 +28,6 @@ const nivelSchema = new Schema(
       folio : Number,
       curso : String,
       estado: String,
-      typo: String,
       
       //--------------------------REFORMAR CALIFICACIONES
       calificaciones : [{
@@ -36,12 +35,11 @@ const nivelSchema = new Schema(
         materia : String,
         sumaf: String,
         promediof : String,
-        notas : [{
-          quimestre: String,
-          promedio : String,
-          examen : String,
-          arraysNote : String, 
-        }]
+        suple: String,
+        reme: String,
+        gracia: String,
+        pfinal : String,
+        notas : [{}]
       }],
      
       asistencias:[{

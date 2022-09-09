@@ -4,21 +4,21 @@ const router = Router();
 import * as cantonCtrl from "../../controllers/Zonas/cantones.controller";
 import { authJwt } from "../../middlewares";
 
-router.get("/newprov", cantonCtrl.getlistaProvincias);
+router.get("/newprov", [authJwt.verifyToken], cantonCtrl.getlistaProvincias);
 
-router.get("/query", cantonCtrl.query);
+router.get("/query", [authJwt.verifyToken], cantonCtrl.query);
 
-router.get("/:cantonesId", cantonCtrl.getCantonesById);
+router.get("/:cantonesId", [authJwt.verifyToken], cantonCtrl.getCantonesById);
 
-router.get("/", cantonCtrl.getCantones);
+router.get("/", [authJwt.verifyToken], cantonCtrl.getCantones);
 
-router.post("/", cantonCtrl.createCantones);
+router.post("/", [authJwt.verifyToken], cantonCtrl.createCantones);
 
-router.put("/:cantonesId", cantonCtrl.updateCantonesById);
+router.put("/:cantonesId", [authJwt.verifyToken], cantonCtrl.updateCantonesById);
 
-router.delete("/:id", cantonCtrl.deleteCantonesById);
+router.delete("/:id", [authJwt.verifyToken], cantonCtrl.deleteCantonesById);
 
-router.put('/activate/:id',cantonCtrl.activate);
+router.put('/activate/:id', [authJwt.verifyToken],cantonCtrl.activate);
 
 
 export default router;

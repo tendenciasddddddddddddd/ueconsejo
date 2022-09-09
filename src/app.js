@@ -3,9 +3,7 @@ import express from 'express';
 import morgan from "morgan";
 import compression from "compression"
 
-import productRoutes from "./routes/products.routes";
 import authRoutes from "./routes/auth.routes";
-import paisesRoutes from "./routes/paises.routes";
 import provinciasRoutes from "./routes/Zonas/provincias.routes";
 import cantonesRoutes from "./routes/Zonas/cantones.routes";
 import parroquiasRoutes from "./routes/Zonas/parroquias.routes";
@@ -26,6 +24,7 @@ import aulasRoutes from "./routes/AulaVirtual/aulas.routes"
 import taskRoutes from "./routes/AulaVirtual/task.routes"
 import migracion from "./routes/Migracion/migracion.routes";
 import quizzRoutes from "./routes/AulaVirtual/quizz.routes";
+import galeria from "./routes/settings/galeria.routes";
 
 //PUBLIC
 import publico from "./public/routes/index"
@@ -68,9 +67,7 @@ app.use(compression())
 app.use(express.static(__dirname + '/public/assets'));
 app.use('/', publico);
 // Routes
-app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/paises", paisesRoutes);
 app.use("/api/provincias", provinciasRoutes);
 app.use("/api/upload", uploads);
 app.use("/api/users", usuarios);
@@ -91,6 +88,7 @@ app.use("/api/aulas", aulasRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/migracion", migracion);
 app.use("/api/quizz", quizzRoutes)
+app.use("/api/galeria", galeria)
 //migracion
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);

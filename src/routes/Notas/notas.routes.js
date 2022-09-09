@@ -16,7 +16,9 @@ router.put("/ref2/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaArbol
 
 router.put("/ref3/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaArbol3ById); //CONFIRMAR LAS NORAS DE ESTUDIANTES //createFullNote
 
-router.put("/createfullnote/:matriculaId",[authJwt.verifyToken], matriCtrl.createFullNote);
+router.put("/createfullnote/:matriculaId", matriCtrl.createFullNote);
+
+router.put("/createSupletorios/:matriculaId",[authJwt.verifyToken], matriCtrl.createFullSupletorios);
 
 router.put("/deleteallnote/:matriculaId",[authJwt.verifyToken], matriCtrl.deleteNoteById);
 

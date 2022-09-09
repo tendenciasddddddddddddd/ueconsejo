@@ -4,10 +4,6 @@ import {
 } from "mongoose";
 
 const cantonesSchema = new Schema({
-    nombre: {
-        type: String,
-        required: true,
-    },
     fnivel: {
         type: Schema.Types.ObjectId,
         ref: "Nivel",
@@ -25,6 +21,7 @@ const cantonesSchema = new Schema({
         ref: "Academicos",
     },
     paralelo: String,
+    planificacion: String,
 }, {
     timestamps: true,
     versionKey: false

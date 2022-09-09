@@ -1,23 +1,23 @@
 import Distributivo from "../../models/Gestion/Distributivo";
 
 export const createDistributivo = async (req,res)=>{
-    const { nombre,fnivel,fdocente,icono, fmateria,facademicos,paralelo } = req.body;
+    const { fnivel,fdocente,icono, fmateria,facademicos,paralelo } = req.body;
     try {
         const newMateria = new Distributivo({
-          nombre,
           icono,
           fnivel,
           fdocente, 
           fmateria,
           facademicos,
-          paralelo
+          paralelo,
+          planificacion:''
         });
     
         const DistributivoSaved = await newMateria.save();
     
         res.status(201).json(DistributivoSaved);
       } catch (error) {
-        
+       
         return res.status(500).json(error);
       }
 }
@@ -27,11 +27,10 @@ export const getDistributivo = async (req,res)=>{
   const limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
   const skip = parseInt(req.query.page);
 
-  const modal = req.query.modal;
 
-  const total = await Distributivo.countDocuments({nombre:{$in:[modal]}});
+  const total = await Distributivo.countDocuments();
   const paginas = Math.ceil(total/limit);
-  const materias = await Distributivo.find({nombre:{$in:[modal]}}).skip((limit * skip)-limit).limit(limit).sort({updatedAt:-1})
+  const materias = await Distributivo.find().skip((limit * skip)-limit).limit(limit).sort({updatedAt:-1})
   .populate('fdocente','fullname')
   .populate('fmateria','nombre')
   .populate('fnivel','nombre');
@@ -46,7 +45,7 @@ export const getDistributivo = async (req,res)=>{
 
 export const getInfoDistributivo = async (req, res) => {  //RESUELVE LA LISTA DE CURSOS PARA DOCENTE
   const idDocente = req.query.id;
-  const distributivo = await Distributivo.find({fdocente:{$in:[idDocente]}}).select({nombre: 1, paralelo: 1})
+  const distributivo = await Distributivo.find({fdocente:{$in:[idDocente]}}).select({nombre: 1, paralelo: 1, planificacion:1})
   .populate('fmateria','nombre')
   .populate('fnivel','nombre');
   return res.json(distributivo);
@@ -62,6 +61,13 @@ export const getDistributivoById = async (req,res)=>{
     
 }
 
+export const getPlanificacionById = async (req,res)=>{
+const { distributivoId } = req.params;
+const niveles = await Distributivo.findById(distributivoId);
+res.status(200).json(niveles);
+  
+}
+
 export const updateDistributivoById = async (req,res)=>{
     const updateddistributivo = await Distributivo.findByIdAndUpdate(
         req.params.distributivoId,
@@ -71,6 +77,17 @@ export const updateDistributivoById = async (req,res)=>{
         }
       );
       res.status(200).json(updateddistributivo);
+}
+
+export const updatePlanificacionById = async (req,res)=>{
+  const updateddistributivo = await Distributivo.findByIdAndUpdate(
+      req.params.distributivoId,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(updateddistributivo);
 }
 
 export const deleteDistributivoById = async (req,res)=>{

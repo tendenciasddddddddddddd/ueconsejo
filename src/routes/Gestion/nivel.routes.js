@@ -4,18 +4,18 @@ const router = Router();
 import  nivelCtrl from "../../controllers/Gestion/nivel.controller";
 import { authJwt } from "../../middlewares";
 
-router.get("/level", nivelCtrl.getListasNiveles);
+router.get("/level",[authJwt.verifyToken], nivelCtrl.getListasNiveles);
 
-router.get("/:id", nivelCtrl.getNivelById);
+router.get("/:id",[authJwt.verifyToken], nivelCtrl.getNivelById);
 
-router.get("/", nivelCtrl.getNivel);
+router.get("/",[authJwt.verifyToken], nivelCtrl.getNivel);
 
-router.put("/:nivelId", nivelCtrl.updateNivelById);
+router.put("/:nivelId",[authJwt.verifyToken], nivelCtrl.updateNivelById);
 
-router.delete("/:id", nivelCtrl.deleteNivelById);
+router.delete("/:id",[authJwt.verifyToken], nivelCtrl.deleteNivelById);
 
-router.post("/", nivelCtrl.createNivel);
+router.post("/",[authJwt.verifyToken], nivelCtrl.createNivel);
 
-router.put('/activate/:id',nivelCtrl.activate);
+router.put('/activate/:id',[authJwt.verifyToken],nivelCtrl.activate);
 
 export default router;

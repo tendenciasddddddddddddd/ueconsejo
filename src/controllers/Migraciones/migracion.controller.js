@@ -4,9 +4,7 @@ import MigracionMatricula from "../../models/Matricula/MigracionMatricula";
 //-------------------CLONAMOS LOS DATOS DE LA TABLA MATRICULA---------------------------
 
 export const createMigracionMatricula = async (req,res)=>{
-  
-    const version = req.query.modalidad;
-    Matriculas.find({"typo": version}).then((colecciones) => {
+    Matriculas.find().then((colecciones) => {
       colecciones.forEach((array) => {
         const nuewData = MigracionMatricula(array);
         nuewData.isNew = true;  
@@ -21,12 +19,7 @@ export const createMigracionMatricula = async (req,res)=>{
 
 export const deleteMatriculasMany = async (req,res)=>{
   try {
-    const version = req.query.modalidad;
-    await Matriculas.deleteMany({
-      typo: {
-        $in: version,
-      },
-    });
+    await Matriculas.deleteMany();
     res.status(200).json();
   } catch (e) {
     return res.status(500).json();

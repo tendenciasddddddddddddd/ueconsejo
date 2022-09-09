@@ -6,28 +6,21 @@ import { authJwt,verifySignup } from "../../middlewares";
 
 router.get("/buscadorestudiantes",[authJwt.verifyToken], estCtrl.getBuscadorUsuarios);
 
-router.get("/newstud", estCtrl.getListasEstudiantes);
+router.get("/newstud", [authJwt.verifyToken], estCtrl.getListasEstudiantes);
 
-router.get("/query", estCtrl.query);
+router.get("/query", [authJwt.verifyToken], estCtrl.query);
 
-router.get("/:id", estCtrl.getEstudianteById);
+router.get("/:id", [authJwt.verifyToken], estCtrl.getEstudianteById);
 
-router.get(
-    "/", 
-    [authJwt.verifyToken ],
-    estCtrl.getEstudiantes
-    );
+router.get("/",  [authJwt.verifyToken ], estCtrl.getEstudiantes);
 
+router.put("/:usuariosId", [authJwt.verifyToken], estCtrl.updateEstudianteById);
 
-router.put("/:usuariosId", estCtrl.updateEstudianteById);
+router.delete("/:id", [authJwt.verifyToken], estCtrl.deleteEstudianteById);
 
-router.delete("/:id", estCtrl.deleteEstudianteById);
+router.post("/alumnosMany", [authJwt.verifyToken], estCtrl.createEstudianteMany);
 
-router.post("/alumnosMany", estCtrl.createEstudianteMany);
-
-router.post("/",
-[verifySignup.checkDuplicateUsernameOrEmail],
-estCtrl.createEstudiante);
+router.post("/",[verifySignup.checkDuplicateUsernameOrEmail, authJwt.verifyToken], estCtrl.createEstudiante);
 
 
 export default router;

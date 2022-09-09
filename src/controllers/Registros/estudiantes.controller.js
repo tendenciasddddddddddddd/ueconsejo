@@ -36,14 +36,10 @@ export const getBuscadorUsuarios = async (req, res) => {
 
 //--------------------------------LISTA PARA FILTROS [MATRICULAS, ]  --------------------
 export const getListasEstudiantes = async (req,res)=>{
-  const modalidad = req.query.mod;
     const products = await User.find({
       typo: {
         $in:["ESTS"]
       },
-      modalidad : {
-        $in:[modalidad]
-      }
     }).lean().select({fullname: 1, foto: 1, email: 1, status: 1});
     return res.json(products);
 }
@@ -93,12 +89,12 @@ export const updateEstudianteById = async (req,res)=>{
         // Getting the Request Body
        
         const {
-            username, email,password,roles,nombres,apellidos,status,telefono,cedula,foto,typo, modalidad, fullname,
+            username, email,password,roles,nombres,apellidos,status,telefono,cedula,foto,typo,  fullname,
             sexo,fketnia,fknacionalidad,fkparroquia
         } = req.body;
         // Creating a new User Object
         const newUser = new User({
-            username,email,nombres,apellidos,status,telefono,foto,cedula,typo,modalidad, fullname,
+            username,email,nombres,apellidos,status,telefono,foto,cedula,typo, fullname,
             password: await User.encryptPassword(password),
             sexo,fketnia,fknacionalidad,fkparroquia
 
@@ -121,34 +117,34 @@ export const updateEstudianteById = async (req,res)=>{
 };
 //--------------------------------CREAR ESTUDIANTE--------------------
 export const createEstudianteMany = async (req, res) => {
-
-  try {
-    let array = req.body;
-    const docs = [];
-    const duplicados = []
-    const role = await Role.findOne({ name: "Estudiante"});
-    for (let i = 0; i < array.length; i++) {
-      const ifemail = await User.findOne({ email: array[i].email });
-      const ifuser = await User.findOne({cedula: req.body.cedula });
-      if (ifemail || ifuser) {
-        duplicados.push(array[i])
-      }  else {
-        array[i].password = await User.encryptPassword(array[i].password)
-        array[i].roles = [role._id];
-        docs.push(array[i])
-      }
-    }
-    if (docs) {
-      const options = { ordered: false };
-      await User.insertMany(docs, options);
-    }
-      return res.status(200).json({
-         duplicados
-      });
-  } catch (error) {
-    console.log(error)
-     return res.status(500).json({ message:'Problem'});  
-  }
+  let roles = req.query.role;
+   try {
+     let array = req.body;
+     const docs = [];
+     const duplicados = []
+     const role = await Role.findOne({ name: roles});
+     for (let i = 0; i < array.length; i++) {
+       const ifemail = await User.findOne({ email: array[i].email });
+       const ifuser = await User.findOne({cedula: req.body.cedula });
+       if (ifemail || ifuser) {
+         duplicados.push(array[i])
+       }  else {
+         array[i].password = await User.encryptPassword(array[i].password)
+         array[i].roles = [role._id];
+         docs.push(array[i])
+       }
+     }
+     if (docs) {
+       const options = { ordered: false };
+       await User.insertMany(docs, options);
+     }
+       return res.status(200).json({
+          duplicados
+       });
+   } catch (error) {
+     console.log(error)
+      return res.status(500).json({ message:'Problem'});  
+   }
 };
 
 export const query = async (req, res) => {

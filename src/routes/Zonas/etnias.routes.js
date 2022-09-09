@@ -4,18 +4,18 @@ const router = Router();
 import * as etniasCtrl from "../../controllers/Zonas/etnias.controller";
 import { authJwt } from "../../middlewares";
 
-router.get("/childEtnia", etniasCtrl.getChildEtnia);
+router.get("/childEtnia", [authJwt.verifyToken], etniasCtrl.getChildEtnia);
 
-router.get("/:etniasId", etniasCtrl.getEtniasById);
+router.get("/:etniasId", [authJwt.verifyToken], etniasCtrl.getEtniasById);
 
-router.get("/", etniasCtrl.getEtnias);
+router.get("/", [authJwt.verifyToken], etniasCtrl.getEtnias);
 
-router.post("/", etniasCtrl.createEtnias);
+router.post("/", [authJwt.verifyToken], etniasCtrl.createEtnias);
 
-router.put("/:etniasId", etniasCtrl.updateEtniasById);
+router.put("/:etniasId", [authJwt.verifyToken], etniasCtrl.updateEtniasById);
 
-router.delete("/:id", etniasCtrl.deleteEtniasById);
+router.delete("/:id", [authJwt.verifyToken], etniasCtrl.deleteEtniasById);
 
-router.put('/activate/:id',etniasCtrl.activate);
+router.put('/activate/:id', [authJwt.verifyToken], etniasCtrl.activate);
 
 export default router;

@@ -2,11 +2,11 @@ import Nivel from "../../models/Gestion/Nivel";
 
 export default {
   createNivel: async (req, res) => {
-    const { nombre, modalidad } = req.body;
+    const { nombre } = req.body;
     try {
       const newNiveles = new Nivel({
         nombre,
-        modalidad,
+        
       });
 
       const NivelesSaved = await newNiveles.save();
@@ -38,7 +38,7 @@ export default {
   getListasNiveles: async (req, res) => {
     const products = await Nivel.find()
       .lean()
-      .select({ modalidad: 1, nombre: 1 });
+      .select({ nombre: 1 });
     return res.json(products);
   },
   getNivelById: async (req, res) => {

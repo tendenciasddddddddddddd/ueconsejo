@@ -5,18 +5,18 @@ import * as nacionalidadCtrl from "../../controllers/Zonas/nacionalidad.controll
 import { authJwt } from "../../middlewares";
 
 
-router.get("/childnacionalidad", nacionalidadCtrl.getChildNacionalidad);
+router.get("/childnacionalidad", [authJwt.verifyToken], nacionalidadCtrl.getChildNacionalidad);
 
-router.get("/:nacionalidadId", nacionalidadCtrl.getNacionalidadById);
+router.get("/:nacionalidadId", [authJwt.verifyToken], nacionalidadCtrl.getNacionalidadById);
 
-router.get("/", nacionalidadCtrl.getNacionalidad);
+router.get("/", [authJwt.verifyToken], nacionalidadCtrl.getNacionalidad);
 
-router.post("/", nacionalidadCtrl.createNacionalidad);
+router.post("/", [authJwt.verifyToken], nacionalidadCtrl.createNacionalidad);
 
-router.put("/:nacionalidadId", nacionalidadCtrl.updateNacionalidadById);
+router.put("/:nacionalidadId", [authJwt.verifyToken], nacionalidadCtrl.updateNacionalidadById);
 
-router.delete("/:id", nacionalidadCtrl.deleteNacionalidadById);
+router.delete("/:id", [authJwt.verifyToken], nacionalidadCtrl.deleteNacionalidadById);
 
-router.put('/activate/:id',nacionalidadCtrl.activate);
+router.put('/activate/:id', [authJwt.verifyToken], nacionalidadCtrl.activate);
 
 export default router;

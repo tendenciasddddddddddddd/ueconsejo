@@ -4,18 +4,18 @@ const router = Router();
 import * as materiaCtrl from "../../controllers/Gestion/materia.controller";
 import { authJwt } from "../../middlewares";
 
-router.get("/newmat", materiaCtrl.getListasMaterias);
+router.get("/newmat",[authJwt.verifyToken], materiaCtrl.getListasMaterias);
 
-router.get("/:materiaId", materiaCtrl.getMateriaById);
+router.get("/:materiaId",[authJwt.verifyToken], materiaCtrl.getMateriaById);
 
-router.get("/", materiaCtrl.getMateria);
+router.get("/",[authJwt.verifyToken], materiaCtrl.getMateria);
 
-router.put("/:materiaId", materiaCtrl.updateMateriaById);
+router.put("/:materiaId",[authJwt.verifyToken], materiaCtrl.updateMateriaById);
 
-router.delete("/:id", materiaCtrl.deleteMateriaById);
+router.delete("/:id",[authJwt.verifyToken], materiaCtrl.deleteMateriaById);
 
-router.post("/", materiaCtrl.createMateria);
+router.post("/",[authJwt.verifyToken], materiaCtrl.createMateria);
 
-router.put('/activate/:id',materiaCtrl.activate);
+router.put('/activate/:id',[authJwt.verifyToken],materiaCtrl.activate);
 
 export default router;

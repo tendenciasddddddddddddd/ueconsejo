@@ -4,18 +4,18 @@ const router = Router();
 import * as provinciasCtrl from "../../controllers/Zonas/provincias.controller";
 import { authJwt } from "../../middlewares";
 
-router.post("/", provinciasCtrl.createProvincias);
+router.post("/", [authJwt.verifyToken], provinciasCtrl.createProvincias);
 
-router.get("/query", provinciasCtrl.query);
+router.get("/query", [authJwt.verifyToken], provinciasCtrl.query);
 
-router.get("/", provinciasCtrl.getProvincias);
+router.get("/", [authJwt.verifyToken], provinciasCtrl.getProvincias);
 
-router.get("/:provinciasId", provinciasCtrl.getProvinciasById);
+router.get("/:provinciasId", [authJwt.verifyToken], provinciasCtrl.getProvinciasById);
 
-router.put("/:provinciasId", provinciasCtrl.updateProvinciasById);
+router.put("/:provinciasId", [authJwt.verifyToken], provinciasCtrl.updateProvinciasById);
 
-router.delete("/:id", provinciasCtrl.deleteProvinciasById);
+router.delete("/:id", [authJwt.verifyToken], provinciasCtrl.deleteProvinciasById);
 
-router.put('/activate/:id',provinciasCtrl.activate);
+router.put('/activate/:id', [authJwt.verifyToken], provinciasCtrl.activate);
 
 export default router;
