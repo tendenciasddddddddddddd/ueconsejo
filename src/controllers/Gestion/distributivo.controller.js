@@ -1,14 +1,12 @@
 import Distributivo from "../../models/Gestion/Distributivo";
 
 export const createDistributivo = async (req,res)=>{
-    const { fnivel,fdocente,icono, fmateria,facademicos,paralelo } = req.body;
+    const { fnivel,fdocente, fmateria,paralelo } = req.body;
     try {
         const newMateria = new Distributivo({
-          icono,
           fnivel,
           fdocente, 
           fmateria,
-          facademicos,
           paralelo,
           planificacion:''
         });
@@ -22,6 +20,20 @@ export const createDistributivo = async (req,res)=>{
       }
 }
 
+//--------------------------------CREAR ESTUDIANTE--------------------
+export const createArrayDistributivo = async (req, res) => {
+   try {
+     const array = req.body;
+     if (array.length !=0) {
+       const options = { ordered: false };
+       await Distributivo.insertMany(array, options);
+     }
+       return res.status(200).json({ 'docs': 'docs'});
+   } catch (error) {
+     console.log(error)
+      return res.status(500).json({ message:'Problem'});  
+   }
+};
 
 export const getDistributivo = async (req,res)=>{
   const limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
@@ -30,7 +42,7 @@ export const getDistributivo = async (req,res)=>{
 
   const total = await Distributivo.countDocuments();
   const paginas = Math.ceil(total/limit);
-  const materias = await Distributivo.find().skip((limit * skip)-limit).limit(limit).sort({updatedAt:-1})
+  const materias = await Distributivo.find().skip((limit * skip)-limit).limit(limit)
   .populate('fdocente','fullname')
   .populate('fmateria','nombre')
   .populate('fnivel','nombre');

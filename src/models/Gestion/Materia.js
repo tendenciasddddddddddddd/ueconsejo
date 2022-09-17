@@ -6,9 +6,6 @@ const nivelSchema = new Schema(
         type: String,
         unique: true,
       },
-      descripcion: {
-        type: String,
-      },
       estado: {
         type: String,
         default:1

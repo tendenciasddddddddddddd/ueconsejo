@@ -3,23 +3,25 @@ const router = Router();
 
 const { cacheInit } = require("../../middlewares/cache")
 
-import * as distributivoCtrl from "../../controllers/Gestion/distributivo.controller";
+import * as Ctr from "../../controllers/Gestion/distributivo.controller";
 import { authJwt } from "../../middlewares";
 
-router.get("/nuedist",[authJwt.verifyToken], cacheInit, distributivoCtrl.getInfoDistributivo);
+router.get("/nuedist",[authJwt.verifyToken],  Ctr.getInfoDistributivo);
 
-router.get("/planificacio/:distributivoId",[authJwt.verifyToken], distributivoCtrl.getPlanificacionById);
+router.get("/planificacio/:distributivoId",[authJwt.verifyToken], Ctr.getPlanificacionById);
 
-router.get("/:distributivoId",[authJwt.verifyToken], distributivoCtrl.getDistributivoById);
+router.get("/:distributivoId",[authJwt.verifyToken], Ctr.getDistributivoById);
 
-router.post("/",[authJwt.verifyToken], distributivoCtrl.createDistributivo);
+router.post("/many/",[authJwt.verifyToken], Ctr.createArrayDistributivo);
 
-router.get("/",[authJwt.verifyToken], distributivoCtrl.getDistributivo);
+router.post("/",[authJwt.verifyToken], Ctr.createDistributivo);
 
-router.put("/planificacion/:distributivoId",[authJwt.verifyToken], distributivoCtrl.updatePlanificacionById);
+router.get("/",[authJwt.verifyToken], Ctr.getDistributivo);
 
-router.put("/:distributivoId",[authJwt.verifyToken], distributivoCtrl.updateDistributivoById);
+router.put("/planificacion/:distributivoId",[authJwt.verifyToken], Ctr.updatePlanificacionById);
 
-router.delete("/:id",[authJwt.verifyToken], distributivoCtrl.deleteDistributivoById);
+router.put("/:distributivoId",[authJwt.verifyToken], Ctr.updateDistributivoById);
+
+router.delete("/:id",[authJwt.verifyToken], Ctr.deleteDistributivoById);
 
 export default router;

@@ -2,6 +2,10 @@ import { Schema, model } from "mongoose";
 
 const nivelSchema = new Schema(
     {
+      num: {
+        type: String,
+        required: true,
+      },
       nombre: {
         type: String,
         required: true,

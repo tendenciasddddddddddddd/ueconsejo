@@ -1,12 +1,10 @@
 import Materia from "../../models/Gestion/Materia";
 
 export const createMateria = async (req,res)=>{
-    const { nombre,estado,icono, descripcion, } = req.body;
+    const { nombre,estado, } = req.body;
     try {
         const newMateria = new Materia({
           nombre,
-          icono,
-          descripcion,
           estado,
         });
     
