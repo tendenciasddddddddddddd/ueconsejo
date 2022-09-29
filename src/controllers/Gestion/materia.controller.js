@@ -1,11 +1,11 @@
 import Materia from "../../models/Gestion/Materia";
 
 export const createMateria = async (req,res)=>{
-    const { nombre,estado, } = req.body;
+    const { nombre,estado, area} = req.body;
     try {
         const newMateria = new Materia({
           nombre,
-          estado,
+          estado,area
         });
     
         const MateriaSaved = await newMateria.save();

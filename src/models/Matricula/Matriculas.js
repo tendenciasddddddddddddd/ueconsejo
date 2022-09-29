@@ -39,7 +39,8 @@ const nivelSchema = new Schema(
         reme: String,
         gracia: String,
         pfinal : String,
-        notas : [{}]
+        notas : [{}],
+        comportamiento : [{}]
       }],
      
       asistencias:[{

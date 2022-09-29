@@ -20,6 +20,8 @@ router.put("/createfullnote/:matriculaId", matriCtrl.createFullNote);
 
 router.put("/createSupletorios/:matriculaId",[authJwt.verifyToken], matriCtrl.createFullSupletorios);
 
+router.put("/createComportamiento/:matriculaId",[authJwt.verifyToken], matriCtrl.createFullComportamiento);
+
 router.put("/deleteallnote/:matriculaId",[authJwt.verifyToken], matriCtrl.deleteNoteById);
 
 router.put("/confirmfullnote/:matriculaId",[authJwt.verifyToken], matriCtrl.confirmFullNoteById);

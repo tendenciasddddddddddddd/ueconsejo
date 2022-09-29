@@ -6,6 +6,9 @@ const nivelSchema = new Schema(
         type: String,
         unique: true,
       },
+      area: {
+        type: String,
+      },
       estado: {
         type: String,
         default:1

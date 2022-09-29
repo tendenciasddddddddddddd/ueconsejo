@@ -136,7 +136,7 @@ export const getMatriculasById = async (req, res) => {
   const { matriculaId } = req.params;
 
   const niveles = await Matriculas.findById(matriculaId)
-    .populate("fknivel", "nombre")
+    .populate("fknivel", { nombre: 1, area:1 })
     .populate("academico", "nombre");
   res.status(200).json(niveles);
 };
@@ -144,9 +144,9 @@ export const getMatriculasById = async (req, res) => {
 export const getMatriculaByIdReport = async (req, res) => {
   try {
     let result = [];
-    let cadenaId = req.params.matriculaId;
+    let cadenaId = req.params? req.params.matriculaId: '1';
     const array = cadenaId.split(",");
-    if (array !== '') {
+    if (array != '') {
       for (let i = 0; i < array.length; i++) {
         const niveles = await Matriculas.findById(array[i]).populate("fknivel", "nombre").populate("academico", "nombre");
         result.push(niveles);

@@ -29,7 +29,7 @@ export const getMatriculasNotaById = async (req,res)=>{
   try{
     const { matriculaId } = req.params;
     const matricula = await Matriculas.findOne({ fkestudiante: matriculaId })
-    .populate('fknivel','nombres')
+    .populate('fknivel','nombre')
     .populate('academico','nombre');
       res.status(200).json(matricula);
   }catch(error){
@@ -42,7 +42,6 @@ export const getMatriculasNotaById = async (req,res)=>{
 
 export const createNotaArbol1ById = async (req,res)=>{
   try {
-    console.log(req.body.calificaciones)
     let cadenaId = req.params.matriculaId;
     const array = cadenaId.split(",");
     await Matriculas.updateMany(
@@ -132,6 +131,29 @@ export const createFullSupletorios = async (req,res)=>{
                  'calificaciones.$.reme':array[i].reme,
                  'calificaciones.$.gracia':array[i].gracia,
                  'calificaciones.$.pfinal':array[i].pfinal
+              } 
+          },
+        {
+          new: true,
+        }
+      ); 
+    }
+    res.status(200).json('crearnote');
+  }catch(e){
+    console.log(e);
+    res.status(500).json({ message: "No mat found" });
+  } 
+}
+
+
+export const createFullComportamiento = async (req,res)=>{
+  try{
+    let array = req.body;
+    for (let i = 0; i < array.length; i++) {
+      await Matriculas.updateOne(
+        {_id : array[i].id, 'calificaciones._id': array[i].fora},
+        { $set: { 
+                 'calificaciones.$.comportamiento':array[i].comportamiento,
               } 
           },
         {
