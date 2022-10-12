@@ -125,8 +125,7 @@ export const createEstudianteMany = async (req, res) => {
      const role = await Role.findOne({ name: roles});
      for (let i = 0; i < array.length; i++) {
        const ifemail = await User.findOne({ email: array[i].email });
-       const ifuser = await User.findOne({cedula: req.body.cedula });
-       if (ifemail || ifuser) {
+       if (ifemail) {
          duplicados.push(array[i])
        }  else {
          array[i].password = await User.encryptPassword(array[i].password)

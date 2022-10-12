@@ -8,6 +8,8 @@ import { authJwt } from "../../middlewares";
 
 router.get("/nuedist",[authJwt.verifyToken],  Ctr.getInfoDistributivo);
 
+router.get("/fulldistributivo",[authJwt.verifyToken], Ctr.getAllDistributivo);
+
 router.get("/planificacio/:distributivoId",[authJwt.verifyToken], Ctr.getPlanificacionById);
 
 router.get("/:distributivoId",[authJwt.verifyToken], Ctr.getDistributivoById);

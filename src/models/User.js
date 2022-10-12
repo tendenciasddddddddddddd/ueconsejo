@@ -3,10 +3,6 @@ import bcrypt from "bcryptjs";
 
 const productSchema = new Schema(
   {
-    username: {
-      type: String,
-      unique: true,
-    },
     email: {
       type: String,
       unique: true,
@@ -26,7 +22,7 @@ const productSchema = new Schema(
     },
     cedula: {
       type: String,
-      unique: true,
+      required: true,
     },
     foto: {
       type: String,
@@ -50,22 +46,10 @@ const productSchema = new Schema(
     sexo : String,
     fketnia : String,
     fknacionalidad : String,
-    /* telefonofijo: String, */
     fkparroquia: String,
     modalidad: String,
- /*    calles: String,
-    referencia: String,
-    modalidad: String,
-    codigo: String,
-    numeric: String,
-    nombrec: String,
-    edad: String, */
-     //---------------TIPO docentes
     titulo: String,
 
-   
-    
-    //---------------TIPO MAS DATOS
     roles: [
       {
         type: Schema.Types.ObjectId,

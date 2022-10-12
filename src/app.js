@@ -25,6 +25,7 @@ import taskRoutes from "./routes/AulaVirtual/task.routes"
 import migracion from "./routes/Migracion/migracion.routes";
 import quizzRoutes from "./routes/AulaVirtual/quizz.routes";
 import galeria from "./routes/settings/galeria.routes";
+import configure from "./routes/settings/configure.routes"
 
 //PUBLIC
 import publico from "./public/routes/index"
@@ -33,13 +34,14 @@ import publico from "./public/routes/index"
  import sitemapRouter from "./service/sitemap"
 
 
-import { createRoles, createAdmin, userdev, userest} from "./libs/initialSetup";
+import { createRoles, createAdmin, userdev, userest, config} from "./libs/initialSetup";
 
 const app = express();
 //createRoles();
 //createAdmin();
 //userdev();
 //userest();
+//config();
 import cors from "cors";
 
 var corsOptions = {
@@ -89,6 +91,7 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/migracion", migracion);
 app.use("/api/quizz", quizzRoutes)
 app.use("/api/galeria", galeria)
+app.use("/api/configure", configure)
 //migracion
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);

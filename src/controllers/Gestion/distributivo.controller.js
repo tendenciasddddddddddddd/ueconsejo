@@ -25,10 +25,11 @@ export const createArrayDistributivo = async (req, res) => {
    try {
      const array = req.body;
      if (array.length !=0) {
+      await Distributivo.deleteMany();
        const options = { ordered: false };
        await Distributivo.insertMany(array, options);
      }
-       return res.status(200).json({ 'docs': 'docs'});
+      return res.status(200).json({ 'docs': 'docs'});
    } catch (error) {
      console.log(error)
       return res.status(500).json({ message:'Problem'});  
@@ -36,10 +37,8 @@ export const createArrayDistributivo = async (req, res) => {
 };
 
 export const getDistributivo = async (req,res)=>{
-  const limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
+  const limit = parseInt(req.query.take); 
   const skip = parseInt(req.query.page);
-
-
   const total = await Distributivo.countDocuments();
   const paginas = Math.ceil(total/limit);
   const materias = await Distributivo.find().skip((limit * skip)-limit).limit(limit)
@@ -55,10 +54,23 @@ export const getDistributivo = async (req,res)=>{
   return res.json(coleccion);
 }
 
+export const getAllDistributivo = async (req,res)=>{
+  try {
+    const result = await Distributivo.find()
+    .populate('fdocente','fullname')
+    .populate('fmateria','nombre')
+    .populate('fnivel','nombre');
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json();
+  }
+
+}
+
 export const getInfoDistributivo = async (req, res) => {  //RESUELVE LA LISTA DE CURSOS PARA DOCENTE
   const idDocente = req.query.id;
   const distributivo = await Distributivo.find({fdocente:{$in:[idDocente]}}).select({nombre: 1, paralelo: 1, planificacion:1})
-  .populate('fmateria','nombre')
+  .populate('fmateria','nombre area')
   .populate('fnivel','nombre');
   return res.json(distributivo);
 };

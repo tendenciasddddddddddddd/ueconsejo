@@ -1,5 +1,6 @@
 import Role from "../models/Role";
 import User from "../models/User";
+import Configure from "../models/Configure";
 
 import bcrypt from "bcryptjs";
 
@@ -18,6 +19,8 @@ export const createRoles = async () => {
       new Role({ name: "Estudiante" }).save(),//user
       new Role({ name: "Docente" }).save(),//moderator
       new Role({ name: "Admin" }).save(),//admin
+      new Role({ name: "Vicerrector" }).save(),//admin
+      new Role({ name: "Inspector" }).save(),//admin
     ]);
 
     console.log(values);
@@ -35,7 +38,6 @@ export const createAdmin = async () => {
   if (!user) {
     // create a new admin user
     await User.create({
-      username: "admin",
       email: "10004095632w@gmail.com",
       password: await bcrypt.hash("Medid100.", 10),
       roles: roles.map((role) => role._id),//****APARTIR DE A1QUI LOS NUEVOS DATOS
@@ -43,7 +45,7 @@ export const createAdmin = async () => {
       apellidos: "Martinez Martinez",
       fullname : "Martinez Martinez Esteban Wladimir",
       cedula: "1004095632",
-      foto: "https://res.cloudinary.com/stebann/image/upload/v1631310792/profile_b9t64l.png",
+      foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665121545/profile_p23jj9.png",
       status: "Activo",
       telefono: "0995283857",
     });
@@ -62,7 +64,7 @@ export const userdev = async () => {
       apellidos: faker.name.lastName(),
       status:"1",
       telefono: faker.phone.phoneNumber(),
-      foto: "https://res.cloudinary.com/stebann/image/upload/v1631310792/profile_b9t64l.png",
+      foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665121545/profile_p23jj9.png",
       cedula : faker.finance.routingNumber(),
       typo:"DOCS",
       fullname:faker.name.findName(),
@@ -89,7 +91,7 @@ export const userest = async () => {
       apellidos: faker.name.lastName(),
       status:"1",
       telefono: faker.phone.phoneNumber(),
-      foto: "https://res.cloudinary.com/stebann/image/upload/v1631310792/profile_b9t64l.png",
+      foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665121545/profile_p23jj9.png",
       cedula : faker.finance.routingNumber(),
       typo:"ESTS",
       fullname:faker.name.findName(),
@@ -103,4 +105,13 @@ export const userest = async () => {
     
 }
 console.log('100 Records Created');
+};
+export const config = async () => {
+  await Configure.create({
+    rector: 'xxxx xxxx xxxx xxxx',
+    vicerector: 'xxxx xxxx xxxx xxxx',
+    secretario: 'xxxx xxxx xxxx xxxx',
+    inspector: 'xxxx xxxx xxxx xxxx',
+  });
+console.log('config create');
 };

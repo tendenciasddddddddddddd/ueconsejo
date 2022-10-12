@@ -9,6 +9,8 @@ router.get("/query",[authJwt.verifyToken], migracionCtrl.query);
 
 router.get("/search",[authJwt.verifyToken], migracionCtrl.getByIdOfCourseAndPeriod);
 
+router.get("/clon",[authJwt.verifyToken], migracionCtrl.getByIdOfPeriodo);
+
 router.get("/",[authJwt.verifyToken], migracionCtrl.getQueryAll);
 
 router.post("/matricula",[authJwt.verifyToken], migracionCtrl.createMigracionMatricula);

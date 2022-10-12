@@ -72,3 +72,17 @@ export const getByIdOfCourseAndPeriod = async (req, res) => {
 
   return res.json(matriculas);
 };
+
+export const getByIdOfPeriodo = async (req, res) => {
+  //RESUELVE LOS REPORTES
+  const periodoId = req.query.periodoId;
+  const matriculas = await MigracionMatricula.find({
+    academico: {
+      $in: [periodoId],
+    },
+  })
+    .lean()
+    .populate('academico','nombre').populate('fknivel','nombre num');
+
+  return res.json(matriculas);
+};

@@ -24,6 +24,10 @@ const verifiUser = function (param){
     return true
   } else if (param ==='Estudiante') {
     return true
+  }  else if (param ==='Vicerrector') {
+    return true
+  }  else if (param ==='Inspector') {
+    return true
   } else {
     return false;
   }

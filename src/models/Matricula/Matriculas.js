@@ -33,6 +33,7 @@ const nivelSchema = new Schema(
       calificaciones : [{
         docente : String,
         materia : String,
+        area : String,
         sumaf: String,
         promediof : String,
         suple: String,
