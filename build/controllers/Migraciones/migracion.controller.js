@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getQueryAll = exports.deleteMatriculasMany = exports.createMigracionMatricula = void 0;
+exports.getByIdOfPeriodo = exports.getByIdOfCourseAndPeriod = exports.query = exports.getQueryAll = exports.deleteMatriculasMany = exports.createMigracionMatricula = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
@@ -18,11 +18,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //-------------------CLONAMOS LOS DATOS DE LA TABLA MATRICULA---------------------------
 var createMigracionMatricula = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
-    var version = req.query.modalidad;
-
-    _Matriculas.default.find({
-      "typo": version
-    }).then(colecciones => {
+    _Matriculas.default.find().then(colecciones => {
       colecciones.forEach(array => {
         var nuewData = (0, _MigracionMatricula.default)(array);
         nuewData.isNew = true;
@@ -44,12 +40,7 @@ exports.createMigracionMatricula = createMigracionMatricula;
 var deleteMatriculasMany = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
     try {
-      var version = req.query.modalidad;
-      yield _Matriculas.default.deleteMany({
-        typo: {
-          $in: version
-        }
-      });
+      yield _Matriculas.default.deleteMany();
       res.status(200).json();
     } catch (e) {
       return res.status(500).json();
@@ -68,9 +59,9 @@ var getQueryAll = /*#__PURE__*/function () {
     var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
 
     var skip = parseInt(req.query.page);
-    var total = yield Provincias.countDocuments();
+    var total = yield _MigracionMatricula.default.countDocuments();
     var paginas = Math.ceil(total / limit);
-    var usuarios = yield _MigracionMatricula.default.find({}).skip(limit * skip - limit).limit(limit);
+    var usuarios = yield _MigracionMatricula.default.find({}).skip(limit * skip - limit).limit(limit).populate('academico', 'nombre').populate('fknivel', 'nombre');
     var coleccion = {
       usuarios: usuarios,
       pagina: skip,
@@ -83,6 +74,74 @@ var getQueryAll = /*#__PURE__*/function () {
   return function getQueryAll(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
-}();
+}(); //--CONSULTAMOS POR NOMBRE LAS MATRICULAS DE HISTORY
+
 
 exports.getQueryAll = getQueryAll;
+
+var query = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
+    try {
+      var querys = req.query.querys;
+      var result = yield _MigracionMatricula.default.find({
+        nombre: {
+          '$regex': querys,
+          "$options": "i"
+        }
+      }).populate('academico', 'nombre').populate('fknivel', 'nombre');
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).send({
+        message: "Ocurrió un error"
+      });
+    }
+  });
+
+  return function query(_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.query = query;
+
+var getByIdOfCourseAndPeriod = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
+    //RESUELVE LOS REPORTES
+    var periodoId = req.query.periodoId;
+    var courseId = req.query.courseId;
+    var matriculas = yield _MigracionMatricula.default.find({
+      academico: {
+        $in: [periodoId]
+      },
+      fknivel: {
+        $in: [courseId]
+      }
+    }).lean().populate('academico', 'nombre').populate('fknivel', 'nombre');
+    return res.json(matriculas);
+  });
+
+  return function getByIdOfCourseAndPeriod(_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+exports.getByIdOfCourseAndPeriod = getByIdOfCourseAndPeriod;
+
+var getByIdOfPeriodo = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    //RESUELVE LOS REPORTES
+    var periodoId = req.query.periodoId;
+    var matriculas = yield _MigracionMatricula.default.find({
+      academico: {
+        $in: [periodoId]
+      }
+    }).lean().populate('academico', 'nombre').populate('fknivel', 'nombre num');
+    return res.json(matriculas);
+  });
+
+  return function getByIdOfPeriodo(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.getByIdOfPeriodo = getByIdOfPeriodo;

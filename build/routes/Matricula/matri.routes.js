@@ -17,18 +17,19 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 var router = (0, _express.Router)();
 //ConsultarMatriculaFolio
-router.get("/datas/:matriculaId", matriCtrl.getMatriculasNotaBykEY); //RUTA PARA CONSULTAR NUM MATRICULA Y FOLIO
+router.get("/datas/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.getMatriculasNotaBykEY); //RUTA PARA CONSULTAR NUM MATRICULA Y FOLIO
 
-router.get("/consult", matriCtrl.getMatriculaFolio); //RUTA PARA CONSULTAR NUM MATRICULA Y FOLIO
+router.get("/consult", [_middlewares.authJwt.verifyToken], matriCtrl.getMatriculaFolio); //RUTA PARA CONSULTAR NUM MATRICULA Y FOLIO
 
-router.get("/fullmatricula", matriCtrl.getListaMatricula); //RUTA DE CONSULTA TODOS LOS MATRICULADOS
+router.get("/fullmatricula", [_middlewares.authJwt.verifyToken], matriCtrl.getListaMatricula); //RUTA DE CONSULTA TODOS LOS MATRICULADOS
 
-router.get("/queryMatricula", matriCtrl.getQueryAll);
-router.get("/report", matriCtrl.getReportes);
-router.get("/:matriculaId", matriCtrl.getMatriculasById);
-router.get("/", matriCtrl.getMatriculas);
-router.post("/", matriCtrl.createMatriculas);
-router.put("/:matriculaId", matriCtrl.updateMatriculasById);
-router.delete("/:id", matriCtrl.deleteMatriculasById);
+router.get("/queryMatricula", [_middlewares.authJwt.verifyToken], matriCtrl.getQueryAll);
+router.get("/report", [_middlewares.authJwt.verifyToken], matriCtrl.getReportes);
+router.get("/repo/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.getMatriculaByIdReport);
+router.get("/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.getMatriculasById);
+router.get("/", [_middlewares.authJwt.verifyToken], matriCtrl.getMatriculas);
+router.post("/", [_middlewares.authJwt.verifyToken], matriCtrl.createMatriculas);
+router.put("/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.updateMatriculasById);
+router.delete("/:id", [_middlewares.authJwt.verifyToken], matriCtrl.deleteMatriculasById);
 var _default = router;
 exports.default = _default;

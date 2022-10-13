@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteDistributivoById = exports.updateDistributivoById = exports.getDistributivoById = exports.getInfoDistributivo = exports.getDistributivo = exports.createDistributivo = void 0;
+exports.deleteDistributivoById = exports.updatePlanificacionById = exports.updateDistributivoById = exports.getPlanificacionById = exports.getDistributivoById = exports.getInfoDistributivo = exports.getAllDistributivo = exports.getDistributivo = exports.createArrayDistributivo = exports.createDistributivo = void 0;
 
 var _Distributivo = _interopRequireDefault(require("../../models/Gestion/Distributivo"));
 
@@ -16,24 +16,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var createDistributivo = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
     var {
-      nombre,
       fnivel,
       fdocente,
-      icono,
       fmateria,
-      facademicos,
       paralelo
     } = req.body;
 
     try {
       var newMateria = new _Distributivo.default({
-        nombre,
-        icono,
         fnivel,
         fdocente,
         fmateria,
-        facademicos,
-        paralelo
+        paralelo,
+        planificacion: ''
       });
       var DistributivoSaved = yield newMateria.save();
       res.status(201).json(DistributivoSaved);
@@ -45,29 +40,49 @@ var createDistributivo = /*#__PURE__*/function () {
   return function createDistributivo(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}();
+}(); //--------------------------------CREAR ESTUDIANTE--------------------
+
 
 exports.createDistributivo = createDistributivo;
 
-var getDistributivo = /*#__PURE__*/function () {
+var createArrayDistributivo = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
+    try {
+      var array = req.body;
 
+      if (array.length != 0) {
+        yield _Distributivo.default.deleteMany();
+        var options = {
+          ordered: false
+        };
+        yield _Distributivo.default.insertMany(array, options);
+      }
+
+      return res.status(200).json({
+        'docs': 'docs'
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: 'Problem'
+      });
+    }
+  });
+
+  return function createArrayDistributivo(_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.createArrayDistributivo = createArrayDistributivo;
+
+var getDistributivo = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* (req, res) {
+    var limit = parseInt(req.query.take);
     var skip = parseInt(req.query.page);
-    var modal = req.query.modal;
-    var total = yield _Distributivo.default.countDocuments({
-      nombre: {
-        $in: [modal]
-      }
-    });
+    var total = yield _Distributivo.default.countDocuments();
     var paginas = Math.ceil(total / limit);
-    var materias = yield _Distributivo.default.find({
-      nombre: {
-        $in: [modal]
-      }
-    }).skip(limit * skip - limit).limit(limit).sort({
-      updatedAt: -1
-    }).populate('fdocente', 'fullname').populate('fmateria', 'nombre').populate('fnivel', 'nombre');
+    var materias = yield _Distributivo.default.find().skip(limit * skip - limit).limit(limit).populate('fdocente', 'fullname').populate('fmateria', 'nombre').populate('fnivel', 'nombre');
     var coleccion = {
       niveles: materias,
       pagina: skip,
@@ -77,15 +92,32 @@ var getDistributivo = /*#__PURE__*/function () {
     return res.json(coleccion);
   });
 
-  return function getDistributivo(_x3, _x4) {
-    return _ref2.apply(this, arguments);
+  return function getDistributivo(_x5, _x6) {
+    return _ref3.apply(this, arguments);
   };
 }();
 
 exports.getDistributivo = getDistributivo;
 
+var getAllDistributivo = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
+    try {
+      var result = yield _Distributivo.default.find().populate('fdocente', 'fullname').populate('fmateria', 'nombre').populate('fnivel', 'nombre');
+      return res.json(result);
+    } catch (error) {
+      return res.status(500).json();
+    }
+  });
+
+  return function getAllDistributivo(_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.getAllDistributivo = getAllDistributivo;
+
 var getInfoDistributivo = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator(function* (req, res) {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
     //RESUELVE LA LISTA DE CURSOS PARA DOCENTE
     var idDocente = req.query.id;
     var distributivo = yield _Distributivo.default.find({
@@ -94,20 +126,21 @@ var getInfoDistributivo = /*#__PURE__*/function () {
       }
     }).select({
       nombre: 1,
-      paralelo: 1
-    }).populate('fmateria', 'nombre').populate('fnivel', 'nombre');
+      paralelo: 1,
+      planificacion: 1
+    }).populate('fmateria', 'nombre area').populate('fnivel', 'nombre');
     return res.json(distributivo);
   });
 
-  return function getInfoDistributivo(_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function getInfoDistributivo(_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
 }();
 
 exports.getInfoDistributivo = getInfoDistributivo;
 
 var getDistributivoById = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator(function* (req, res) {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
     var {
       distributivoId
     } = req.params;
@@ -115,30 +148,61 @@ var getDistributivoById = /*#__PURE__*/function () {
     res.status(200).json(niveles);
   });
 
-  return function getDistributivoById(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function getDistributivoById(_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }();
 
 exports.getDistributivoById = getDistributivoById;
 
+var getPlanificacionById = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
+    var {
+      distributivoId
+    } = req.params;
+    var niveles = yield _Distributivo.default.findById(distributivoId);
+    res.status(200).json(niveles);
+  });
+
+  return function getPlanificacionById(_x13, _x14) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.getPlanificacionById = getPlanificacionById;
+
 var updateDistributivoById = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator(function* (req, res) {
+  var _ref8 = _asyncToGenerator(function* (req, res) {
     var updateddistributivo = yield _Distributivo.default.findByIdAndUpdate(req.params.distributivoId, req.body, {
       new: true
     });
     res.status(200).json(updateddistributivo);
   });
 
-  return function updateDistributivoById(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function updateDistributivoById(_x15, _x16) {
+    return _ref8.apply(this, arguments);
   };
 }();
 
 exports.updateDistributivoById = updateDistributivoById;
 
+var updatePlanificacionById = /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator(function* (req, res) {
+    var updateddistributivo = yield _Distributivo.default.findByIdAndUpdate(req.params.distributivoId, req.body, {
+      new: true
+    });
+    res.status(200).json(updateddistributivo);
+  });
+
+  return function updatePlanificacionById(_x17, _x18) {
+    return _ref9.apply(this, arguments);
+  };
+}();
+
+exports.updatePlanificacionById = updatePlanificacionById;
+
 var deleteDistributivoById = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator(function* (req, res) {
+  var _ref10 = _asyncToGenerator(function* (req, res) {
     try {
       var cadenaId = req.params.id;
       var array = cadenaId.split(",");
@@ -153,8 +217,8 @@ var deleteDistributivoById = /*#__PURE__*/function () {
     }
   });
 
-  return function deleteDistributivoById(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function deleteDistributivoById(_x19, _x20) {
+    return _ref10.apply(this, arguments);
   };
 }();
 

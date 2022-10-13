@@ -3,11 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userest = exports.userdev = exports.createAdmin = exports.createRoles = void 0;
+exports.config = exports.userest = exports.userdev = exports.createAdmin = exports.createRoles = void 0;
 
 var _Role = _interopRequireDefault(require("../models/Role"));
 
 var _User = _interopRequireDefault(require("../models/User"));
+
+var _Configure = _interopRequireDefault(require("../models/Configure"));
 
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 
@@ -35,6 +37,12 @@ var createRoles = /*#__PURE__*/function () {
       }).save(), //moderator
       new _Role.default({
         name: "Admin"
+      }).save(), //admin
+      new _Role.default({
+        name: "Vicerrector"
+      }).save(), //admin
+      new _Role.default({
+        name: "Inspector"
       }).save() //admin
       ]);
       console.log(values);
@@ -66,7 +74,6 @@ var createAdmin = /*#__PURE__*/function () {
     if (!user) {
       // create a new admin user
       yield _User.default.create({
-        username: "admin",
         email: "10004095632w@gmail.com",
         password: yield _bcryptjs.default.hash("Medid100.", 10),
         roles: roles.map(role => role._id),
@@ -75,7 +82,7 @@ var createAdmin = /*#__PURE__*/function () {
         apellidos: "Martinez Martinez",
         fullname: "Martinez Martinez Esteban Wladimir",
         cedula: "1004095632",
-        foto: "https://res.cloudinary.com/stebann/image/upload/v1631310792/profile_b9t64l.png",
+        foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665121545/profile_p23jj9.png",
         status: "Activo",
         telefono: "0995283857"
       });
@@ -107,7 +114,7 @@ var userdev = /*#__PURE__*/function () {
         apellidos: faker.name.lastName(),
         status: "1",
         telefono: faker.phone.phoneNumber(),
-        foto: "https://res.cloudinary.com/stebann/image/upload/v1631310792/profile_b9t64l.png",
+        foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665121545/profile_p23jj9.png",
         cedula: faker.finance.routingNumber(),
         typo: "DOCS",
         fullname: faker.name.findName(),
@@ -138,7 +145,7 @@ var userest = /*#__PURE__*/function () {
       }
     });
 
-    for (var i = 0; i < 150; i++) {
+    for (var i = 0; i < 300; i++) {
       yield _User.default.create({
         roles: roles.map(role => role._id),
         username: faker.internet.userName(),
@@ -147,7 +154,7 @@ var userest = /*#__PURE__*/function () {
         apellidos: faker.name.lastName(),
         status: "1",
         telefono: faker.phone.phoneNumber(),
-        foto: "https://res.cloudinary.com/stebann/image/upload/v1631310792/profile_b9t64l.png",
+        foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665121545/profile_p23jj9.png",
         cedula: faker.finance.routingNumber(),
         typo: "ESTS",
         fullname: faker.name.findName(),
@@ -155,8 +162,7 @@ var userest = /*#__PURE__*/function () {
         sexo: "Masculino",
         fketnia: "Mestizo",
         fknacionalidad: "Colombia",
-        fkparroquia: "Monte Olivo",
-        modalidad: "Intensivo"
+        fkparroquia: "Monte Olivo"
       });
     }
 
@@ -169,3 +175,21 @@ var userest = /*#__PURE__*/function () {
 }();
 
 exports.userest = userest;
+
+var config = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator(function* () {
+    yield _Configure.default.create({
+      rector: 'xxxx xxxx xxxx xxxx',
+      vicerector: 'xxxx xxxx xxxx xxxx',
+      secretario: 'xxxx xxxx xxxx xxxx',
+      inspector: 'xxxx xxxx xxxx xxxx'
+    });
+    console.log('config create');
+  });
+
+  return function config() {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+exports.config = config;

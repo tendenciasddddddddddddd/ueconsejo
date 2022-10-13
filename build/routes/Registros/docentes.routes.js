@@ -17,12 +17,12 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 var router = (0, _express.Router)();
 router.get("/buscadordocentes", [_middlewares.authJwt.verifyToken], docCtrl.getBuscadorUsuarios);
-router.get("/newdoc", docCtrl.getListasDocentes);
-router.get("/query", docCtrl.query);
-router.get("/:id", docCtrl.getDocenteById);
+router.get("/newdoc", [_middlewares.authJwt.verifyToken], docCtrl.getListasDocentes);
+router.get("/query", [_middlewares.authJwt.verifyToken], docCtrl.query);
+router.get("/:id", [_middlewares.authJwt.verifyToken], docCtrl.getDocenteById);
 router.get("/", [_middlewares.authJwt.verifyToken], docCtrl.getDocentes);
-router.put("/:usuariosId", docCtrl.updateDocenteById);
-router.delete("/:id", docCtrl.deleteDocenteById);
-router.post("/", [_middlewares.verifySignup.checkDuplicateUsernameOrEmail], docCtrl.createDocentes);
+router.put("/:usuariosId", [_middlewares.authJwt.verifyToken], docCtrl.updateDocenteById);
+router.delete("/:id", [_middlewares.authJwt.verifyToken], docCtrl.deleteDocenteById);
+router.post("/", [_middlewares.verifySignup.checkDuplicateUsernameOrEmail, _middlewares.authJwt.verifyToken], docCtrl.createDocentes);
 var _default = router;
 exports.default = _default;

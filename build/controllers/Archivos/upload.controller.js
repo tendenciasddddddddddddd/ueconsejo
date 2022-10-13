@@ -20,9 +20,9 @@ var fs = require('fs');
 var cloudinary = require('cloudinary');
 
 cloudinary.config({
-  cloud_name: 'stebann',
-  api_key: '271159462412784',
-  api_secret: 'xkvBEQuReYikF7WS-_LMHq-ogWs'
+  cloud_name: 'dvpp07pji',
+  api_key: '752623184829383',
+  api_secret: 'tVPTlqFeV1flLGndxDK-DS9exkw'
 });
 
 var storage = _multer.default.diskStorage({

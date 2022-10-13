@@ -17,13 +17,13 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 var router = (0, _express.Router)();
 router.get("/buscadorestudiantes", [_middlewares.authJwt.verifyToken], estCtrl.getBuscadorUsuarios);
-router.get("/newstud", estCtrl.getListasEstudiantes);
-router.get("/query", estCtrl.query);
-router.get("/:id", estCtrl.getEstudianteById);
+router.get("/newstud", [_middlewares.authJwt.verifyToken], estCtrl.getListasEstudiantes);
+router.get("/query", [_middlewares.authJwt.verifyToken], estCtrl.query);
+router.get("/:id", [_middlewares.authJwt.verifyToken], estCtrl.getEstudianteById);
 router.get("/", [_middlewares.authJwt.verifyToken], estCtrl.getEstudiantes);
-router.put("/:usuariosId", estCtrl.updateEstudianteById);
-router.delete("/:id", estCtrl.deleteEstudianteById);
-router.post("/alumnosMany", estCtrl.createEstudianteMany);
-router.post("/", [_middlewares.verifySignup.checkDuplicateUsernameOrEmail], estCtrl.createEstudiante);
+router.put("/:usuariosId", [_middlewares.authJwt.verifyToken], estCtrl.updateEstudianteById);
+router.delete("/:id", [_middlewares.authJwt.verifyToken], estCtrl.deleteEstudianteById);
+router.post("/alumnosMany", [_middlewares.authJwt.verifyToken], estCtrl.createEstudianteMany);
+router.post("/", [_middlewares.verifySignup.checkDuplicateUsernameOrEmail, _middlewares.authJwt.verifyToken], estCtrl.createEstudiante);
 var _default = router;
 exports.default = _default;

@@ -8,10 +8,6 @@ exports.default = void 0;
 var _mongoose = require("mongoose");
 
 var cantonesSchema = new _mongoose.Schema({
-  nombre: {
-    type: String,
-    required: true
-  },
   fnivel: {
     type: _mongoose.Schema.Types.ObjectId,
     ref: "Nivel"
@@ -25,12 +21,8 @@ var cantonesSchema = new _mongoose.Schema({
     //materia
     ref: "Materia"
   },
-  facademicos: {
-    type: _mongoose.Schema.Types.ObjectId,
-    //periodo
-    ref: "Academicos"
-  },
-  paralelo: String
+  paralelo: String,
+  planificacion: String
 }, {
   timestamps: true,
   versionKey: false

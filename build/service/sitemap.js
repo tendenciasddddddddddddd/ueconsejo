@@ -17,13 +17,13 @@ router.get("/", function (req, res, next) {
     today = today.format("YYYY-MM-DD"); //add site root url
 
     var rootUrl = {};
-    rootUrl.loc = "https://pcei-tulcan.com/";
+    rootUrl.loc = "https://uemah.com/";
     rootUrl.lastmod = today;
     rootUrl.changefreq = "daily";
     rootUrl.priority = "1.0";
     rootUrl["image:image"] = {
-      "image:loc": "https://res.cloudinary.com/stebann/image/upload/v1635615961/LOGO_COLEGIO_bgfeoz.webp",
-      "image:caption": "PCEI-tulcan Unidad Educativa Fiscomisional Mons. Leonidas Proaño"
+      "image:loc": "https://res.cloudinary.com/dvpp07pji/image/upload/v1665609308/alfonso_ufdtpj.jpg",
+      "image:caption": "UEMAH Unidad Educativa del Milenio Alfonso Herrera"
     };
     collection.push(rootUrl); //add recipes urls
 
@@ -58,16 +58,16 @@ function getRecordsFromDataSource() {
   //these records will have our own structure, we return as they are and later we convert them to the xml standard format
   //so let's just define two records hard-coded
   var record1 = {
-    url: "https://pcei-tulcan.com/",
-    description: "Unidad Educativa Monsenor Leonidas Proaño tulcan",
-    featured_image_url: "https://res.cloudinary.com/stebann/image/upload/v1635615961/LOGO_COLEGIO_bgfeoz.webp",
-    updated_at: "2021-08-06"
+    url: "https://uemah.com/",
+    description: "Unidad Educativa del Milenio Alfonso Herrera",
+    featured_image_url: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665609308/alfonso_ufdtpj.jpg",
+    updated_at: "2022-10-12"
   };
   var record2 = {
-    url: "https://pcei-tulcan.com/",
-    description: "Unidad Educativa Fiscomisional Mons. Leonidas Proaño tulcan",
-    featured_image_url: "https://res.cloudinary.com/stebann/image/upload/v1635615961/LOGO_COLEGIO_bgfeoz.webp",
-    updated_at: "2021-08-06"
+    url: "https://uemah.com/",
+    description: "Colegio Alfonso Herrera",
+    featured_image_url: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665609308/alfonso_ufdtpj.jpg",
+    updated_at: "2022-10-12"
   };
   return [record1, record2];
 }

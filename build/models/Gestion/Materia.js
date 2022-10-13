@@ -12,7 +12,7 @@ var nivelSchema = new _mongoose.Schema({
     type: String,
     unique: true
   },
-  descripcion: {
+  area: {
     type: String
   },
   estado: {

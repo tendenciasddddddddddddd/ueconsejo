@@ -38,6 +38,7 @@ var nivelSchema = new _mongoose.Schema({
     finicio: String,
     ffin: String,
     estado: String,
+    fechad: String,
     entrega: [{
       idUser: {
         type: _mongoose.Schema.Types.ObjectId,
@@ -45,7 +46,32 @@ var nivelSchema = new _mongoose.Schema({
       },
       link: String,
       nota: String,
-      observar: String
+      observar: String,
+      comentario: String
+    }]
+  }],
+  examen: [{
+    nombre: String,
+    descripcion: String,
+    startDate: String,
+    endDate: String,
+    time: String,
+    createQuizz: String,
+    randomize: Number,
+    // para preguntas aleatorias
+    intenAllowed: Number,
+    security: String,
+    check: Number,
+    surveys: [{
+      question: String,
+      options: [{}],
+      reqq: [],
+      tipo: Number
+    }],
+    answers: [{
+      idUser: String,
+      responses: [{}],
+      puntage: String
     }]
   }]
 }, {

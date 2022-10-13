@@ -141,7 +141,7 @@ var getRoles = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
     var roless = yield _Role.default.find({
       name: {
-        $in: ["Admin"]
+        $in: ["Admin", "Vicerrector", "Inspector"]
       }
     });
     return res.json(roless);

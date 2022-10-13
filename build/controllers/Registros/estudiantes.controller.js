@@ -82,13 +82,9 @@ exports.getBuscadorUsuarios = getBuscadorUsuarios;
 
 var getListasEstudiantes = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var modalidad = req.query.mod;
     var products = yield _User.default.find({
       typo: {
         $in: ["ESTS"]
-      },
-      modalidad: {
-        $in: [modalidad]
       }
     }).lean().select({
       fullname: 1,
@@ -182,7 +178,6 @@ var createEstudiante = /*#__PURE__*/function () {
         cedula,
         foto,
         typo,
-        modalidad,
         fullname,
         sexo,
         fketnia,
@@ -200,7 +195,6 @@ var createEstudiante = /*#__PURE__*/function () {
         foto,
         cedula,
         typo,
-        modalidad,
         fullname,
         password: yield _User.default.encryptPassword(password),
         sexo,
@@ -232,23 +226,22 @@ exports.createEstudiante = createEstudiante;
 
 var createEstudianteMany = /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator(function* (req, res) {
+    var roles = req.query.role;
+
     try {
       var array = req.body;
       var docs = [];
       var duplicados = [];
       var role = yield _Role.default.findOne({
-        name: "Estudiante"
+        name: roles
       });
 
       for (var i = 0; i < array.length; i++) {
         var ifemail = yield _User.default.findOne({
           email: array[i].email
         });
-        var ifuser = yield _User.default.findOne({
-          cedula: req.body.cedula
-        });
 
-        if (ifemail || ifuser) {
+        if (ifemail) {
           duplicados.push(array[i]);
         } else {
           array[i].password = yield _User.default.encryptPassword(array[i].password);
@@ -259,7 +252,7 @@ var createEstudianteMany = /*#__PURE__*/function () {
 
       if (docs) {
         var options = {
-          ordered: true
+          ordered: false
         };
         yield _User.default.insertMany(docs, options);
       }
@@ -268,6 +261,7 @@ var createEstudianteMany = /*#__PURE__*/function () {
         duplicados
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         message: 'Problem'
       });

@@ -11,7 +11,7 @@ var _dotenv = require("dotenv");
 //mongodb://localhost/apicompany
 
 var _default = {
-  MONGODB_URI: process.env.MONGODB_URI || "mongodb://localhost/apicompany",
+  MONGODB_URI: process.env.MONGODB_URI || "mongodb://localhost/sistemaedu-db",
   PORT: process.env.PORT || 3000,
   SECRET: 'imperio789'
 };

@@ -16,10 +16,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var productSchema = new _mongoose.Schema({
-  username: {
-    type: String,
-    unique: true
-  },
   email: {
     type: String,
     unique: true
@@ -39,7 +35,7 @@ var productSchema = new _mongoose.Schema({
   },
   cedula: {
     type: String,
-    unique: true
+    required: true
   },
   foto: {
     type: String,
@@ -62,21 +58,9 @@ var productSchema = new _mongoose.Schema({
   sexo: String,
   fketnia: String,
   fknacionalidad: String,
-
-  /* telefonofijo: String, */
   fkparroquia: String,
   modalidad: String,
-
-  /*    calles: String,
-     referencia: String,
-     modalidad: String,
-     codigo: String,
-     numeric: String,
-     nombrec: String,
-     edad: String, */
-  //---------------TIPO docentes
   titulo: String,
-  //---------------TIPO MAS DATOS
   roles: [{
     type: _mongoose.Schema.Types.ObjectId,
     ref: "Role"

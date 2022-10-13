@@ -62,7 +62,8 @@ var getAulasVirtuales = /*#__PURE__*/function () {
     }).lean().select({
       nombre: 1,
       materia: 1,
-      icono: 1
+      icono: 1,
+      fecha: 1
     });
     return res.json(matriculas);
   });
@@ -148,17 +149,14 @@ exports.getAulassById = getAulassById;
 
 var getAllAulasEstu = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var modalidad = req.query.id;
-    var matriculas = yield _Aulavirtual.default.find({
-      icono: {
-        $in: [modalidad]
-      }
-    }).lean().select({
+    var matriculas = yield _Aulavirtual.default.find().lean().select({
       nombre: 1,
       materia: 1,
       doc: 1,
       codigo: 1,
-      estudiantes: 1
+      estudiantes: 1,
+      icono: 1,
+      fecha: 1
     });
     return res.json(matriculas);
   });

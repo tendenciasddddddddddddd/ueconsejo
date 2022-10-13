@@ -19,8 +19,7 @@ var createPeriodo = /*#__PURE__*/function () {
       nombre,
       estado,
       inicia,
-      finaliza,
-      typo
+      finaliza
     } = req.body;
 
     try {
@@ -28,8 +27,7 @@ var createPeriodo = /*#__PURE__*/function () {
         nombre,
         inicia,
         finaliza,
-        estado,
-        typo
+        estado
       });
       var PeriodoSaved = yield newPeriodo.save();
       res.status(201).json(PeriodoSaved);

@@ -16,12 +16,12 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 var router = (0, _express.Router)();
-router.post("/", provinciasCtrl.createProvincias);
-router.get("/query", provinciasCtrl.query);
-router.get("/", provinciasCtrl.getProvincias);
-router.get("/:provinciasId", provinciasCtrl.getProvinciasById);
-router.put("/:provinciasId", provinciasCtrl.updateProvinciasById);
-router.delete("/:id", provinciasCtrl.deleteProvinciasById);
-router.put('/activate/:id', provinciasCtrl.activate);
+router.post("/", [_middlewares.authJwt.verifyToken], provinciasCtrl.createProvincias);
+router.get("/query", [_middlewares.authJwt.verifyToken], provinciasCtrl.query);
+router.get("/", [_middlewares.authJwt.verifyToken], provinciasCtrl.getProvincias);
+router.get("/:provinciasId", [_middlewares.authJwt.verifyToken], provinciasCtrl.getProvinciasById);
+router.put("/:provinciasId", [_middlewares.authJwt.verifyToken], provinciasCtrl.updateProvinciasById);
+router.delete("/:id", [_middlewares.authJwt.verifyToken], provinciasCtrl.deleteProvinciasById);
+router.put('/activate/:id', [_middlewares.authJwt.verifyToken], provinciasCtrl.activate);
 var _default = router;
 exports.default = _default;

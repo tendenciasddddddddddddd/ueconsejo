@@ -8,11 +8,14 @@ exports.default = void 0;
 var _mongoose = require("mongoose");
 
 var nivelSchema = new _mongoose.Schema({
+  num: {
+    type: String,
+    required: true
+  },
   nombre: {
     type: String,
     required: true
   },
-  modalidad: String,
   estado: {
     type: String,
     default: 1

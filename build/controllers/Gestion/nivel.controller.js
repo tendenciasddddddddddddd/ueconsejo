@@ -18,13 +18,13 @@ var _default = {
     var _createNivel = _asyncToGenerator(function* (req, res) {
       var {
         nombre,
-        modalidad
+        num
       } = req.body;
 
       try {
         var newNiveles = new _Nivel.default({
           nombre,
-          modalidad
+          num
         });
         var NivelesSaved = yield newNiveles.save();
         res.status(201).json(NivelesSaved);
@@ -65,8 +65,8 @@ var _default = {
   getListasNiveles: function () {
     var _getListasNiveles = _asyncToGenerator(function* (req, res) {
       var products = yield _Nivel.default.find().lean().select({
-        modalidad: 1,
-        nombre: 1
+        nombre: 1,
+        num: 1
       });
       return res.json(products);
     });

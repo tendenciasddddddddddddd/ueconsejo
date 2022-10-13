@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _express = require("express");
 
-var distributivoCtrl = _interopRequireWildcard(require("../../controllers/Gestion/distributivo.controller"));
+var Ctr = _interopRequireWildcard(require("../../controllers/Gestion/distributivo.controller"));
 
 var _middlewares = require("../../middlewares");
 
@@ -21,11 +21,15 @@ var {
   cacheInit
 } = require("../../middlewares/cache");
 
-router.get("/nuedist", cacheInit, distributivoCtrl.getInfoDistributivo);
-router.get("/:distributivoId", distributivoCtrl.getDistributivoById);
-router.post("/", distributivoCtrl.createDistributivo);
-router.get("/", distributivoCtrl.getDistributivo);
-router.put("/:distributivoId", distributivoCtrl.updateDistributivoById);
-router.delete("/:id", distributivoCtrl.deleteDistributivoById);
+router.get("/nuedist", [_middlewares.authJwt.verifyToken], Ctr.getInfoDistributivo);
+router.get("/fulldistributivo", [_middlewares.authJwt.verifyToken], Ctr.getAllDistributivo);
+router.get("/planificacio/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.getPlanificacionById);
+router.get("/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.getDistributivoById);
+router.post("/many/", [_middlewares.authJwt.verifyToken], Ctr.createArrayDistributivo);
+router.post("/", [_middlewares.authJwt.verifyToken], Ctr.createDistributivo);
+router.get("/", [_middlewares.authJwt.verifyToken], Ctr.getDistributivo);
+router.put("/planificacion/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.updatePlanificacionById);
+router.put("/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.updateDistributivoById);
+router.delete("/:id", [_middlewares.authJwt.verifyToken], Ctr.deleteDistributivoById);
 var _default = router;
 exports.default = _default;

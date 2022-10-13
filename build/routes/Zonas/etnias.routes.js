@@ -16,12 +16,12 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 var router = (0, _express.Router)();
-router.get("/childEtnia", etniasCtrl.getChildEtnia);
-router.get("/:etniasId", etniasCtrl.getEtniasById);
-router.get("/", etniasCtrl.getEtnias);
-router.post("/", etniasCtrl.createEtnias);
-router.put("/:etniasId", etniasCtrl.updateEtniasById);
-router.delete("/:id", etniasCtrl.deleteEtniasById);
-router.put('/activate/:id', etniasCtrl.activate);
+router.get("/childEtnia", [_middlewares.authJwt.verifyToken], etniasCtrl.getChildEtnia);
+router.get("/:etniasId", [_middlewares.authJwt.verifyToken], etniasCtrl.getEtniasById);
+router.get("/", [_middlewares.authJwt.verifyToken], etniasCtrl.getEtnias);
+router.post("/", [_middlewares.authJwt.verifyToken], etniasCtrl.createEtnias);
+router.put("/:etniasId", [_middlewares.authJwt.verifyToken], etniasCtrl.updateEtniasById);
+router.delete("/:id", [_middlewares.authJwt.verifyToken], etniasCtrl.deleteEtniasById);
+router.put('/activate/:id', [_middlewares.authJwt.verifyToken], etniasCtrl.activate);
 var _default = router;
 exports.default = _default;

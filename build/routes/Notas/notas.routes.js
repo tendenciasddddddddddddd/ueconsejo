@@ -28,7 +28,9 @@ router.put("/ref2/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.c
 
 router.put("/ref3/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.createNotaArbol3ById); //CONFIRMAR LAS NORAS DE ESTUDIANTES //createFullNote
 
-router.put("/createfullnote/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.createFullNote);
+router.put("/createfullnote/:matriculaId", matriCtrl.createFullNote);
+router.put("/createSupletorios/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.createFullSupletorios);
+router.put("/createComportamiento/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.createFullComportamiento);
 router.put("/deleteallnote/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.deleteNoteById);
 router.put("/confirmfullnote/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.confirmFullNoteById);
 var _default = router;

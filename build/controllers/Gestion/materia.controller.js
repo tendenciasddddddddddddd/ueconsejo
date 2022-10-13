@@ -18,16 +18,14 @@ var createMateria = /*#__PURE__*/function () {
     var {
       nombre,
       estado,
-      icono,
-      descripcion
+      area
     } = req.body;
 
     try {
       var newMateria = new _Materia.default({
         nombre,
-        icono,
-        descripcion,
-        estado
+        estado,
+        area
       });
       var MateriaSaved = yield newMateria.save();
       res.status(201).json(MateriaSaved);

@@ -14,12 +14,12 @@ var _middlewares = require("../../middlewares");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _express.Router)();
-router.get("/level", _nivel.default.getListasNiveles);
-router.get("/:id", _nivel.default.getNivelById);
-router.get("/", _nivel.default.getNivel);
-router.put("/:nivelId", _nivel.default.updateNivelById);
-router.delete("/:id", _nivel.default.deleteNivelById);
-router.post("/", _nivel.default.createNivel);
-router.put('/activate/:id', _nivel.default.activate);
+router.get("/level", [_middlewares.authJwt.verifyToken], _nivel.default.getListasNiveles);
+router.get("/:id", [_middlewares.authJwt.verifyToken], _nivel.default.getNivelById);
+router.get("/", [_middlewares.authJwt.verifyToken], _nivel.default.getNivel);
+router.put("/:nivelId", [_middlewares.authJwt.verifyToken], _nivel.default.updateNivelById);
+router.delete("/:id", [_middlewares.authJwt.verifyToken], _nivel.default.deleteNivelById);
+router.post("/", [_middlewares.authJwt.verifyToken], _nivel.default.createNivel);
+router.put('/activate/:id', [_middlewares.authJwt.verifyToken], _nivel.default.activate);
 var _default = router;
 exports.default = _default;

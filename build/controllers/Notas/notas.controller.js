@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.confirmFullNoteById = exports.deleteNoteById = exports.createFullNote = exports.createNotaArbol3ById = exports.createNotaArbol2ById = exports.createNotaArbol1ById = exports.getMatriculasNotaById = exports.getMatriculaAsistencia = exports.getMatriculaNota = void 0;
+exports.confirmFullNoteById = exports.deleteNoteById = exports.createFullComportamiento = exports.createFullSupletorios = exports.createFullNote = exports.createNotaArbol3ById = exports.createNotaArbol2ById = exports.createNotaArbol1ById = exports.getMatriculasNotaById = exports.getMatriculaAsistencia = exports.getMatriculaNota = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
@@ -24,11 +24,7 @@ var getMatriculaNota = /*#__PURE__*/function () {
     }, {
       'curso': 1,
       'nombre': 1,
-      'calificaciones.materia': 1,
-      'calificaciones.notas.promedio': 1,
-      'calificaciones.notas.quimestre': 1,
-      'calificaciones.promediof': 1,
-      'calificaciones._id': 1
+      'calificaciones': 1
     }) //aqui se produjo el error de 
     .lean();
     return res.json(distributivo);
@@ -72,7 +68,7 @@ var getMatriculasNotaById = /*#__PURE__*/function () {
       } = req.params;
       var matricula = yield _Matriculas.default.findOne({
         fkestudiante: matriculaId
-      }).populate('fknivel', 'nombres').populate('academico', 'nombre');
+      }).populate('fknivel', 'nombre').populate('academico', 'nombre');
       res.status(200).json(matricula);
     } catch (error) {
       res.status(500).json({
@@ -184,18 +180,13 @@ var createFullNote = /*#__PURE__*/function () {
       var array = req.body;
 
       for (var i = 0; i < array.length; i++) {
-        var model = {
-          quimestre: array[i].quimestre,
-          promedio: array[i].promedio,
-          arraysNote: array[i].arraysNote,
-          examen: array[i].examen
-        };
         yield _Matriculas.default.updateOne({
           _id: array[i].id,
           'calificaciones._id': array[i].fora
         }, {
-          $push: {
-            'calificaciones.$.notas': model
+          $set: {
+            'calificaciones.$.notas': array[i].notas,
+            'calificaciones.$.promediof': array[i].promediof
           }
         }, {
           new: true
@@ -204,6 +195,7 @@ var createFullNote = /*#__PURE__*/function () {
 
       res.status(200).json('crearnote');
     } catch (e) {
+      console.log(e);
       res.status(500).json({
         message: "No mat found"
       });
@@ -213,13 +205,85 @@ var createFullNote = /*#__PURE__*/function () {
   return function createFullNote(_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
-}(); //------------------------------------- ELIMINAR NOTAS [DOCENTE, ]
+}(); //----------------CGRABAR NOTAS DE FORMA MASIVA [DOCENTES, ] PARA SUPLETORIOS
 
 
 exports.createFullNote = createFullNote;
 
-var deleteNoteById = /*#__PURE__*/function () {
+var createFullSupletorios = /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator(function* (req, res) {
+    try {
+      var array = req.body;
+
+      for (var i = 0; i < array.length; i++) {
+        yield _Matriculas.default.updateOne({
+          _id: array[i].id,
+          'calificaciones._id': array[i].fora
+        }, {
+          $set: {
+            'calificaciones.$.suple': array[i].suple,
+            'calificaciones.$.reme': array[i].reme,
+            'calificaciones.$.gracia': array[i].gracia,
+            'calificaciones.$.pfinal': array[i].pfinal
+          }
+        }, {
+          new: true
+        });
+      }
+
+      res.status(200).json('crearnote');
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({
+        message: "No mat found"
+      });
+    }
+  });
+
+  return function createFullSupletorios(_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+
+exports.createFullSupletorios = createFullSupletorios;
+
+var createFullComportamiento = /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator(function* (req, res) {
+    try {
+      var array = req.body;
+
+      for (var i = 0; i < array.length; i++) {
+        yield _Matriculas.default.updateOne({
+          _id: array[i].id,
+          'calificaciones._id': array[i].fora
+        }, {
+          $set: {
+            'calificaciones.$.comportamiento': array[i].comportamiento
+          }
+        }, {
+          new: true
+        });
+      }
+
+      res.status(200).json('crearnote');
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({
+        message: "No mat found"
+      });
+    }
+  });
+
+  return function createFullComportamiento(_x17, _x18) {
+    return _ref9.apply(this, arguments);
+  };
+}(); //------------------------------------- ELIMINAR NOTAS [DOCENTE, ]
+
+
+exports.createFullComportamiento = createFullComportamiento;
+
+var deleteNoteById = /*#__PURE__*/function () {
+  var _ref10 = _asyncToGenerator(function* (req, res) {
     try {
       var array = req.body;
 
@@ -245,8 +309,8 @@ var deleteNoteById = /*#__PURE__*/function () {
     }
   });
 
-  return function deleteNoteById(_x15, _x16) {
-    return _ref8.apply(this, arguments);
+  return function deleteNoteById(_x19, _x20) {
+    return _ref10.apply(this, arguments);
   };
 }(); //------------------------------------CONFIRMAR NOTAS [DOCENTE, ]
 
@@ -254,7 +318,7 @@ var deleteNoteById = /*#__PURE__*/function () {
 exports.deleteNoteById = deleteNoteById;
 
 var confirmFullNoteById = /*#__PURE__*/function () {
-  var _ref9 = _asyncToGenerator(function* (req, res) {
+  var _ref11 = _asyncToGenerator(function* (req, res) {
     try {
       var array = req.body;
 
@@ -284,8 +348,8 @@ var confirmFullNoteById = /*#__PURE__*/function () {
     }
   });
 
-  return function confirmFullNoteById(_x17, _x18) {
-    return _ref9.apply(this, arguments);
+  return function confirmFullNoteById(_x21, _x22) {
+    return _ref11.apply(this, arguments);
   };
 }();
 

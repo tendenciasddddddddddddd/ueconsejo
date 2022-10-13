@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteTaskById = exports.createTaskArbol2ById = exports.reviewTaskById = exports.calificarTaskById = exports.editTaskById = exports.createTaskById = void 0;
+exports.updateCodigoCourse = exports.deleteTaskById = exports.updateTaskSend = exports.createTaskArbol2ById = exports.reviewTaskById = exports.calificarTaskById = exports.editTaskById = exports.createTaskById = void 0;
 
 var _Aulavirtual = _interopRequireDefault(require("../../models/aulavirtual/Aulavirtual"));
 
@@ -13,10 +13,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var mongoose = require("mongoose");
-
-var ObjectId = mongoose.Schema.Types.ObjectId; //----------------------------------------------------CREAR UNA NUEVA TAREA [DOCENTES, ]
-
+//----------------------------------------------------CREAR UNA NUEVA TAREA [DOCENTES, ]
 var createTaskById = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
     try {
@@ -52,6 +49,9 @@ var editTaskById = /*#__PURE__*/function () {
           _id: array[0]
         }, {
           $set: {
+            "task.$[perf].nombre": req.body.task.nombre,
+            "task.$[perf].descripcion": req.body.task.descripcion,
+            "task.$[perf].archivo": req.body.task.archivo,
             "task.$[perf].finicio": req.body.task.finicio
           }
         }, {
@@ -91,7 +91,8 @@ var calificarTaskById = /*#__PURE__*/function () {
           _id: array[0]
         }, {
           $set: {
-            "task.$[perf].entrega.$[est].nota": req.body.nota
+            "task.$[perf].entrega.$[est].nota": req.body.nota,
+            "task.$[perf].entrega.$[est].observar": req.body.observar
           }
         }, {
           arrayFilters: [{
@@ -110,7 +111,6 @@ var calificarTaskById = /*#__PURE__*/function () {
         res.status(200).json("req.params.aulaId");
       }
     } catch (e) {
-      console.log(e);
       res.status(500).json("error del servidor");
     }
   });
@@ -169,14 +169,13 @@ var createTaskArbol2ById = /*#__PURE__*/function () {
         "task._id": req.params.taskId
       }, {
         $push: {
-          "task.$.entrega": req.body.task.entrega
+          "task.$.entrega": req.body
         }
       }, {
         new: true
       });
       res.status(200).json("crearnote");
     } catch (e) {
-      console.log(e);
       res.status(500).json({
         message: "No mat found"
       });
@@ -186,13 +185,57 @@ var createTaskArbol2ById = /*#__PURE__*/function () {
   return function createTaskArbol2ById(_x9, _x10) {
     return _ref5.apply(this, arguments);
   };
-}(); //------------------------------------- ELIMINAR TAREAS [DOCENTE, ]
+}(); //----EDITAMOS LA ENTREGA DE TAREAS POR PARTE DE OS ESTUDIANTES
 
 
 exports.createTaskArbol2ById = createTaskArbol2ById;
 
-var deleteTaskById = /*#__PURE__*/function () {
+var updateTaskSend = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
+    try {
+      var cadenaId = req.params.taskId;
+      var array = cadenaId.split(",");
+
+      if (array) {
+        yield _Aulavirtual.default.updateOne({
+          _id: array[0]
+        }, {
+          $set: {
+            "task.$[perf].entrega.$[est].link": req.body.link,
+            "task.$[perf].entrega.$[est].comentario": req.body.comentario
+          }
+        }, {
+          arrayFilters: [{
+            "perf._id": {
+              $eq: array[1]
+            }
+          }, {
+            "est._id": {
+              $eq: array[2]
+            }
+          }],
+          new: true
+        });
+        res.status(200).json("req.params.aulaId");
+      } else {
+        res.status(200).json("req.params.aulaId");
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(500).json("error del servidor");
+    }
+  });
+
+  return function updateTaskSend(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}(); //------------------------------------- ELIMINAR TAREAS [DOCENTE, ]
+
+
+exports.updateTaskSend = updateTaskSend;
+
+var deleteTaskById = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
     try {
       var cadenaId = req.body;
       yield _Aulavirtual.default.updateOne({
@@ -214,9 +257,24 @@ var deleteTaskById = /*#__PURE__*/function () {
     }
   });
 
-  return function deleteTaskById(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function deleteTaskById(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
 exports.deleteTaskById = deleteTaskById;
+
+var updateCodigoCourse = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator(function* (req, res) {
+    var updatedProduct = yield _Aulavirtual.default.findByIdAndUpdate(req.params.aulaId, req.body, {
+      new: true
+    });
+    res.status(200).json(updatedProduct);
+  });
+
+  return function updateCodigoCourse(_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+
+exports.updateCodigoCourse = updateCodigoCourse;

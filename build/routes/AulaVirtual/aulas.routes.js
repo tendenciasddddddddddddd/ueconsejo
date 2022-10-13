@@ -22,13 +22,12 @@ var {
 } = require("../../middlewares/cache");
 
 router.get("/studen", [_middlewares.authJwt.verifyToken], aulaCtrl.getAllAulasEstu);
-router.get("/newlist", [_middlewares.authJwt.verifyToken], aulaCtrl.getAulasVirtuales); //router.get("/", aulaCtrl.createAulasVirtuales);
-
-router.get("/mainlist/:aulaId", aulaCtrl.getAulasMainById);
-router.get("/:aulaId", aulaCtrl.getAulassById);
+router.get("/newlist", [_middlewares.authJwt.verifyToken], aulaCtrl.getAulasVirtuales);
+router.get("/mainlist/:aulaId", [_middlewares.authJwt.verifyToken], aulaCtrl.getAulasMainById);
+router.get("/:aulaId", [_middlewares.authJwt.verifyToken], aulaCtrl.getAulassById);
 router.post("/", [_middlewares.authJwt.verifyToken], aulaCtrl.createAulasVirtuales);
 router.delete("/:aulaId", [_middlewares.authJwt.verifyToken], aulaCtrl.deleteAulaById);
-router.put("/users/:taskId", aulaCtrl.deleteUserById);
-router.put("/:aulaId", aulaCtrl.createAulaById);
+router.put("/users/:taskId", [_middlewares.authJwt.verifyToken], aulaCtrl.deleteUserById);
+router.put("/:aulaId", [_middlewares.authJwt.verifyToken], aulaCtrl.createAulaById);
 var _default = router;
 exports.default = _default;
