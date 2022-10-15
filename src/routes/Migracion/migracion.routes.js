@@ -17,4 +17,6 @@ router.post("/matricula",[authJwt.verifyToken], migracionCtrl.createMigracionMat
 
 router.delete("/matricula",[authJwt.verifyToken], migracionCtrl.deleteMatriculasMany);
 
+router.delete("/:id",[authJwt.verifyToken], migracionCtrl.deleteMigracionesById);
+
 export default router;

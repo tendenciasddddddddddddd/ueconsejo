@@ -17,22 +17,17 @@ var createPeriodo = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
     var {
       nombre,
-      estado,
-      inicia,
-      finaliza
+      estado
     } = req.body;
 
     try {
       var newPeriodo = new _Academicos.default({
         nombre,
-        inicia,
-        finaliza,
         estado
       });
       var PeriodoSaved = yield newPeriodo.save();
       res.status(201).json(PeriodoSaved);
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   });
@@ -87,11 +82,15 @@ exports.getAllPeriodo = getAllPeriodo;
 
 var getPeriodoById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    var {
-      periodoId
-    } = req.params;
-    var niveles = yield _Academicos.default.findById(periodoId);
-    res.status(200).json(niveles);
+    try {
+      var {
+        periodoId
+      } = req.params;
+      var niveles = yield _Academicos.default.findById(periodoId);
+      res.status(200).json(niveles);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getPeriodoById(_x7, _x8) {
@@ -103,10 +102,14 @@ exports.getPeriodoById = getPeriodoById;
 
 var updatePeriodoById = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator(function* (req, res) {
-    var updatedMateria = yield _Academicos.default.findByIdAndUpdate(req.params.periodoId, req.body, {
-      new: true
-    });
-    res.status(200).json(updatedMateria);
+    try {
+      var updatedMateria = yield _Academicos.default.findByIdAndUpdate(req.params.periodoId, req.body, {
+        new: true
+      });
+      res.status(200).json(updatedMateria);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function updatePeriodoById(_x9, _x10) {
@@ -140,23 +143,25 @@ var deletePeriodoById = /*#__PURE__*/function () {
 exports.deletePeriodoById = deletePeriodoById;
 
 var activate = /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator(function* (req, res, next) {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
     try {
+      yield _Academicos.default.updateMany({}, {
+        $set: {
+          estado: 0
+        }
+      });
       var reg = yield _Academicos.default.findByIdAndUpdate({
         _id: req.params.id
       }, {
-        estado: req.query.state
+        estado: 1
       });
       res.status(200).json(reg);
     } catch (e) {
-      res.status(500).send({
-        message: "Ocurrió un error"
-      });
-      next(e);
+      return res.status(500).json();
     }
   });
 
-  return function activate(_x13, _x14, _x15) {
+  return function activate(_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
 }();

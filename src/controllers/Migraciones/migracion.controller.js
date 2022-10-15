@@ -14,7 +14,21 @@ export const createMigracionMatricula = async (req,res)=>{
     });
     return res.json('Hecho');
 }
-
+//-----------------------------------------------------------ELIMINAR MATRICULA CON MULTIPLES
+export const deleteMigracionesById = async (req, res) => {
+  try {
+    let cadenaId = req.params.id;
+    const array = cadenaId.split(",");
+    await MigracionMatricula.deleteMany({
+      _id: {
+        $in: array,
+      },
+    });
+    res.status(200).json();
+  } catch (e) {
+    return res.status(500).json();
+  }
+};
 //-------------------ELIMINAMOS LOS DATOS DE LA TABLA MATRICULA---------------------------
 
 export const deleteMatriculasMany = async (req,res)=>{

@@ -1,20 +1,15 @@
 import Academicos from "../../models/Matricula/Academicos";
 
 export const createPeriodo = async (req,res)=>{
-    const { nombre,estado,inicia, finaliza} = req.body;
+    const { nombre,estado} = req.body;
     try {
         const newPeriodo = new Academicos({
           nombre,
-          inicia,
-          finaliza,
           estado,
         });
-    
         const PeriodoSaved = await newPeriodo.save();
-    
         res.status(201).json(PeriodoSaved);
       } catch (error) {
-        console.log(error);
         return res.status(500).json(error);
       }
 }
@@ -46,22 +41,29 @@ export const getAllPeriodo = async (req,res)=>{
 
 
 export const getPeriodoById = async (req,res)=>{
+  try {
     const { periodoId } = req.params;
-
-  const niveles = await Academicos.findById(periodoId);
-  res.status(200).json(niveles);
-    
+    const niveles = await Academicos.findById(periodoId);
+    res.status(200).json(niveles);
+  } catch (error) {
+    return res.status(500).json(error);
+  }   
 }
 
 export const updatePeriodoById = async (req,res)=>{
+   try {
     const updatedMateria = await Academicos.findByIdAndUpdate(
-        req.params.periodoId,
-        req.body,
-        {
-          new: true,
-        }
-      );
-      res.status(200).json(updatedMateria);
+      req.params.periodoId,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(updatedMateria);
+   } catch (error) {
+    return res.status(500).json(error);
+   }
+   
 }
 
 export const deletePeriodoById = async (req,res)=>{
@@ -79,17 +81,15 @@ export const deletePeriodoById = async (req,res)=>{
   }
 }
 
-export const activate = async (req, res, next) => {
+export const activate = async (req, res) => {
   try {
+    await Academicos.updateMany({}, { $set: {estado: 0}}) 
     const reg = await Academicos.findByIdAndUpdate(
       { _id: req.params.id },
-      { estado: req.query.state }
+      { estado: 1 }
     );
     res.status(200).json(reg);
   } catch (e) {
-    res.status(500).send({
-      message: "Ocurrió un error",
-    });
-    next(e);
+    return res.status(500).json();
   }
 }

@@ -76,7 +76,7 @@ var app = (0, _express.default)(); //createRoles();
 //config();
 
 var corsOptions = {
-  origin: ['https://plataforma-uemah.netlify.app', 'http://localhost:8080'],
+  origin: '*',
   // http://localhost:8080
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 

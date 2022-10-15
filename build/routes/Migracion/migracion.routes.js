@@ -22,5 +22,6 @@ router.get("/clon", [_middlewares.authJwt.verifyToken], migracionCtrl.getByIdOfP
 router.get("/", [_middlewares.authJwt.verifyToken], migracionCtrl.getQueryAll);
 router.post("/matricula", [_middlewares.authJwt.verifyToken], migracionCtrl.createMigracionMatricula);
 router.delete("/matricula", [_middlewares.authJwt.verifyToken], migracionCtrl.deleteMatriculasMany);
+router.delete("/:id", [_middlewares.authJwt.verifyToken], migracionCtrl.deleteMigracionesById);
 var _default = router;
 exports.default = _default;

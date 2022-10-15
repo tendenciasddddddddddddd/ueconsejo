@@ -12,8 +12,6 @@ var nivelSchema = new _mongoose.Schema({
     type: String,
     unique: true
   },
-  inicia: String,
-  finaliza: String,
   estado: {
     type: String,
     default: 1

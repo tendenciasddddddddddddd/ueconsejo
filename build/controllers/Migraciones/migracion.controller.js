@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getByIdOfPeriodo = exports.getByIdOfCourseAndPeriod = exports.query = exports.getQueryAll = exports.deleteMatriculasMany = exports.createMigracionMatricula = void 0;
+exports.getByIdOfPeriodo = exports.getByIdOfCourseAndPeriod = exports.query = exports.getQueryAll = exports.deleteMatriculasMany = exports.deleteMigracionesById = exports.createMigracionMatricula = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
@@ -32,13 +32,37 @@ var createMigracionMatricula = /*#__PURE__*/function () {
   return function createMigracionMatricula(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}(); //-------------------ELIMINAMOS LOS DATOS DE LA TABLA MATRICULA---------------------------
+}(); //-----------------------------------------------------------ELIMINAR MATRICULA CON MULTIPLES
 
 
 exports.createMigracionMatricula = createMigracionMatricula;
 
-var deleteMatriculasMany = /*#__PURE__*/function () {
+var deleteMigracionesById = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
+    try {
+      var cadenaId = req.params.id;
+      var array = cadenaId.split(",");
+      yield _MigracionMatricula.default.deleteMany({
+        _id: {
+          $in: array
+        }
+      });
+      res.status(200).json();
+    } catch (e) {
+      return res.status(500).json();
+    }
+  });
+
+  return function deleteMigracionesById(_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}(); //-------------------ELIMINAMOS LOS DATOS DE LA TABLA MATRICULA---------------------------
+
+
+exports.deleteMigracionesById = deleteMigracionesById;
+
+var deleteMatriculasMany = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* (req, res) {
     try {
       yield _Matriculas.default.deleteMany();
       res.status(200).json();
@@ -47,15 +71,15 @@ var deleteMatriculasMany = /*#__PURE__*/function () {
     }
   });
 
-  return function deleteMatriculasMany(_x3, _x4) {
-    return _ref2.apply(this, arguments);
+  return function deleteMatriculasMany(_x5, _x6) {
+    return _ref3.apply(this, arguments);
   };
 }();
 
 exports.deleteMatriculasMany = deleteMatriculasMany;
 
 var getQueryAll = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator(function* (req, res) {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
     var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
 
     var skip = parseInt(req.query.page);
@@ -71,8 +95,8 @@ var getQueryAll = /*#__PURE__*/function () {
     return res.json(coleccion);
   });
 
-  return function getQueryAll(_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function getQueryAll(_x7, _x8) {
+    return _ref4.apply(this, arguments);
   };
 }(); //--CONSULTAMOS POR NOMBRE LAS MATRICULAS DE HISTORY
 
@@ -80,7 +104,7 @@ var getQueryAll = /*#__PURE__*/function () {
 exports.getQueryAll = getQueryAll;
 
 var query = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator(function* (req, res) {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
     try {
       var querys = req.query.querys;
       var result = yield _MigracionMatricula.default.find({
@@ -97,15 +121,15 @@ var query = /*#__PURE__*/function () {
     }
   });
 
-  return function query(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function query(_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
 }();
 
 exports.query = query;
 
 var getByIdOfCourseAndPeriod = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator(function* (req, res) {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
     //RESUELVE LOS REPORTES
     var periodoId = req.query.periodoId;
     var courseId = req.query.courseId;
@@ -120,15 +144,15 @@ var getByIdOfCourseAndPeriod = /*#__PURE__*/function () {
     return res.json(matriculas);
   });
 
-  return function getByIdOfCourseAndPeriod(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function getByIdOfCourseAndPeriod(_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }();
 
 exports.getByIdOfCourseAndPeriod = getByIdOfCourseAndPeriod;
 
 var getByIdOfPeriodo = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator(function* (req, res) {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
     //RESUELVE LOS REPORTES
     var periodoId = req.query.periodoId;
     var matriculas = yield _MigracionMatricula.default.find({
@@ -139,8 +163,8 @@ var getByIdOfPeriodo = /*#__PURE__*/function () {
     return res.json(matriculas);
   });
 
-  return function getByIdOfPeriodo(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function getByIdOfPeriodo(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
