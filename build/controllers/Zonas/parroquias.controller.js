@@ -45,21 +45,24 @@ exports.createParroquias = createParroquias;
 
 var getParroquias = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-    var skip = parseInt(req.query.page);
-    var total = yield _Parroquias.default.countDocuments();
-    var paginas = Math.ceil(total / limit);
-    var usuarios = yield _Parroquias.default.find({}).skip(limit * skip - limit).limit(limit).sort({
-      updatedAt: -1
-    });
-    var coleccion = {
-      datas: usuarios,
-      pagina: skip,
-      paginas: paginas,
-      total: total
-    };
-    return res.json(coleccion);
+    try {
+      var limit = parseInt(req.query.take);
+      var skip = parseInt(req.query.page);
+      var total = yield _Parroquias.default.countDocuments();
+      var paginas = Math.ceil(total / limit);
+      var usuarios = yield _Parroquias.default.find({}).skip(limit * skip - limit).limit(limit).sort({
+        updatedAt: -1
+      });
+      var coleccion = {
+        datas: usuarios,
+        pagina: skip,
+        paginas: paginas,
+        total: total
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getParroquias(_x3, _x4) {
@@ -71,11 +74,15 @@ exports.getParroquias = getParroquias;
 
 var getParroquiasById = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var {
-      parroquiasId
-    } = req.params;
-    var parroquias = yield _Parroquias.default.findById(parroquiasId);
-    res.status(200).json(parroquias);
+    try {
+      var {
+        parroquiasId
+      } = req.params;
+      var parroquias = yield _Parroquias.default.findById(parroquiasId);
+      res.status(200).json(parroquias);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getParroquiasById(_x5, _x6) {
@@ -87,10 +94,14 @@ exports.getParroquiasById = getParroquiasById;
 
 var updateParroquiasById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    var updatedParroquias = yield _Parroquias.default.findByIdAndUpdate(req.params.parroquiasId, req.body, {
-      new: true
-    });
-    res.status(200).json(updatedParroquias);
+    try {
+      var updatedParroquias = yield _Parroquias.default.findByIdAndUpdate(req.params.parroquiasId, req.body, {
+        new: true
+      });
+      res.status(200).json(updatedParroquias);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function updateParroquiasById(_x7, _x8) {
@@ -126,14 +137,18 @@ exports.deleteParroquiasById = deleteParroquiasById;
 
 var getlistaCantones = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var provincia = yield _Cantones.default.find({
-      estado: {
-        $in: ["1"]
-      }
-    }, {
-      'nombre': true
-    });
-    return res.json(provincia);
+    try {
+      var provincia = yield _Cantones.default.find({
+        estado: {
+          $in: ["1"]
+        }
+      }, {
+        'nombre': true
+      });
+      return res.json(provincia);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getlistaCantones(_x11, _x12) {

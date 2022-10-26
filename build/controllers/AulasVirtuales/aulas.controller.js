@@ -54,18 +54,22 @@ exports.createAulasVirtuales = createAulasVirtuales;
 
 var getAulasVirtuales = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var idDocente = req.query.id;
-    var matriculas = yield _Aulavirtual.default.find({
-      fdocente: {
-        $in: [idDocente]
-      }
-    }).lean().select({
-      nombre: 1,
-      materia: 1,
-      icono: 1,
-      fecha: 1
-    });
-    return res.json(matriculas);
+    try {
+      var idDocente = req.query.id;
+      var matriculas = yield _Aulavirtual.default.find({
+        fdocente: {
+          $in: [idDocente]
+        }
+      }).lean().select({
+        nombre: 1,
+        materia: 1,
+        icono: 1,
+        fecha: 1
+      });
+      return res.json(matriculas);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getAulasVirtuales(_x3, _x4) {
@@ -149,16 +153,20 @@ exports.getAulassById = getAulassById;
 
 var getAllAulasEstu = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var matriculas = yield _Aulavirtual.default.find().lean().select({
-      nombre: 1,
-      materia: 1,
-      doc: 1,
-      codigo: 1,
-      estudiantes: 1,
-      icono: 1,
-      fecha: 1
-    });
-    return res.json(matriculas);
+    try {
+      var matriculas = yield _Aulavirtual.default.find().lean().select({
+        nombre: 1,
+        materia: 1,
+        doc: 1,
+        codigo: 1,
+        estudiantes: 1,
+        icono: 1,
+        fecha: 1
+      });
+      return res.json(matriculas);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getAllAulasEstu(_x11, _x12) {
@@ -171,14 +179,18 @@ exports.getAllAulasEstu = getAllAulasEstu;
 
 var createAulaById = /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator(function* (req, res) {
-    yield _Aulavirtual.default.findByIdAndUpdate(req.params.aulaId, {
-      $push: {
-        'estudiantes': req.body.estudiantes
-      }
-    }, {
-      new: true
-    });
-    res.status(200).json(req.params.aulaId);
+    try {
+      yield _Aulavirtual.default.findByIdAndUpdate(req.params.aulaId, {
+        $push: {
+          'estudiantes': req.body.estudiantes
+        }
+      }, {
+        new: true
+      });
+      res.status(200).json(req.params.aulaId);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function createAulaById(_x13, _x14) {

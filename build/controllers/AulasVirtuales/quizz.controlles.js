@@ -117,7 +117,9 @@ var editExamById = /*#__PURE__*/function () {
             "examen.$[perf].startDate": req.body.examen.startDate,
             "examen.$[perf].endDate": req.body.examen.endDate,
             "examen.$[perf].descripcion": req.body.examen.descripcion,
-            "examen.$[perf].time": req.body.examen.time
+            //
+            "examen.$[perf].time": req.body.examen.time,
+            "examen.$[perf].security": req.body.examen.security
           }
         }, {
           arrayFilters: [{

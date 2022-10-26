@@ -3,13 +3,15 @@ import bcrypt from "bcryptjs";
 
 const productSchema = new Schema(
   {
-    email: {
-      type: String,
-      unique: true,
-    },
+    email: String,
+
     password: {
       type: String,
       required: true,
+    },
+    cedula: {
+      type: String,
+      unique: true,
     },
     //********************************NUEVOS CAMPOS PARA USUARIOS ADMINISTRADORES
     nombres: {
@@ -17,10 +19,6 @@ const productSchema = new Schema(
       required: true,
     },
     apellidos: {
-      type: String,
-      required: true,
-    },
-    cedula: {
       type: String,
       required: true,
     },
@@ -32,10 +30,7 @@ const productSchema = new Schema(
       type: String,
       default:1
     },
-    telefono: {
-      type: String,
-      required: true,
-    },
+    telefono: String,
     fullname: String,
     //---------------TIPO DE DOCUMENTOS
     typo:{

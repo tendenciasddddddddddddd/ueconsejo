@@ -30,12 +30,6 @@ var checkDuplicateUsernameOrEmail = /*#__PURE__*/function () {
       if (user) return res.status(400).json({
         message: "El numero de cédula ya existe"
       });
-      var email = yield _User.default.findOne({
-        email: req.body.email
-      });
-      if (email) return res.status(400).json({
-        message: "El correo electrónico ya existe"
-      });
       next();
     } catch (error) {
       res.status(500).json({

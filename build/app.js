@@ -84,10 +84,10 @@ var corsOptions = {
 app.use((0, _cors.default)(corsOptions));
 app.use((0, _morgan.default)("dev"));
 app.use(_express.default.json({
-  limit: '50mb'
+  limit: '10mb'
 }));
 app.use(_express.default.urlencoded({
-  limit: '50mb'
+  limit: '10mb'
 })); // settings
 
 app.set('views', path.join(__dirname, 'public/views'));

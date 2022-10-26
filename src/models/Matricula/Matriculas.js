@@ -41,7 +41,8 @@ const nivelSchema = new Schema(
         gracia: String,
         pfinal : String,
         notas : [{}],
-        comportamiento : [{}]
+        comportamiento : [{}],
+        proyectos : [{}]
       }],
      
       asistencias:[{

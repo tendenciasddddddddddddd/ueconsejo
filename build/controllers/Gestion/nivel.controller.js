@@ -41,19 +41,22 @@ var _default = {
   }(),
   getNivel: function () {
     var _getNivel = _asyncToGenerator(function* (req, res) {
-      var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-      var skip = parseInt(req.query.page);
-      var total = yield _Nivel.default.countDocuments();
-      var paginas = Math.ceil(total / limit);
-      var niveles = yield _Nivel.default.find().skip(limit * skip - limit).limit(limit).lean();
-      var coleccion = {
-        niveles: niveles,
-        pagina: skip,
-        paginas: paginas,
-        total: total
-      };
-      return res.json(coleccion);
+      try {
+        var limit = parseInt(req.query.take);
+        var skip = parseInt(req.query.page);
+        var total = yield _Nivel.default.countDocuments();
+        var paginas = Math.ceil(total / limit);
+        var niveles = yield _Nivel.default.find().skip(limit * skip - limit).limit(limit).lean();
+        var coleccion = {
+          niveles: niveles,
+          pagina: skip,
+          paginas: paginas,
+          total: total
+        };
+        return res.json(coleccion);
+      } catch (error) {
+        return res.status(500).json(error);
+      }
     });
 
     function getNivel(_x3, _x4) {
@@ -64,11 +67,15 @@ var _default = {
   }(),
   getListasNiveles: function () {
     var _getListasNiveles = _asyncToGenerator(function* (req, res) {
-      var products = yield _Nivel.default.find().lean().select({
-        nombre: 1,
-        num: 1
-      });
-      return res.json(products);
+      try {
+        var products = yield _Nivel.default.find().lean().select({
+          nombre: 1,
+          num: 1
+        });
+        return res.json(products);
+      } catch (error) {
+        return res.status(500).json(error);
+      }
     });
 
     function getListasNiveles(_x5, _x6) {
@@ -79,11 +86,15 @@ var _default = {
   }(),
   getNivelById: function () {
     var _getNivelById = _asyncToGenerator(function* (req, res) {
-      var {
-        id
-      } = req.params;
-      var niveles = yield _Nivel.default.findById(id);
-      res.status(200).json(niveles);
+      try {
+        var {
+          id
+        } = req.params;
+        var niveles = yield _Nivel.default.findById(id);
+        res.status(200).json(niveles);
+      } catch (error) {
+        return res.status(500).json(error);
+      }
     });
 
     function getNivelById(_x7, _x8) {
@@ -94,10 +105,14 @@ var _default = {
   }(),
   updateNivelById: function () {
     var _updateNivelById = _asyncToGenerator(function* (req, res) {
-      var updatedNivel = yield _Nivel.default.findByIdAndUpdate(req.params.nivelId, req.body, {
-        new: true
-      });
-      res.status(200).json(updatedNivel);
+      try {
+        var updatedNivel = yield _Nivel.default.findByIdAndUpdate(req.params.nivelId, req.body, {
+          new: true
+        });
+        res.status(200).json(updatedNivel);
+      } catch (error) {
+        return res.status(500).json(error);
+      }
     });
 
     function updateNivelById(_x9, _x10) {

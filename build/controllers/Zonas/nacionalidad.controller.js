@@ -26,7 +26,6 @@ var createNacionalidad = /*#__PURE__*/function () {
       var NacionalidadSaved = yield newNacionalidad.save();
       res.status(201).json(NacionalidadSaved);
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   });
@@ -40,21 +39,24 @@ exports.createNacionalidad = createNacionalidad;
 
 var getNacionalidad = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-    var skip = parseInt(req.query.page);
-    var total = yield _Nacionalidad.default.countDocuments();
-    var paginas = Math.ceil(total / limit);
-    var nacionalidad = yield _Nacionalidad.default.find({}).skip(limit * skip - limit).limit(limit).sort({
-      updatedAt: -1
-    });
-    var coleccion = {
-      datas: nacionalidad,
-      pagina: skip,
-      paginas: paginas,
-      total: total
-    };
-    return res.json(coleccion);
+    try {
+      var limit = parseInt(req.query.take);
+      var skip = parseInt(req.query.page);
+      var total = yield _Nacionalidad.default.countDocuments();
+      var paginas = Math.ceil(total / limit);
+      var nacionalidad = yield _Nacionalidad.default.find({}).skip(limit * skip - limit).limit(limit).sort({
+        updatedAt: -1
+      });
+      var coleccion = {
+        datas: nacionalidad,
+        pagina: skip,
+        paginas: paginas,
+        total: total
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getNacionalidad(_x3, _x4) {
@@ -66,11 +68,15 @@ exports.getNacionalidad = getNacionalidad;
 
 var getNacionalidadById = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var {
-      nacionalidadId
-    } = req.params;
-    var provincias = yield _Nacionalidad.default.findById(nacionalidadId);
-    res.status(200).json(provincias);
+    try {
+      var {
+        nacionalidadId
+      } = req.params;
+      var provincias = yield _Nacionalidad.default.findById(nacionalidadId);
+      res.status(200).json(provincias);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getNacionalidadById(_x5, _x6) {
@@ -82,10 +88,14 @@ exports.getNacionalidadById = getNacionalidadById;
 
 var updateNacionalidadById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    var updatedNacionalidad = yield _Nacionalidad.default.findByIdAndUpdate(req.params.nacionalidadId, req.body, {
-      new: true
-    });
-    res.status(200).json(updatedNacionalidad);
+    try {
+      var updatedNacionalidad = yield _Nacionalidad.default.findByIdAndUpdate(req.params.nacionalidadId, req.body, {
+        new: true
+      });
+      res.status(200).json(updatedNacionalidad);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function updateNacionalidadById(_x7, _x8) {
@@ -114,18 +124,21 @@ var deleteNacionalidadById = /*#__PURE__*/function () {
   return function deleteNacionalidadById(_x9, _x10) {
     return _ref5.apply(this, arguments);
   };
-}(); //-------------------COMPONENTES CHILDS ------
-
+}();
 
 exports.deleteNacionalidadById = deleteNacionalidadById;
 
 var getChildNacionalidad = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var documentos = yield _Nacionalidad.default.find({}).lean();
-    var coleccion = {
-      datas: documentos
-    };
-    return res.json(coleccion);
+    try {
+      var documentos = yield _Nacionalidad.default.find({}).lean();
+      var coleccion = {
+        datas: documentos
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getChildNacionalidad(_x11, _x12) {

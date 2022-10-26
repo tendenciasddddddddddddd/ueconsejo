@@ -64,8 +64,9 @@ export const editExamById = async (req, res) => {
                   "examen.$[perf].nombre": req.body.examen.nombre,
                   "examen.$[perf].startDate": req.body.examen.startDate,
                   "examen.$[perf].endDate": req.body.examen.endDate,
-                  "examen.$[perf].descripcion": req.body.examen.descripcion,
+                  "examen.$[perf].descripcion": req.body.examen.descripcion,//
                   "examen.$[perf].time": req.body.examen.time,
+                  "examen.$[perf].security": req.body.examen.security,
                 } },
         {
           arrayFilters: [{

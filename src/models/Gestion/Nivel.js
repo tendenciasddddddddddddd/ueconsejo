@@ -4,11 +4,11 @@ const nivelSchema = new Schema(
     {
       num: {
         type: String,
-        required: true,
+        unique: true,
       },
       nombre: {
         type: String,
-        required: true,
+        unique: true,
       },
       estado: {
         type: String,

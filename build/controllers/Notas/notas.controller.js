@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.confirmFullNoteById = exports.deleteNoteById = exports.createFullComportamiento = exports.createFullSupletorios = exports.createFullNote = exports.createNotaArbol3ById = exports.createNotaArbol2ById = exports.createNotaArbol1ById = exports.getMatriculasNotaById = exports.getMatriculaAsistencia = exports.getMatriculaNota = void 0;
+exports.confirmFullNoteById = exports.deleteNoteById = exports.createFullProyectos = exports.createFullComportamiento = exports.createFullSupletorios = exports.createFullNote = exports.createNotaArbol3ById = exports.createNotaArbol2ById = exports.createNotaArbol1ById = exports.getMatriculasNotaById = exports.getMatriculaAsistencia = exports.getMatriculaNota = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
@@ -16,18 +16,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //---------------------------------------------------------SIRVE LISTA DE ESTUDIANTES A CALIFICAR [DOCENTES, ]
 var getMatriculaNota = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
-    var idCurso = req.query.curso;
-    var distributivo = yield _Matriculas.default.find({
-      fknivel: {
-        $in: [idCurso]
-      }
-    }, {
-      'curso': 1,
-      'nombre': 1,
-      'calificaciones': 1
-    }) //aqui se produjo el error de 
-    .lean();
-    return res.json(distributivo);
+    try {
+      var idCurso = req.query.curso;
+      var distributivo = yield _Matriculas.default.find({
+        fknivel: {
+          $in: [idCurso]
+        }
+      }, {
+        'curso': 1,
+        'nombre': 1,
+        'calificaciones': 1
+      }) //aqui se produjo el error de 
+      .lean();
+      return res.json(distributivo);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getMatriculaNota(_x, _x2) {
@@ -40,16 +44,20 @@ exports.getMatriculaNota = getMatriculaNota;
 
 var getMatriculaAsistencia = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var idCurso = req.query.curso;
-    var distributivo = yield _Matriculas.default.find({
-      fknivel: {
-        $in: [idCurso]
-      }
-    }).lean().select({
-      curso: 1,
-      nombre: 1
-    });
-    return res.json(distributivo);
+    try {
+      var idCurso = req.query.curso;
+      var distributivo = yield _Matriculas.default.find({
+        fknivel: {
+          $in: [idCurso]
+        }
+      }).lean().select({
+        curso: 1,
+        nombre: 1
+      });
+      return res.json(distributivo);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getMatriculaAsistencia(_x3, _x4) {
@@ -159,7 +167,6 @@ var createNotaArbol3ById = /*#__PURE__*/function () {
       });
       res.status(200).json('crearnote');
     } catch (e) {
-      console.log(e);
       res.status(500).json({
         message: "No mat found"
       });
@@ -195,7 +202,6 @@ var createFullNote = /*#__PURE__*/function () {
 
       res.status(200).json('crearnote');
     } catch (e) {
-      console.log(e);
       res.status(500).json({
         message: "No mat found"
       });
@@ -233,7 +239,6 @@ var createFullSupletorios = /*#__PURE__*/function () {
 
       res.status(200).json('crearnote');
     } catch (e) {
-      console.log(e);
       res.status(500).json({
         message: "No mat found"
       });
@@ -267,7 +272,6 @@ var createFullComportamiento = /*#__PURE__*/function () {
 
       res.status(200).json('crearnote');
     } catch (e) {
-      console.log(e);
       res.status(500).json({
         message: "No mat found"
       });
@@ -277,13 +281,47 @@ var createFullComportamiento = /*#__PURE__*/function () {
   return function createFullComportamiento(_x17, _x18) {
     return _ref9.apply(this, arguments);
   };
-}(); //------------------------------------- ELIMINAR NOTAS [DOCENTE, ]
-
+}();
 
 exports.createFullComportamiento = createFullComportamiento;
 
-var deleteNoteById = /*#__PURE__*/function () {
+var createFullProyectos = /*#__PURE__*/function () {
   var _ref10 = _asyncToGenerator(function* (req, res) {
+    try {
+      var array = req.body;
+
+      for (var i = 0; i < array.length; i++) {
+        yield _Matriculas.default.updateOne({
+          _id: array[i].id,
+          'calificaciones._id': array[i].fora
+        }, {
+          $set: {
+            'calificaciones.$.proyectos': array[i].proyectos
+          }
+        }, {
+          new: true
+        });
+      }
+
+      res.status(200).json('crearnote');
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({
+        message: "No mat found"
+      });
+    }
+  });
+
+  return function createFullProyectos(_x19, _x20) {
+    return _ref10.apply(this, arguments);
+  };
+}(); //------------------------------------- ELIMINAR NOTAS [DOCENTE, ]
+
+
+exports.createFullProyectos = createFullProyectos;
+
+var deleteNoteById = /*#__PURE__*/function () {
+  var _ref11 = _asyncToGenerator(function* (req, res) {
     try {
       var array = req.body;
 
@@ -302,15 +340,14 @@ var deleteNoteById = /*#__PURE__*/function () {
 
       res.status(200).json('crearnote');
     } catch (e) {
-      console.log(e);
       res.status(500).json({
         message: "No mat found"
       });
     }
   });
 
-  return function deleteNoteById(_x19, _x20) {
-    return _ref10.apply(this, arguments);
+  return function deleteNoteById(_x21, _x22) {
+    return _ref11.apply(this, arguments);
   };
 }(); //------------------------------------CONFIRMAR NOTAS [DOCENTE, ]
 
@@ -318,7 +355,7 @@ var deleteNoteById = /*#__PURE__*/function () {
 exports.deleteNoteById = deleteNoteById;
 
 var confirmFullNoteById = /*#__PURE__*/function () {
-  var _ref11 = _asyncToGenerator(function* (req, res) {
+  var _ref12 = _asyncToGenerator(function* (req, res) {
     try {
       var array = req.body;
 
@@ -341,15 +378,14 @@ var confirmFullNoteById = /*#__PURE__*/function () {
 
       res.status(200).json('crearnote');
     } catch (e) {
-      console.log(e);
       res.status(500).json({
         message: "No mat found"
       });
     }
   });
 
-  return function confirmFullNoteById(_x21, _x22) {
-    return _ref11.apply(this, arguments);
+  return function confirmFullNoteById(_x23, _x24) {
+    return _ref12.apply(this, arguments);
   };
 }();
 

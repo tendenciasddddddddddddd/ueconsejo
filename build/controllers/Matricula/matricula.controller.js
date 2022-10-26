@@ -7,8 +7,6 @@ exports.getQueryAll = exports.getMatriculasNotaBykEY = exports.deleteMatriculasB
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
-var _Nivel = _interopRequireDefault(require("../../models/Gestion/Nivel"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -34,7 +32,6 @@ var createMatriculas = /*#__PURE__*/function () {
 
       for (var i = 0; i < array.length; i++) {
         var ifmatricula = yield _Matriculas.default.findOne({
-          // academico: array[i].academico,
           fkestudiante: array[i].fkestudiante
         });
 
@@ -60,7 +57,6 @@ var createMatriculas = /*#__PURE__*/function () {
         duplicados
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         message: "Problem"
       });
@@ -76,12 +72,15 @@ exports.createMatriculas = createMatriculas;
 
 var getMatriculas = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    //SIRVE EL LISTADO PARA [CONSOLIDADO, ]
-    var matriculas = yield _Matriculas.default.find().lean().select({
-      curso: 1,
-      typo: 1
-    }).populate("fkestudiante", "fullname cedula email fkparroquia sexo").populate("fknivel", "nombre");
-    return res.json(matriculas);
+    try {
+      var matriculas = yield _Matriculas.default.find().lean().select({
+        curso: 1,
+        typo: 1
+      }).populate("fkestudiante", "fullname cedula email fkparroquia sexo").populate("fknivel", "nombre");
+      return res.json(matriculas);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getMatriculas(_x3, _x4) {
@@ -93,17 +92,21 @@ exports.getMatriculas = getMatriculas;
 
 var getReportes = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var curs = req.query.c;
-    var matriculas = yield _Matriculas.default.find({
-      fknivel: {
-        $in: [curs]
-      }
-    }).lean().select({
-      curso: 1,
-      nombre: 1,
-      fecha: 1
-    });
-    return res.json(matriculas);
+    try {
+      var curs = req.query.c;
+      var matriculas = yield _Matriculas.default.find({
+        fknivel: {
+          $in: [curs]
+        }
+      }).lean().select({
+        curso: 1,
+        nombre: 1,
+        fecha: 1
+      });
+      return res.json(matriculas);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getReportes(_x5, _x6) {
@@ -115,40 +118,26 @@ exports.getReportes = getReportes;
 
 var getInfoMat = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    //NO RESULEV NADA
-    if (req.query.h) {
-      var academic = req.query.h;
-      var curs = req.query.c;
-      var matriz = yield _Matriculas.default.find({
-        academico: {
-          $in: [academic]
+    try {
+      var periodo = req.query.p;
+      var mat = yield _Matriculas.default.findOne({
+        estado: {
+          $in: ["1"]
         },
-        fknivel: {
-          $in: [curs]
+        academico: {
+          $in: [periodo]
         }
-      }).populate("fkestudiante", "nombre apellidos foto").populate("fknivel", "nombre");
-      var _coleccion = {
-        matriculados: matriz
+      }).sort({
+        createdAt: -1
+      });
+      var coleccion = {
+        num: 1,
+        infor: mat
       };
-      return res.json(_coleccion);
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(error);
     }
-
-    var periodo = req.query.p;
-    var mat = yield _Matriculas.default.findOne({
-      estado: {
-        $in: ["1"]
-      },
-      academico: {
-        $in: [periodo]
-      }
-    }).sort({
-      createdAt: -1
-    });
-    var coleccion = {
-      num: 1,
-      infor: mat
-    };
-    return res.json(coleccion);
   });
 
   return function getInfoMat(_x7, _x8) {
@@ -189,15 +178,18 @@ exports.getListaMatricula = getListaMatricula;
 
 var getMatriculaFolio = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    //RESUELVE NUMERO DE MATRICULA Y FOLIO
-    var mat = yield _Matriculas.default.findOne().sort({
-      createdAt: -1
-    });
-    var coleccion = {
-      num: 1,
-      infor: mat
-    };
-    return res.json(coleccion);
+    try {
+      var mat = yield _Matriculas.default.findOne().sort({
+        createdAt: -1
+      });
+      var coleccion = {
+        num: 1,
+        infor: mat
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getMatriculaFolio(_x11, _x12) {
@@ -209,14 +201,18 @@ exports.getMatriculaFolio = getMatriculaFolio;
 
 var getMatriculasById = /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator(function* (req, res) {
-    var {
-      matriculaId
-    } = req.params;
-    var niveles = yield _Matriculas.default.findById(matriculaId).populate("fknivel", {
-      nombre: 1,
-      area: 1
-    }).populate("academico", "nombre");
-    res.status(200).json(niveles);
+    try {
+      var {
+        matriculaId
+      } = req.params;
+      var niveles = yield _Matriculas.default.findById(matriculaId).populate("fknivel", {
+        nombre: 1,
+        area: 1
+      }).populate("academico", "nombre");
+      res.status(200).json(niveles);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getMatriculasById(_x13, _x14) {
@@ -330,17 +326,21 @@ exports.getMatriculasNotaBykEY = getMatriculasNotaBykEY;
 
 var getQueryAll = /*#__PURE__*/function () {
   var _ref12 = _asyncToGenerator(function* (req, res) {
-    var matriculas = yield _Matriculas.default.find({}).lean().select({
-      curso: 1,
-      nombre: 1,
-      fecha: 1,
-      typo: 1,
-      fknivel: 1
-    });
-    var coleccion = {
-      data: matriculas
-    };
-    return res.json(coleccion);
+    try {
+      var matriculas = yield _Matriculas.default.find({}).lean().select({
+        curso: 1,
+        nombre: 1,
+        fecha: 1,
+        typo: 1,
+        fknivel: 1
+      });
+      var coleccion = {
+        data: matriculas
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getQueryAll(_x23, _x24) {

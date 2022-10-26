@@ -30,7 +30,6 @@ var createMateria = /*#__PURE__*/function () {
       var MateriaSaved = yield newMateria.save();
       res.status(201).json(MateriaSaved);
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   });
@@ -44,19 +43,22 @@ exports.createMateria = createMateria;
 
 var getMateria = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-    var skip = parseInt(req.query.page);
-    var total = yield _Materia.default.countDocuments();
-    var paginas = Math.ceil(total / limit);
-    var materias = yield _Materia.default.find({}).skip(limit * skip - limit).limit(limit);
-    var coleccion = {
-      niveles: materias,
-      pagina: skip,
-      paginas: paginas,
-      total: total
-    };
-    return res.json(coleccion);
+    try {
+      var limit = parseInt(req.query.take);
+      var skip = parseInt(req.query.page);
+      var total = yield _Materia.default.countDocuments();
+      var paginas = Math.ceil(total / limit);
+      var materias = yield _Materia.default.find({}).skip(limit * skip - limit).limit(limit);
+      var coleccion = {
+        niveles: materias,
+        pagina: skip,
+        paginas: paginas,
+        total: total
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getMateria(_x3, _x4) {
@@ -69,10 +71,14 @@ exports.getMateria = getMateria;
 
 var getListasMaterias = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var products = yield _Materia.default.find({}, {
-      'nombre': true
-    });
-    return res.json(products);
+    try {
+      var products = yield _Materia.default.find({}, {
+        'nombre': true
+      });
+      return res.json(products);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getListasMaterias(_x5, _x6) {
@@ -84,11 +90,15 @@ exports.getListasMaterias = getListasMaterias;
 
 var getMateriaById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    var {
-      materiaId
-    } = req.params;
-    var niveles = yield _Materia.default.findById(materiaId);
-    res.status(200).json(niveles);
+    try {
+      var {
+        materiaId
+      } = req.params;
+      var niveles = yield _Materia.default.findById(materiaId);
+      res.status(200).json(niveles);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getMateriaById(_x7, _x8) {
@@ -100,10 +110,14 @@ exports.getMateriaById = getMateriaById;
 
 var updateMateriaById = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator(function* (req, res) {
-    var updatedMateria = yield _Materia.default.findByIdAndUpdate(req.params.materiaId, req.body, {
-      new: true
-    });
-    res.status(200).json(updatedMateria);
+    try {
+      var updatedMateria = yield _Materia.default.findByIdAndUpdate(req.params.materiaId, req.body, {
+        new: true
+      });
+      res.status(200).json(updatedMateria);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function updateMateriaById(_x9, _x10) {

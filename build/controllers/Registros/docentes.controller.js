@@ -15,33 +15,32 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var mongoose = require('mongoose'); //--------------------------------PAGINACION DE TABLA DEFAULT 7 EN 7--------------------
-
-
 var getDocentes = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
-    //if(req.query.take==null || req.query.take==null)return;
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-    var skip = parseInt(req.query.page);
-    var total = yield _User.default.countDocuments({
-      typo: {
-        $in: ["DOCS"]
-      }
-    });
-    var paginas = Math.ceil(total / limit);
-    var usuarios = yield _User.default.find({
-      typo: {
-        $in: ["DOCS"]
-      }
-    }).skip(limit * skip - limit).limit(limit);
-    var coleccion = {
-      usuarios: usuarios,
-      pagina: skip,
-      paginas: paginas,
-      total: total
-    };
-    return res.json(coleccion);
+    try {
+      var limit = parseInt(req.query.take);
+      var skip = parseInt(req.query.page);
+      var total = yield _User.default.countDocuments({
+        typo: {
+          $in: ["DOCS"]
+        }
+      });
+      var paginas = Math.ceil(total / limit);
+      var usuarios = yield _User.default.find({
+        typo: {
+          $in: ["DOCS"]
+        }
+      }).skip(limit * skip - limit).limit(limit);
+      var coleccion = {
+        usuarios: usuarios,
+        pagina: skip,
+        paginas: paginas,
+        total: total
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getDocentes(_x, _x2) {
@@ -54,20 +53,24 @@ exports.getDocentes = getDocentes;
 
 var getBuscadorUsuarios = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var usuarios = yield _User.default.find({
-      typo: {
-        $in: ["DOCS"]
-      }
-    }).lean().select({
-      fullname: 1,
-      foto: 1,
-      email: 1,
-      status: 1
-    });
-    var coleccion = {
-      usuarios: usuarios
-    };
-    return res.json(coleccion);
+    try {
+      var usuarios = yield _User.default.find({
+        typo: {
+          $in: ["DOCS"]
+        }
+      }).lean().select({
+        fullname: 1,
+        foto: 1,
+        email: 1,
+        status: 1
+      });
+      var coleccion = {
+        usuarios: usuarios
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getBuscadorUsuarios(_x3, _x4) {
@@ -80,14 +83,18 @@ exports.getBuscadorUsuarios = getBuscadorUsuarios;
 
 var getListasDocentes = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var products = yield _User.default.find({
-      typo: {
-        $in: ["DOCS"]
-      }
-    }).lean().select({
-      fullname: 1
-    });
-    return res.json(products);
+    try {
+      var products = yield _User.default.find({
+        typo: {
+          $in: ["DOCS"]
+        }
+      }).lean().select({
+        fullname: 1
+      });
+      return res.json(products);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getListasDocentes(_x5, _x6) {
@@ -100,9 +107,15 @@ exports.getListasDocentes = getListasDocentes;
 
 var getDocenteById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    var UsuariosId = mongoose.Types.ObjectId(req.params.id);
-    var usuarios = yield _User.default.findById(UsuariosId);
-    res.status(200).json(usuarios);
+    try {
+      var {
+        id
+      } = req.params;
+      var usuarios = yield _User.default.findById(id);
+      res.status(200).json(usuarios);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getDocenteById(_x7, _x8) {
@@ -160,7 +173,6 @@ exports.deleteDocenteById = deleteDocenteById;
 var createDocentes = /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator(function* (req, res) {
     try {
-      // Getting the Request Body
       var {
         username,
         email,

@@ -2,44 +2,51 @@ import User from "../models/User";
 import Role from "../models/Role";
 var mongoose = require("mongoose");
 
-//--------------------------------PAGINACION DE TABLA DEFAULT 7 EN 7--------------------
 export const getUsuarios = async (req, res) => {
-  const limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-  const skip = parseInt(req.query.page);
-  const total = await User.countDocuments({ typo: { $in: ["ADMS"] } });
-  const paginas = Math.ceil(total / limit);
-  const usuarios = await User.find({ typo: { $in: ["ADMS"] } })
-    .skip(limit * skip - limit)
-    .limit(limit);
-  const coleccion = {
-    usuarios: usuarios,
-    pagina: skip,
-    paginas: paginas,
-    total: total,
-  };
-  return res.json(coleccion);
+  try {
+    const limit = parseInt(req.query.take);
+    const skip = parseInt(req.query.page);
+    const total = await User.countDocuments({ typo: { $in: ["ADMS"] } });
+    const paginas = Math.ceil(total / limit);
+    const usuarios = await User.find({ typo: { $in: ["ADMS"] } })
+      .skip(limit * skip - limit)
+      .limit(limit);
+    const coleccion = {
+      usuarios: usuarios,
+      pagina: skip,
+      paginas: paginas,
+      total: total,
+    };
+    return res.json(coleccion);
+  } catch (error) {
+    return res.status(500).json(err);
+  }
 };
-
-//----------------------------------OPTENER TODOS LOS ADMINISTRADORES
 
 export const getBuscadorUsuarios = async (req, res) => {
-  const usuarios = await User.find({ typo: { $in: ["ADMS"] } })
-    .lean()
-    .select({ fullname: 1, cedula: 1, email: 1, status: 1 });
-  const coleccion = {
-    usuarios: usuarios,
-  };
-  return res.json(coleccion);
+  try {
+    const usuarios = await User.find({ typo: { $in: ["ADMS"] } })
+      .lean()
+      .select({ fullname: 1, cedula: 1, email: 1, status: 1 });
+    const coleccion = {
+      usuarios: usuarios,
+    };
+    return res.json(coleccion);
+  } catch (error) {
+    return res.status(500).json(err);
+  }
 };
 
-//--------------------------------OPTENEMOS UN USUARIO POR ID--------------------
 export const getUsuariosById = async (req, res) => {
-  const UsuariosId = mongoose.Types.ObjectId(req.params.id);
-  const usuarios = await User.findById(UsuariosId);
-  res.status(200).json(usuarios);
+  try {
+    const UsuariosId = mongoose.Types.ObjectId(req.params.id);
+    const usuarios = await User.findById(UsuariosId);
+    res.status(200).json(usuarios);
+  } catch (error) {
+    return res.status(500).json(err);
+  }
 };
 
-//--------------------------------EDITAR USUARIO POR EL ID--------------------
 export const updateUsuariosById = async (req, res) => {
   try {
     req.body.roles = req.body.role;
@@ -56,7 +63,6 @@ export const updateUsuariosById = async (req, res) => {
   }
 };
 
-//--------------------------------ELIMINAR USUARIOS POR EL ID--------------------
 export const deleteUsuariosById = async (req, res) => {
   try {
     let cadenaId = req.params.id;
@@ -72,22 +78,21 @@ export const deleteUsuariosById = async (req, res) => {
   }
 };
 
-//--------------------------------RETORNAR LA LISTA DE ROLES--------------------
 export const getRoles = async (req, res) => {
-  const roless = await Role.find({
-    name: { $in: ["Admin", "Vicerrector", "Inspector"] },
-  });
-  return res.json(roless);
+  try {
+    const roless = await Role.find({
+      name: { $in: ["Admin", "Vicerrector", "Inspector"] },
+    });
+    return res.json(roless);
+  } catch (error) {
+    return res.status(500).json(err);
+  }
 };
 
-//--------------------------------CREAR UN NUEVO USUARIOS --------------------
 export const createUser = async (req, res) => {
   try {
     const { username, email, password, roles } = req.body;
-
     const rolesFound = await Role.find({ name: { $in: roles } });
-
-    // creating a new User
     const user = new User({
       username,
       email,
@@ -95,12 +100,8 @@ export const createUser = async (req, res) => {
       roles: rolesFound.map((role) => role._id),
     });
 
-    // encrypting password
-    user.password = await User.encryptPassword(user.password); //llama funcion encriptar en models/user
-
-    // saving the new user
+    user.password = await User.encryptPassword(user.password);
     const savedUser = await user.save();
-
     return res.status(200).json({
       _id: savedUser._id,
       username: savedUser.username,
@@ -108,13 +109,9 @@ export const createUser = async (req, res) => {
       roles: savedUser.roles,
     });
   } catch (error) {
-    console.error(error);
+    return res.status(500).json(err);
   }
 };
-
-export const getUsers = async (req, res) => {};
-
-
 
 export const activate = async (req, res, next) => {
   try {
@@ -134,11 +131,11 @@ export const activate = async (req, res, next) => {
 export const query = async (req, res) => {
   try {
     const querys = req.query.querys;
-    const result = await User.find({fullname: { '$regex' : querys, "$options": "i" }, typo: { $in: ["ADMS"] } });
+    const result = await User.find({ fullname: { '$regex': querys, "$options": "i" }, typo: { $in: ["ADMS"] } });
     res.status(200).json(result);
   } catch (error) {
     res.status(500).send({
       message: "Ocurrió un error",
     });
-  } 
+  }
 };

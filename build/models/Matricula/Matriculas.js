@@ -41,7 +41,8 @@ var nivelSchema = new _mongoose.Schema({
     gracia: String,
     pfinal: String,
     notas: [{}],
-    comportamiento: [{}]
+    comportamiento: [{}],
+    proyectos: [{}]
   }],
   asistencias: [{
     fecha: String,

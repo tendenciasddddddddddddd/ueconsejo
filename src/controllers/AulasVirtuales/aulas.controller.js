@@ -14,9 +14,7 @@ export const createAulasVirtuales = async (req,res)=>{
           descripcion,
           icono
         });
-    
         const AulaSaved = await newAula.save();
-    
         res.status(201).json(AulaSaved);
       } catch (error) {
         return res.status(500).json(error);
@@ -25,18 +23,21 @@ export const createAulasVirtuales = async (req,res)=>{
 
 //----------------------------RESULEVE LISTA DE CURSOS EN [DOCENTES]
 export const getAulasVirtuales = async (req,res)=>{
-  const idDocente = req.query.id;
-  const matriculas = await Aulavirtual.find({
-    fdocente: {
-      $in:[idDocente]
-    },
-  }).lean().select({nombre: 1, materia: 1, icono: 1, fecha:1})
-
-  return res.json(matriculas);
+  try {
+    const idDocente = req.query.id;
+    const matriculas = await Aulavirtual.find({
+      fdocente: {
+        $in:[idDocente]
+      },
+    }).lean().select({nombre: 1, materia: 1, icono: 1, fecha:1})
+  
+    return res.json(matriculas);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
 //----------------------------ELIMINAR AULAS VIRTUALES [DOCENTES]
-
 export const deleteAulaById = async (req,res)=>{
   try {
     let cadenaId = req.params.aulaId;
@@ -51,7 +52,6 @@ export const deleteAulaById = async (req,res)=>{
   } catch (error) {
     res.status(500).json('error del servidor');
   }
-  
 }
 
 //TRAEMOS AULA SOLO EN NOMBRE RESUELVE [DOCENTE => AULA-PRINCIPAL]
@@ -65,7 +65,6 @@ export const getAulasMainById = async (req,res)=>{
   catch(err){
     res.status(500).json('error del servidor');
   }
- 
 }
 
 //TRAEMOS AULA PARA EL DOCENTES
@@ -79,20 +78,23 @@ export const getAulassById = async (req,res)=>{
   catch(err){
     res.status(500).json('error del servidor');
   }
- 
 }
 
 //PARA MATRICULA DE ESTUDIANTES OSEA TRE PARA QUE SE MATRICULE 
 export const getAllAulasEstu = async (req,res)=>{
-  const matriculas = await Aulavirtual.find().lean().select({nombre: 1, materia: 1, doc: 1, codigo: 1, estudiantes: 1, icono: 1, fecha:1})
-
-  return res.json(matriculas);
+  try {
+    const matriculas = await Aulavirtual.find().lean().select({nombre: 1, materia: 1, doc: 1, codigo: 1, estudiantes: 1, icono: 1, fecha:1})
+    return res.json(matriculas);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
 //EMPUJAR USUARIO O ESTUDIANTE A CADA AARREGLO
 
 export const createAulaById = async (req,res)=>{
-  await Aulavirtual.findByIdAndUpdate(
+  try {
+    await Aulavirtual.findByIdAndUpdate(
       req.params.aulaId,
       { $push: { 'estudiantes': req.body.estudiantes} },
       {
@@ -100,6 +102,9 @@ export const createAulaById = async (req,res)=>{
       }
     );
     res.status(200).json(req.params.aulaId);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
 //------------------------------------- ELIMINAR ESTUDIANTES DEL CURSO [DOCENTE, ]

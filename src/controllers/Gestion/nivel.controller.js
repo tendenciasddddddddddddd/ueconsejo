@@ -6,11 +6,8 @@ export default {
     try {
       const newNiveles = new Nivel({
         nombre, num
-        
       });
-
       const NivelesSaved = await newNiveles.save();
-
       res.status(201).json(NivelesSaved);
     } catch (error) {
       return res.status(500).json(error);
@@ -18,44 +15,59 @@ export default {
   },
 
   getNivel: async (req, res) => {
-    const limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-    const skip = parseInt(req.query.page);
-    const total = await Nivel.countDocuments();
-    const paginas = Math.ceil(total / limit);
-    const niveles = await Nivel.find()
-      .skip(limit * skip - limit)
-      .limit(limit)
-      .lean();
-    const coleccion = {
-      niveles: niveles,
-      pagina: skip,
-      paginas: paginas,
-      total: total,
-    };
-    return res.json(coleccion);
+    try {
+      const limit = parseInt(req.query.take);
+      const skip = parseInt(req.query.page);
+      const total = await Nivel.countDocuments();
+      const paginas = Math.ceil(total / limit);
+      const niveles = await Nivel.find()
+        .skip(limit * skip - limit)
+        .limit(limit)
+        .lean();
+      const coleccion = {
+        niveles: niveles,
+        pagina: skip,
+        paginas: paginas,
+        total: total,
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   },
 
   getListasNiveles: async (req, res) => {
-    const products = await Nivel.find()
-      .lean()
-      .select({ nombre: 1, num:1      });
-    return res.json(products);
+    try {
+      const products = await Nivel.find()
+        .lean()
+        .select({ nombre: 1, num: 1 });
+      return res.json(products);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   },
   getNivelById: async (req, res) => {
-    const { id } = req.params;
-  
-    const niveles = await Nivel.findById(id);
-    res.status(200).json(niveles);
+    try {
+      const { id } = req.params;
+      const niveles = await Nivel.findById(id);
+      res.status(200).json(niveles);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   },
   updateNivelById: async (req, res) => {
-    const updatedNivel = await Nivel.findByIdAndUpdate(
-      req.params.nivelId,
-      req.body,
-      {
-        new: true,
-      }
-    );
-    res.status(200).json(updatedNivel);
+    try {
+      const updatedNivel = await Nivel.findByIdAndUpdate(
+        req.params.nivelId,
+        req.body,
+        {
+          new: true,
+        }
+      );
+      res.status(200).json(updatedNivel);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   },
   deleteNivelById: async (req, res) => {
     try {
@@ -86,11 +98,3 @@ export default {
     }
   }
 };
-
-
-
-
-
-
-
-

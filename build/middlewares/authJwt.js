@@ -30,7 +30,7 @@ var verifyToken = /*#__PURE__*/function () {
       var decoded = _jsonwebtoken.default.verify(token, _config.default.SECRET);
 
       req.userId = decoded.id;
-      if (!verifiUser(decoded.role)) return res.status(404).json({
+      if (!verifiUser(decoded.role)) return res.status(405).json({
         message: "No user found"
       });
       next();

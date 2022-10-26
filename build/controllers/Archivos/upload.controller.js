@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getListFiles = exports.downloadFiles = exports.resizeImages = void 0;
+exports.resizeImages2 = exports.resizeImages = void 0;
 
 var _multer = _interopRequireDefault(require("multer"));
 
@@ -26,9 +26,6 @@ cloudinary.config({
 });
 
 var storage = _multer.default.diskStorage({
-  /*  destination: function (req, file, cb) {
-        cb(null, 'src/static')
-    }, */
   filename: function filename(req, file, cb) {
     cb(null, file.originalname);
   }
@@ -41,17 +38,9 @@ exports.upload = upload.single("myFile");
 
 var resizeImages = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res, next) {
-    //let nombre = `${Date.now()}-${req.file.filename}`;
     var ext = path.extname(req.file.filename).toLowerCase();
 
-    if (ext != ".png") {
-      /* req.body.images = [];
-      await sharp(req.file.path)
-        .resize(200, 200)
-        .toFormat("jpeg")
-        .jpeg({ quality: 90 })
-        .toFile(`src/static/${nombre}`);
-        req.body.images.push(nombre); */
+    if (ext == ".png" || ext == ".jpg" || ext == ".jpeg") {
       var resultado = yield cloudinary.v2.uploader.upload(req.file.path, {
         height: 128,
         crop: "thumb"
@@ -71,45 +60,22 @@ var resizeImages = /*#__PURE__*/function () {
 
 exports.resizeImages = resizeImages;
 
-exports.uploadFile = (req, res) => {
-  res.json(req.file.name);
-};
-
-var downloadFiles = (req, res) => {
-  var fileName = req.body.name;
-  var path1 = path.join("src/static/");
-  res.download(path1 + fileName, err => {
-    if (err) {
-      res.status(500).send({
-        message: "File can not be downloaded: " + err
+var resizeImages2 = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator(function* (req, res, next) {
+    try {
+      var resultado = yield cloudinary.v2.uploader.upload(req.file.path, {
+        folder: 'tasks'
       });
+      res.json(resultado.secure_url);
+    } catch (error) {
+      res.status(500).json("Los formatos aceptados son .png .jpg .jpeg");
+      next();
     }
   });
-}; //exportar todas las imagenes 
 
+  return function resizeImages2(_x4, _x5, _x6) {
+    return _ref2.apply(this, arguments);
+  };
+}();
 
-exports.downloadFiles = downloadFiles;
-
-var getListFiles = (req, res) => {
-  var directoryPath = path.join("src/static/");
-  console.log(directoryPath);
-  fs.readdir(directoryPath, function (err, files) {
-    if (err) {
-      res.status(500).send({
-        message: "Unable to scan files!"
-      });
-    }
-
-    var fileInfos = [];
-    console.log(files);
-    files.forEach(file => {
-      fileInfos.push({
-        name: file,
-        url: directoryPath + file
-      });
-    });
-    res.status(200).send(fileInfos);
-  });
-};
-
-exports.getListFiles = getListFiles;
+exports.resizeImages2 = resizeImages2;

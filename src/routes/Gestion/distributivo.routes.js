@@ -16,14 +16,11 @@ router.get("/:distributivoId",[authJwt.verifyToken], Ctr.getDistributivoById);
 
 router.post("/many/",[authJwt.verifyToken], Ctr.createArrayDistributivo);
 
-router.post("/",[authJwt.verifyToken], Ctr.createDistributivo);
-
 router.get("/",[authJwt.verifyToken], Ctr.getDistributivo);
 
 router.put("/planificacion/:distributivoId",[authJwt.verifyToken], Ctr.updatePlanificacionById);
 
-router.put("/:distributivoId",[authJwt.verifyToken], Ctr.updateDistributivoById);
+router.put("/:distributivoId",[authJwt.verifyToken], Ctr.deletePlanificacion);
 
-router.delete("/:id",[authJwt.verifyToken], Ctr.deleteDistributivoById);
 
 export default router;

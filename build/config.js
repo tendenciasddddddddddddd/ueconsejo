@@ -11,8 +11,8 @@ var _dotenv = require("dotenv");
 //mongodb://localhost/apicompany
 
 var _default = {
-  MONGODB_URI: process.env.MONGODB_URI || "mongodb://localhost/sistemaedu-db",
+  MONGODB_URI: process.env.MONGODB_URI || "mongodb://localhost/sistema-educativo",
   PORT: process.env.PORT || 3000,
-  SECRET: 'imperio789'
+  SECRET: 'uem alfonso herrera'
 };
 exports.default = _default;

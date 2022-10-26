@@ -10,11 +10,11 @@ var _mongoose = require("mongoose");
 var nivelSchema = new _mongoose.Schema({
   num: {
     type: String,
-    required: true
+    unique: true
   },
   nombre: {
     type: String,
-    required: true
+    unique: true
   },
   estado: {
     type: String,

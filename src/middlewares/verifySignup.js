@@ -8,9 +8,6 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
     const user = await User.findOne({cedula: req.body.cedula });
     if (user)
       return res.status(400).json({ message: "El numero de cédula ya existe" });
-    const email = await User.findOne({ email: req.body.email });
-    if (email)
-      return res.status(400).json({ message: "El correo electrónico ya existe" });
     next();
   } catch (error) {
     res.status(500).json({ message: error });

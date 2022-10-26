@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.query = exports.activate = exports.getUsers = exports.createUser = exports.getRoles = exports.deleteUsuariosById = exports.updateUsuariosById = exports.getUsuariosById = exports.getBuscadorUsuarios = exports.getUsuarios = void 0;
+exports.query = exports.activate = exports.createUser = exports.getRoles = exports.deleteUsuariosById = exports.updateUsuariosById = exports.getUsuariosById = exports.getBuscadorUsuarios = exports.getUsuarios = void 0;
 
 var _User = _interopRequireDefault(require("../models/User"));
 
@@ -15,80 +15,87 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var mongoose = require("mongoose"); //--------------------------------PAGINACION DE TABLA DEFAULT 7 EN 7--------------------
-
+var mongoose = require("mongoose");
 
 var getUsuarios = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-    var skip = parseInt(req.query.page);
-    var total = yield _User.default.countDocuments({
-      typo: {
-        $in: ["ADMS"]
-      }
-    });
-    var paginas = Math.ceil(total / limit);
-    var usuarios = yield _User.default.find({
-      typo: {
-        $in: ["ADMS"]
-      }
-    }).skip(limit * skip - limit).limit(limit);
-    var coleccion = {
-      usuarios: usuarios,
-      pagina: skip,
-      paginas: paginas,
-      total: total
-    };
-    return res.json(coleccion);
+    try {
+      var limit = parseInt(req.query.take);
+      var skip = parseInt(req.query.page);
+      var total = yield _User.default.countDocuments({
+        typo: {
+          $in: ["ADMS"]
+        }
+      });
+      var paginas = Math.ceil(total / limit);
+      var usuarios = yield _User.default.find({
+        typo: {
+          $in: ["ADMS"]
+        }
+      }).skip(limit * skip - limit).limit(limit);
+      var coleccion = {
+        usuarios: usuarios,
+        pagina: skip,
+        paginas: paginas,
+        total: total
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getUsuarios(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}(); //----------------------------------OPTENER TODOS LOS ADMINISTRADORES
-
+}();
 
 exports.getUsuarios = getUsuarios;
 
 var getBuscadorUsuarios = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var usuarios = yield _User.default.find({
-      typo: {
-        $in: ["ADMS"]
-      }
-    }).lean().select({
-      fullname: 1,
-      cedula: 1,
-      email: 1,
-      status: 1
-    });
-    var coleccion = {
-      usuarios: usuarios
-    };
-    return res.json(coleccion);
+    try {
+      var usuarios = yield _User.default.find({
+        typo: {
+          $in: ["ADMS"]
+        }
+      }).lean().select({
+        fullname: 1,
+        cedula: 1,
+        email: 1,
+        status: 1
+      });
+      var coleccion = {
+        usuarios: usuarios
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getBuscadorUsuarios(_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
-}(); //--------------------------------OPTENEMOS UN USUARIO POR ID--------------------
-
+}();
 
 exports.getBuscadorUsuarios = getBuscadorUsuarios;
 
 var getUsuariosById = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var UsuariosId = mongoose.Types.ObjectId(req.params.id);
-    var usuarios = yield _User.default.findById(UsuariosId);
-    res.status(200).json(usuarios);
+    try {
+      var UsuariosId = mongoose.Types.ObjectId(req.params.id);
+      var usuarios = yield _User.default.findById(UsuariosId);
+      res.status(200).json(usuarios);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getUsuariosById(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
-}(); //--------------------------------EDITAR USUARIO POR EL ID--------------------
-
+}();
 
 exports.getUsuariosById = getUsuariosById;
 
@@ -108,8 +115,7 @@ var updateUsuariosById = /*#__PURE__*/function () {
   return function updateUsuariosById(_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
-}(); //--------------------------------ELIMINAR USUARIOS POR EL ID--------------------
-
+}();
 
 exports.updateUsuariosById = updateUsuariosById;
 
@@ -132,26 +138,28 @@ var deleteUsuariosById = /*#__PURE__*/function () {
   return function deleteUsuariosById(_x9, _x10) {
     return _ref5.apply(this, arguments);
   };
-}(); //--------------------------------RETORNAR LA LISTA DE ROLES--------------------
-
+}();
 
 exports.deleteUsuariosById = deleteUsuariosById;
 
 var getRoles = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var roless = yield _Role.default.find({
-      name: {
-        $in: ["Admin", "Vicerrector", "Inspector"]
-      }
-    });
-    return res.json(roless);
+    try {
+      var roless = yield _Role.default.find({
+        name: {
+          $in: ["Admin", "Vicerrector", "Inspector"]
+        }
+      });
+      return res.json(roless);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getRoles(_x11, _x12) {
     return _ref6.apply(this, arguments);
   };
-}(); //--------------------------------CREAR UN NUEVO USUARIOS --------------------
-
+}();
 
 exports.getRoles = getRoles;
 
@@ -168,18 +176,14 @@ var createUser = /*#__PURE__*/function () {
         name: {
           $in: roles
         }
-      }); // creating a new User
-
+      });
       var user = new _User.default({
         username,
         email,
         password,
         roles: rolesFound.map(role => role._id)
-      }); // encrypting password
-
-      user.password = yield _User.default.encryptPassword(user.password); //llama funcion encriptar en models/user
-      // saving the new user
-
+      });
+      user.password = yield _User.default.encryptPassword(user.password);
       var savedUser = yield user.save();
       return res.status(200).json({
         _id: savedUser._id,
@@ -188,7 +192,7 @@ var createUser = /*#__PURE__*/function () {
         roles: savedUser.roles
       });
     } catch (error) {
-      console.error(error);
+      return res.status(500).json(err);
     }
   });
 
@@ -199,18 +203,8 @@ var createUser = /*#__PURE__*/function () {
 
 exports.createUser = createUser;
 
-var getUsers = /*#__PURE__*/function () {
-  var _ref8 = _asyncToGenerator(function* (req, res) {});
-
-  return function getUsers(_x15, _x16) {
-    return _ref8.apply(this, arguments);
-  };
-}();
-
-exports.getUsers = getUsers;
-
 var activate = /*#__PURE__*/function () {
-  var _ref9 = _asyncToGenerator(function* (req, res, next) {
+  var _ref8 = _asyncToGenerator(function* (req, res, next) {
     try {
       var reg = yield _User.default.findByIdAndUpdate({
         _id: req.params.id
@@ -226,15 +220,15 @@ var activate = /*#__PURE__*/function () {
     }
   });
 
-  return function activate(_x17, _x18, _x19) {
-    return _ref9.apply(this, arguments);
+  return function activate(_x15, _x16, _x17) {
+    return _ref8.apply(this, arguments);
   };
 }();
 
 exports.activate = activate;
 
 var query = /*#__PURE__*/function () {
-  var _ref10 = _asyncToGenerator(function* (req, res) {
+  var _ref9 = _asyncToGenerator(function* (req, res) {
     try {
       var querys = req.query.querys;
       var result = yield _User.default.find({
@@ -254,8 +248,8 @@ var query = /*#__PURE__*/function () {
     }
   });
 
-  return function query(_x20, _x21) {
-    return _ref10.apply(this, arguments);
+  return function query(_x18, _x19) {
+    return _ref9.apply(this, arguments);
   };
 }();
 

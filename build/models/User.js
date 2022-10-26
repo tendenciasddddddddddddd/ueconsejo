@@ -16,13 +16,14 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var productSchema = new _mongoose.Schema({
-  email: {
-    type: String,
-    unique: true
-  },
+  email: String,
   password: {
     type: String,
     required: true
+  },
+  cedula: {
+    type: String,
+    unique: true
   },
   //********************************NUEVOS CAMPOS PARA USUARIOS ADMINISTRADORES
   nombres: {
@@ -30,10 +31,6 @@ var productSchema = new _mongoose.Schema({
     required: true
   },
   apellidos: {
-    type: String,
-    required: true
-  },
-  cedula: {
     type: String,
     required: true
   },
@@ -45,10 +42,7 @@ var productSchema = new _mongoose.Schema({
     type: String,
     default: 1
   },
-  telefono: {
-    type: String,
-    required: true
-  },
+  telefono: String,
   fullname: String,
   //---------------TIPO DE DOCUMENTOS
   typo: {

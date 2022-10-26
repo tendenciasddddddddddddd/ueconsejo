@@ -26,7 +26,6 @@ var createProvincias = /*#__PURE__*/function () {
       var ProvinciasSaved = yield newProvincias.save();
       res.status(201).json(ProvinciasSaved);
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   });
@@ -40,21 +39,24 @@ exports.createProvincias = createProvincias;
 
 var getProvincias = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-    var skip = parseInt(req.query.page);
-    var total = yield _Provincias.default.countDocuments();
-    var paginas = Math.ceil(total / limit);
-    var usuarios = yield _Provincias.default.find({}).skip(limit * skip - limit).limit(limit).sort({
-      updatedAt: -1
-    });
-    var coleccion = {
-      usuarios: usuarios,
-      pagina: skip,
-      paginas: paginas,
-      total: total
-    };
-    return res.json(coleccion);
+    try {
+      var limit = parseInt(req.query.take);
+      var skip = parseInt(req.query.page);
+      var total = yield _Provincias.default.countDocuments();
+      var paginas = Math.ceil(total / limit);
+      var usuarios = yield _Provincias.default.find({}).skip(limit * skip - limit).limit(limit).sort({
+        updatedAt: -1
+      });
+      var coleccion = {
+        usuarios: usuarios,
+        pagina: skip,
+        paginas: paginas,
+        total: total
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getProvincias(_x3, _x4) {
@@ -66,11 +68,15 @@ exports.getProvincias = getProvincias;
 
 var getProvinciasById = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var {
-      provinciasId
-    } = req.params;
-    var provincias = yield _Provincias.default.findById(provinciasId);
-    res.status(200).json(provincias);
+    try {
+      var {
+        provinciasId
+      } = req.params;
+      var provincias = yield _Provincias.default.findById(provinciasId);
+      res.status(200).json(provincias);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getProvinciasById(_x5, _x6) {
@@ -82,10 +88,14 @@ exports.getProvinciasById = getProvinciasById;
 
 var updateProvinciasById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    var updatedProvincias = yield _Provincias.default.findByIdAndUpdate(req.params.provinciasId, req.body, {
-      new: true
-    });
-    res.status(200).json(updatedProvincias);
+    try {
+      var updatedProvincias = yield _Provincias.default.findByIdAndUpdate(req.params.provinciasId, req.body, {
+        new: true
+      });
+      res.status(200).json(updatedProvincias);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function updateProvinciasById(_x7, _x8) {

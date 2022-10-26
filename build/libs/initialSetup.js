@@ -82,7 +82,7 @@ var createAdmin = /*#__PURE__*/function () {
         apellidos: "Martinez Martinez",
         fullname: "Martinez Martinez Esteban Wladimir",
         cedula: "1004095632",
-        foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665121545/profile_p23jj9.png",
+        foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1666453678/avatar_didazq.webp",
         status: "Activo",
         telefono: "0995283857"
       });
@@ -114,7 +114,7 @@ var userdev = /*#__PURE__*/function () {
         apellidos: faker.name.lastName(),
         status: "1",
         telefono: faker.phone.phoneNumber(),
-        foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665121545/profile_p23jj9.png",
+        foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1666453678/avatar_didazq.webp",
         cedula: faker.finance.routingNumber(),
         typo: "DOCS",
         fullname: faker.name.findName(),
@@ -154,7 +154,7 @@ var userest = /*#__PURE__*/function () {
         apellidos: faker.name.lastName(),
         status: "1",
         telefono: faker.phone.phoneNumber(),
-        foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665121545/profile_p23jj9.png",
+        foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1666453678/avatar_didazq.webp",
         cedula: faker.finance.routingNumber(),
         typo: "ESTS",
         fullname: faker.name.findName(),

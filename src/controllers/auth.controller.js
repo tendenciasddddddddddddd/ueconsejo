@@ -5,13 +5,8 @@ import jwt from "jsonwebtoken";
 import config from "../config";
 
 import ResetEmail from "../conf/ResetEmail";
-
-//const timer1 = (ms) => new Promise((res) => setTimeout(res, ms));
 export const signUp = async (req, res) => {
-
     try {
-        // Getting the Request Body
-
         const {
             username,
             email,
@@ -25,7 +20,6 @@ export const signUp = async (req, res) => {
             typo,
             fullname,
         } = req.body;
-        // Creating a new User Object
         const newUser = new User({
             username,
             email,
@@ -38,8 +32,6 @@ export const signUp = async (req, res) => {
             fullname,
             password: await User.encryptPassword(password),
         });
-
-        // checking for roles
         if (req.body.role) {
             newUser.roles = req.body.role;
         } else {
@@ -48,29 +40,32 @@ export const signUp = async (req, res) => {
             });
             newUser.roles = [role._id];
         }
-
-        // Saving the User Object in Mongodb
         newUser.roles = req.body.role;
         const savedUser = await newUser.save();
-
         return res.status(200).json({
             savedUser
         });
     } catch (error) {
-        console.log(error);
         return res.status(500).json(error);
     }
 };
 //---------------------------------------------------------LOGIN ACCESS--------------------------
 export const signin = async (req, res) => {
     try {
-        // EL CUERPO DE CORREO O EL CUERPO DE USERNAME
-        const userFound = await User.findOne({
-            email: req.body.email
-        }).populate(
-            "roles"
-        );
-        //VERIFICAR sI EL USUARIO EXISTE EN BASE DE DATOS
+        var userFound = {}
+        if (vefificaIfEmail(req.body.email)) {
+            userFound = await User.findOne({
+                email: req.body.email
+            }).populate(
+                "roles"
+            );
+        } else {
+            userFound = await User.findOne({
+                cedula: req.body.email
+            }).populate(
+                "roles"
+            );
+        }
         if (!userFound) return res.status(400).json({
             message: "User Not Found 1"
         });
@@ -95,7 +90,6 @@ export const signin = async (req, res) => {
         for (let i = 0; i < roles.length; i++) {
             toles = roles[0].name
         }
-
         const token = jwt.sign({
             id: userFound._id,
             role: toles,
@@ -103,27 +97,28 @@ export const signin = async (req, res) => {
             expiresIn: '24d', // 24 hours
         });
 
-        if(!userFound.modalidad){
-            userFound.modalidad= 'none';
+        if (!userFound.modalidad) {
+            userFound.modalidad = 'none';
         }
-
-        //REGISTRO INICIO DE SECCION
         const isaccesos = {
             tokens: token,
             foto: userFound.foto,
             nombre: userFound.fullname,
-            email: userFound.email,
-            modalidad : userFound.modalidad,
+            email: userFound.cedula,
+            modalidad: userFound.modalidad,
         }
         res.status(200).json({
             isaccesos
         });
-
-
     } catch (error) {
-        console.log(error);
+        return res.status(500).json(error);
     }
 };
+
+const vefificaIfEmail = (email) => {
+    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regex.test(email);
+}
 
 //---------------------------------------------------------VUE OUTH GOOGLE API--------------------------
 export const googleAuthApi = async (req, res) => {
@@ -138,7 +133,7 @@ export const googleAuthApi = async (req, res) => {
         if (!userFound) return res.status(400).json({
             message: "User Not Found 1"
         });
-       
+
         //OPTENERMOS EL ROL
         var toles = null
         const roles = await Role.find({
@@ -157,25 +152,21 @@ export const googleAuthApi = async (req, res) => {
             expiresIn: '24d', // 24 hours
         });
 
-        if(!userFound.modalidad){
-            userFound.modalidad= 'none';
+        if (!userFound.modalidad) {
+            userFound.modalidad = 'none';
         }
-
-        //REGISTRO INICIO DE SECCION
         const isaccesos = {
             tokens: token,
             foto: userFound.foto,
             nombre: userFound.fullname,
             email: userFound.email,
-            modalidad : userFound.modalidad,
+            modalidad: userFound.modalidad,
         }
         res.status(200).json({
             isaccesos
         });
-
-
     } catch (error) {
-        console.log(error);
+        return res.status(500).json(error);
     }
 };
 
@@ -216,27 +207,23 @@ export const newPassword = async (req, res) => {
         const updatedPassword = await User.findByIdAndUpdate(
             req.params.cuentaId,
             req.body, {
-                new: true,
-            }
+            new: true,
+        }
         );
         res.status(200).json(updatedPassword);
     } catch (err) {
-        console.log(error);
-        return res.status(500).json(error);
+        return res.status(500).json(err);
     }
 };
 
 //RESET PASWWORF----------------------------------
-
-const  generateRandomString = (num) => {
-    let result1= Math.random().toString(36).substring(0,num);       
-
+const generateRandomString = (num) => {
+    let result1 = Math.random().toString(36).substring(0, num);
     return result1;
 }
 
-export const resetPassword = async (req, res)  => {
+export const resetPassword = async (req, res) => {
     try {
-        
         const userFound = await User.findOne({
             email: req.body.email
         });
@@ -248,15 +235,12 @@ export const resetPassword = async (req, res)  => {
         res.status(200).json({
             code
         });
-
     } catch (error) {
         return res.status(500).json(error);
     }
-
 };
 
 export const forgotPassword = async (req, res) => {
-
     try {
         const userFound = await User.findOne({
             email: req.body.email
@@ -265,9 +249,8 @@ export const forgotPassword = async (req, res) => {
         const updatedPassword = await User.findByIdAndUpdate(
             userFound._id,
             req.body, {
-                new: true,
-            }
-        );
+            new: true,
+        });
         res.status(200).json(updatedPassword);
     } catch (err) {
         return res.status(500).json(err);

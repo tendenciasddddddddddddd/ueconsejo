@@ -26,7 +26,6 @@ var createEtnias = /*#__PURE__*/function () {
       var EtniasSaved = yield newEtnias.save();
       res.status(201).json(EtniasSaved);
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   });
@@ -40,21 +39,24 @@ exports.createEtnias = createEtnias;
 
 var getEtnias = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-    var skip = parseInt(req.query.page);
-    var total = yield _Etnias.default.countDocuments();
-    var paginas = Math.ceil(total / limit);
-    var etnias = yield _Etnias.default.find({}).skip(limit * skip - limit).limit(limit).sort({
-      updatedAt: -1
-    });
-    var coleccion = {
-      datas: etnias,
-      pagina: skip,
-      paginas: paginas,
-      total: total
-    };
-    return res.json(coleccion);
+    try {
+      var limit = parseInt(req.query.take);
+      var skip = parseInt(req.query.page);
+      var total = yield _Etnias.default.countDocuments();
+      var paginas = Math.ceil(total / limit);
+      var etnias = yield _Etnias.default.find({}).skip(limit * skip - limit).limit(limit).sort({
+        updatedAt: -1
+      });
+      var coleccion = {
+        datas: etnias,
+        pagina: skip,
+        paginas: paginas,
+        total: total
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getEtnias(_x3, _x4) {
@@ -66,11 +68,15 @@ exports.getEtnias = getEtnias;
 
 var getEtniasById = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var {
-      etniasId
-    } = req.params;
-    var etnias = yield _Etnias.default.findById(etniasId);
-    res.status(200).json(etnias);
+    try {
+      var {
+        etniasId
+      } = req.params;
+      var etnias = yield _Etnias.default.findById(etniasId);
+      res.status(200).json(etnias);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getEtniasById(_x5, _x6) {
@@ -82,10 +88,14 @@ exports.getEtniasById = getEtniasById;
 
 var updateEtniasById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    var updatedEtnias = yield _Etnias.default.findByIdAndUpdate(req.params.etniasId, req.body, {
-      new: true
-    });
-    res.status(200).json(updatedEtnias);
+    try {
+      var updatedEtnias = yield _Etnias.default.findByIdAndUpdate(req.params.etniasId, req.body, {
+        new: true
+      });
+      res.status(200).json(updatedEtnias);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function updateEtniasById(_x7, _x8) {
@@ -114,18 +124,21 @@ var deleteEtniasById = /*#__PURE__*/function () {
   return function deleteEtniasById(_x9, _x10) {
     return _ref5.apply(this, arguments);
   };
-}(); //-------------------COMPONENTES CHILDS ------
-
+}();
 
 exports.deleteEtniasById = deleteEtniasById;
 
 var getChildEtnia = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var documentos = yield _Etnias.default.find({}).lean();
-    var coleccion = {
-      datas: documentos
-    };
-    return res.json(coleccion);
+    try {
+      var documentos = yield _Etnias.default.find({}).lean();
+      var coleccion = {
+        datas: documentos
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getChildEtnia(_x11, _x12) {

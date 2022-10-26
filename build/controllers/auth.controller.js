@@ -21,11 +21,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//const timer1 = (ms) => new Promise((res) => setTimeout(res, ms));
 var signUp = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
     try {
-      // Getting the Request Body
       var {
         username,
         email,
@@ -38,8 +36,7 @@ var signUp = /*#__PURE__*/function () {
         foto,
         typo,
         fullname
-      } = req.body; // Creating a new User Object
-
+      } = req.body;
       var newUser = new _User.default({
         username,
         email,
@@ -51,7 +48,7 @@ var signUp = /*#__PURE__*/function () {
         typo,
         fullname,
         password: yield _User.default.encryptPassword(password)
-      }); // checking for roles
+      });
 
       if (req.body.role) {
         newUser.roles = req.body.role;
@@ -60,8 +57,7 @@ var signUp = /*#__PURE__*/function () {
           name: "Docente"
         });
         newUser.roles = [role._id];
-      } // Saving the User Object in Mongodb
-
+      }
 
       newUser.roles = req.body.role;
       var savedUser = yield newUser.save();
@@ -69,7 +65,6 @@ var signUp = /*#__PURE__*/function () {
         savedUser
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   });
@@ -85,10 +80,17 @@ exports.signUp = signUp;
 var signin = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
     try {
-      // EL CUERPO DE CORREO O EL CUERPO DE USERNAME
-      var userFound = yield _User.default.findOne({
-        email: req.body.email
-      }).populate("roles"); //VERIFICAR sI EL USUARIO EXISTE EN BASE DE DATOS
+      var userFound = {};
+
+      if (vefificaIfEmail(req.body.email)) {
+        userFound = yield _User.default.findOne({
+          email: req.body.email
+        }).populate("roles");
+      } else {
+        userFound = yield _User.default.findOne({
+          cedula: req.body.email
+        }).populate("roles");
+      }
 
       if (!userFound) return res.status(400).json({
         message: "User Not Found 1"
@@ -122,31 +124,35 @@ var signin = /*#__PURE__*/function () {
 
       if (!userFound.modalidad) {
         userFound.modalidad = 'none';
-      } //REGISTRO INICIO DE SECCION
-
+      }
 
       var isaccesos = {
         tokens: token,
         foto: userFound.foto,
         nombre: userFound.fullname,
-        email: userFound.email,
+        email: userFound.cedula,
         modalidad: userFound.modalidad
       };
       res.status(200).json({
         isaccesos
       });
     } catch (error) {
-      console.log(error);
+      return res.status(500).json(error);
     }
   });
 
   return function signin(_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
-}(); //---------------------------------------------------------VUE OUTH GOOGLE API--------------------------
-
+}();
 
 exports.signin = signin;
+
+var vefificaIfEmail = email => {
+  var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(email);
+}; //---------------------------------------------------------VUE OUTH GOOGLE API--------------------------
+
 
 var googleAuthApi = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
@@ -181,8 +187,7 @@ var googleAuthApi = /*#__PURE__*/function () {
 
       if (!userFound.modalidad) {
         userFound.modalidad = 'none';
-      } //REGISTRO INICIO DE SECCION
-
+      }
 
       var isaccesos = {
         tokens: token,
@@ -195,7 +200,7 @@ var googleAuthApi = /*#__PURE__*/function () {
         isaccesos
       });
     } catch (error) {
-      console.log(error);
+      return res.status(500).json(error);
     }
   });
 
@@ -244,8 +249,7 @@ var newPassword = /*#__PURE__*/function () {
       });
       res.status(200).json(updatedPassword);
     } catch (err) {
-      console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json(err);
     }
   });
 

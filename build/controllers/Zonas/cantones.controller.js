@@ -45,21 +45,24 @@ exports.createCantones = createCantones;
 
 var getCantones = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-    var skip = parseInt(req.query.page);
-    var total = yield _Cantones.default.countDocuments();
-    var paginas = Math.ceil(total / limit);
-    var usuarios = yield _Cantones.default.find({}).skip(limit * skip - limit).limit(limit).sort({
-      updatedAt: -1
-    });
-    var coleccion = {
-      datas: usuarios,
-      pagina: skip,
-      paginas: paginas,
-      total: total
-    };
-    return res.json(coleccion);
+    try {
+      var limit = parseInt(req.query.take);
+      var skip = parseInt(req.query.page);
+      var total = yield _Cantones.default.countDocuments();
+      var paginas = Math.ceil(total / limit);
+      var usuarios = yield _Cantones.default.find({}).skip(limit * skip - limit).limit(limit).sort({
+        updatedAt: -1
+      });
+      var coleccion = {
+        datas: usuarios,
+        pagina: skip,
+        paginas: paginas,
+        total: total
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getCantones(_x3, _x4) {
@@ -71,11 +74,15 @@ exports.getCantones = getCantones;
 
 var getCantonesById = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var {
-      cantonesId
-    } = req.params;
-    var cantones = yield _Cantones.default.findById(cantonesId);
-    res.status(200).json(cantones);
+    try {
+      var {
+        cantonesId
+      } = req.params;
+      var cantones = yield _Cantones.default.findById(cantonesId);
+      res.status(200).json(cantones);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getCantonesById(_x5, _x6) {
@@ -87,10 +94,14 @@ exports.getCantonesById = getCantonesById;
 
 var updateCantonesById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    var updatedCantones = yield _Cantones.default.findByIdAndUpdate(req.params.cantonesId, req.body, {
-      new: true
-    });
-    res.status(200).json(updatedCantones);
+    try {
+      var updatedCantones = yield _Cantones.default.findByIdAndUpdate(req.params.cantonesId, req.body, {
+        new: true
+      });
+      res.status(200).json(updatedCantones);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function updateCantonesById(_x7, _x8) {
@@ -126,14 +137,18 @@ exports.deleteCantonesById = deleteCantonesById;
 
 var getlistaProvincias = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
-    var provincia = yield _Provincias.default.find({
-      estado: {
-        $in: ["1"]
-      }
-    }, {
-      'nombre': true
-    });
-    return res.json(provincia);
+    try {
+      var provincia = yield _Provincias.default.find({
+        estado: {
+          $in: ["1"]
+        }
+      }, {
+        'nombre': true
+      });
+      return res.json(provincia);
+    } catch (error) {
+      return res.status(500).json();
+    }
   });
 
   return function getlistaProvincias(_x11, _x12) {

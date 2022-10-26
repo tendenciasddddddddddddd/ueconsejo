@@ -26,10 +26,8 @@ router.get("/fulldistributivo", [_middlewares.authJwt.verifyToken], Ctr.getAllDi
 router.get("/planificacio/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.getPlanificacionById);
 router.get("/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.getDistributivoById);
 router.post("/many/", [_middlewares.authJwt.verifyToken], Ctr.createArrayDistributivo);
-router.post("/", [_middlewares.authJwt.verifyToken], Ctr.createDistributivo);
 router.get("/", [_middlewares.authJwt.verifyToken], Ctr.getDistributivo);
 router.put("/planificacion/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.updatePlanificacionById);
-router.put("/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.updateDistributivoById);
-router.delete("/:id", [_middlewares.authJwt.verifyToken], Ctr.deleteDistributivoById);
+router.put("/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.deletePlanificacion);
 var _default = router;
 exports.default = _default;

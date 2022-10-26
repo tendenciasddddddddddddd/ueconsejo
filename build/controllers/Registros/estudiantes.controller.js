@@ -15,61 +15,63 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var mongoose = require('mongoose'); //--------------------------------PAGINACION DE TABLA DEFAULT 7 EN 7--------------------
-
-
 var getEstudiantes = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (req, res) {
-    //if(req.query.take==null || req.query.take==null)return;
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-    var skip = parseInt(req.query.page);
-    var total = yield _User.default.countDocuments({
-      typo: {
-        $in: ["ESTS"]
-      }
-    });
-    var paginas = Math.ceil(total / limit);
-    var usuarios = yield _User.default.find({
-      typo: {
-        $in: ["ESTS"]
-      }
-    }).skip(limit * skip - limit).limit(limit).sort({
-      updatedAt: -1
-    });
-    var coleccion = {
-      usuarios: usuarios,
-      pagina: skip,
-      paginas: paginas,
-      total: total
-    };
-    return res.json(coleccion);
+    try {
+      var limit = parseInt(req.query.take);
+      var skip = parseInt(req.query.page);
+      var total = yield _User.default.countDocuments({
+        typo: {
+          $in: ["ESTS"]
+        }
+      });
+      var paginas = Math.ceil(total / limit);
+      var usuarios = yield _User.default.find({
+        typo: {
+          $in: ["ESTS"]
+        }
+      }).skip(limit * skip - limit).limit(limit).sort({
+        updatedAt: -1
+      });
+      var coleccion = {
+        usuarios: usuarios,
+        pagina: skip,
+        paginas: paginas,
+        total: total
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getEstudiantes(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}(); //----------------------------------OPTENER TODOS LOS ADMINISTRADORES
-
+}();
 
 exports.getEstudiantes = getEstudiantes;
 
 var getBuscadorUsuarios = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var usuarios = yield _User.default.find({
-      typo: {
-        $in: ["ESTS"]
-      }
-    }).lean().select({
-      fullname: 1,
-      foto: 1,
-      email: 1,
-      status: 1
-    });
-    var coleccion = {
-      usuarios: usuarios
-    };
-    return res.json(coleccion);
+    try {
+      var usuarios = yield _User.default.find({
+        typo: {
+          $in: ["ESTS"]
+        }
+      }).lean().select({
+        fullname: 1,
+        foto: 1,
+        email: 1,
+        status: 1
+      });
+      var coleccion = {
+        usuarios: usuarios
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getBuscadorUsuarios(_x3, _x4) {
@@ -82,17 +84,21 @@ exports.getBuscadorUsuarios = getBuscadorUsuarios;
 
 var getListasEstudiantes = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var products = yield _User.default.find({
-      typo: {
-        $in: ["ESTS"]
-      }
-    }).lean().select({
-      fullname: 1,
-      foto: 1,
-      email: 1,
-      status: 1
-    });
-    return res.json(products);
+    try {
+      var products = yield _User.default.find({
+        typo: {
+          $in: ["ESTS"]
+        }
+      }).lean().select({
+        fullname: 1,
+        foto: 1,
+        cedula: 1,
+        status: 1
+      });
+      return res.json(products);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getListasEstudiantes(_x5, _x6) {
@@ -105,9 +111,15 @@ exports.getListasEstudiantes = getListasEstudiantes;
 
 var getEstudianteById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
-    var UsuariosId = mongoose.Types.ObjectId(req.params.id);
-    var usuarios = yield _User.default.findById(UsuariosId);
-    res.status(200).json(usuarios);
+    try {
+      var {
+        id
+      } = req.params;
+      var usuarios = yield _User.default.findById(id);
+      res.status(200).json(usuarios);
+    } catch (error) {
+      return res.status(500).json(err);
+    }
   });
 
   return function getEstudianteById(_x7, _x8) {
@@ -165,7 +177,6 @@ exports.deleteEstudianteById = deleteEstudianteById;
 var createEstudiante = /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator(function* (req, res) {
     try {
-      // Getting the Request Body
       var {
         username,
         email,
@@ -183,8 +194,7 @@ var createEstudiante = /*#__PURE__*/function () {
         fketnia,
         fknacionalidad,
         fkparroquia
-      } = req.body; // Creating a new User Object
-
+      } = req.body;
       var newUser = new _User.default({
         username,
         email,
@@ -201,8 +211,7 @@ var createEstudiante = /*#__PURE__*/function () {
         fketnia,
         fknacionalidad,
         fkparroquia
-      }); // checking for roles
-
+      });
       var role = yield _Role.default.findOne({
         name: "Estudiante"
       });
@@ -212,7 +221,9 @@ var createEstudiante = /*#__PURE__*/function () {
         savedUser
       });
     } catch (error) {
-      console.error('error duplicado');
+      return res.status(500).json({
+        message: 'Problem'
+      });
     }
   });
 
@@ -237,11 +248,11 @@ var createEstudianteMany = /*#__PURE__*/function () {
       });
 
       for (var i = 0; i < array.length; i++) {
-        var ifemail = yield _User.default.findOne({
-          email: array[i].email
+        var ifcedula = yield _User.default.findOne({
+          cedula: array[i].cedula
         });
 
-        if (ifemail) {
+        if (ifcedula) {
           duplicados.push(array[i]);
         } else {
           array[i].password = yield _User.default.encryptPassword(array[i].password);
@@ -261,7 +272,6 @@ var createEstudianteMany = /*#__PURE__*/function () {
         duplicados
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         message: 'Problem'
       });

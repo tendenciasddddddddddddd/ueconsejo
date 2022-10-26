@@ -22,7 +22,9 @@ var cantonesSchema = new _mongoose.Schema({
     ref: "Materia"
   },
   paralelo: String,
-  planificacion: String
+  planificacion: [{
+    url: String
+  }]
 }, {
   timestamps: true,
   versionKey: false

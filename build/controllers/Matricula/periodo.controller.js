@@ -41,36 +41,42 @@ exports.createPeriodo = createPeriodo;
 
 var getPeriodo = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* (req, res) {
-    var limit = parseInt(req.query.take); // Asegúrate de parsear el límite a número
-
-    var skip = parseInt(req.query.page);
-    var total = yield _Academicos.default.countDocuments();
-    var paginas = Math.ceil(total / limit);
-    var perodos = yield _Academicos.default.find({}).skip(limit * skip - limit).limit(limit);
-    var coleccion = {
-      niveles: perodos,
-      pagina: skip,
-      paginas: paginas,
-      total: total
-    };
-    return res.json(coleccion);
+    try {
+      var limit = parseInt(req.query.take);
+      var skip = parseInt(req.query.page);
+      var total = yield _Academicos.default.countDocuments();
+      var paginas = Math.ceil(total / limit);
+      var perodos = yield _Academicos.default.find({}).skip(limit * skip - limit).limit(limit);
+      var coleccion = {
+        niveles: perodos,
+        pagina: skip,
+        paginas: paginas,
+        total: total
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getPeriodo(_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
-}(); //-------------------------------------------------------------OPTENEMOS TODOS LOS PERIODOS => periodos matriculas LISTA MAT
-
+}();
 
 exports.getPeriodo = getPeriodo;
 
 var getAllPeriodo = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
-    var perodos = yield _Academicos.default.find().lean();
-    var coleccion = {
-      niveles: perodos
-    };
-    return res.json(coleccion);
+    try {
+      var perodos = yield _Academicos.default.find().lean();
+      var coleccion = {
+        niveles: perodos
+      };
+      return res.json(coleccion);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   });
 
   return function getAllPeriodo(_x5, _x6) {

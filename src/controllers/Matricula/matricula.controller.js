@@ -1,5 +1,4 @@
 import Matriculas from "../../models/Matricula/Matriculas";
-import Nivel from "../../models/Gestion/Nivel";
 
 export const createMatriculas = async (req, res) => {
   try {
@@ -15,7 +14,6 @@ export const createMatriculas = async (req, res) => {
     }
     for (let i = 0; i < array.length; i++) {
       const ifmatricula = await Matriculas.findOne({
-        // academico: array[i].academico,
         fkestudiante: array[i].fkestudiante,
       });
       if (ifmatricula) {
@@ -36,71 +34,59 @@ export const createMatriculas = async (req, res) => {
       duplicados,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: "Problem" });
   }
 };
 
 export const getMatriculas = async (req, res) => {
-  //SIRVE EL LISTADO PARA [CONSOLIDADO, ]
+  try {
+    const matriculas = await Matriculas.find()
+      .lean()
+      .select({ curso: 1, typo: 1 })
+      .populate("fkestudiante", "fullname cedula email fkparroquia sexo")
+      .populate("fknivel", "nombre");
 
-  const matriculas = await Matriculas.find()
-    .lean()
-    .select({ curso: 1, typo: 1 })
-    .populate("fkestudiante", "fullname cedula email fkparroquia sexo")
-    .populate("fknivel", "nombre");
-
-  return res.json(matriculas);
+    return res.json(matriculas);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 };
 
 export const getReportes = async (req, res) => {
-  const curs = req.query.c;
-  const matriculas = await Matriculas.find({
-    fknivel: {
-      $in: [curs],
-    },
-  })
-    .lean()
-    .select({ curso: 1, nombre: 1, fecha: 1 });
-
-  return res.json(matriculas);
-};
-
-export const getInfoMat = async (req, res) => {
-  //NO RESULEV NADA
-  if (req.query.h) {
-    const academic = req.query.h;
+  try {
     const curs = req.query.c;
-
-    const matriz = await Matriculas.find({
-      academico: {
-        $in: [academic],
-      },
+    const matriculas = await Matriculas.find({
       fknivel: {
         $in: [curs],
       },
     })
-      .populate("fkestudiante", "nombre apellidos foto")
-      .populate("fknivel", "nombre");
+      .lean()
+      .select({ curso: 1, nombre: 1, fecha: 1 });
+    return res.json(matriculas);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+export const getInfoMat = async (req, res) => {
+  try {
+    const periodo = req.query.p;
+    const mat = await Matriculas.findOne({
+      estado: {
+        $in: ["1"],
+      },
+      academico: {
+        $in: [periodo],
+      },
+    }).sort({ createdAt: -1 });
     const coleccion = {
-      matriculados: matriz,
+      num: 1,
+      infor: mat,
     };
     return res.json(coleccion);
+  } catch (error) {
+    return res.status(500).json(error);
   }
-  const periodo = req.query.p;
-  const mat = await Matriculas.findOne({
-    estado: {
-      $in: ["1"],
-    },
-    academico: {
-      $in: [periodo],
-    },
-  }).sort({ createdAt: -1 });
-  const coleccion = {
-    num: 1,
-    infor: mat,
-  };
-  return res.json(coleccion);
 };
 
 export const getListaMatricula = async (req, res) => {
@@ -123,28 +109,34 @@ export const getListaMatricula = async (req, res) => {
 };
 
 export const getMatriculaFolio = async (req, res) => {
-  //RESUELVE NUMERO DE MATRICULA Y FOLIO
-  const mat = await Matriculas.findOne().sort({ createdAt: -1 });
-  const coleccion = {
-    num: 1,
-    infor: mat,
-  };
-  return res.json(coleccion);
+  try {
+    const mat = await Matriculas.findOne().sort({ createdAt: -1 });
+    const coleccion = {
+      num: 1,
+      infor: mat,
+    };
+    return res.json(coleccion);
+  } catch (error) {
+    return res.status(500).json();
+  }
 };
 
 export const getMatriculasById = async (req, res) => {
-  const { matriculaId } = req.params;
-
-  const niveles = await Matriculas.findById(matriculaId)
-    .populate("fknivel", { nombre: 1, area:1 })
-    .populate("academico", "nombre");
-  res.status(200).json(niveles);
+  try {
+    const { matriculaId } = req.params;
+    const niveles = await Matriculas.findById(matriculaId)
+      .populate("fknivel", { nombre: 1, area: 1 })
+      .populate("academico", "nombre");
+    res.status(200).json(niveles);
+  } catch (error) {
+    return res.status(500).json();
+  }
 };
 
 export const getMatriculaByIdReport = async (req, res) => {
   try {
     let result = [];
-    let cadenaId = req.params? req.params.matriculaId: '1';
+    let cadenaId = req.params ? req.params.matriculaId : '1';
     const array = cadenaId.split(",");
     if (array != '') {
       for (let i = 0; i < array.length; i++) {
@@ -208,11 +200,15 @@ export const getMatriculasNotaBykEY = async (req, res) => {
 };
 
 export const getQueryAll = async (req, res) => {
-  const matriculas = await Matriculas.find({})
-    .lean()
-    .select({ curso: 1, nombre: 1, fecha: 1, typo: 1, fknivel: 1 });
-  const coleccion = {
-    data: matriculas,
-  };
-  return res.json(coleccion);
+  try {
+    const matriculas = await Matriculas.find({})
+      .lean()
+      .select({ curso: 1, nombre: 1, fecha: 1, typo: 1, fknivel: 1 });
+    const coleccion = {
+      data: matriculas,
+    };
+    return res.json(coleccion);
+  } catch (error) {
+    return res.status(500).json();
+  }
 };

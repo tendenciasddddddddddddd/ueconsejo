@@ -11,7 +11,7 @@ export const verifyToken = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, config.SECRET);
     req.userId = decoded.id;
-    if (!verifiUser(decoded.role)) return res.status(404).json({ message: "No user found" });
+    if (!verifiUser(decoded.role)) return res.status(405).json({ message: "No user found" });
     next();
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized!" });
