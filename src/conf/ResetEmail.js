@@ -27,8 +27,24 @@ const sendMail = async (user, code) => {
         console.log('fallo email');
     }
 
+
+   
+}
+const sendMail2 = async (user, code, name) => {
+  try {
+      const data = await ejs.renderFile(__dirname + "/resetPassWord.ejs", { codigo: code, name:name });
+      await transporter.sendMail({
+          from: '"UEM Alfonso Herrera" <ue.alfonsoherrera01@gmail.com>', 
+          to : `${user}`,
+          subject: "Recuperar contraseña de plataforma-UEMAH", 
+          html : data
+        });
+        
+  } catch (error) {
+      console.log('fallo email');
+  }
+
 }
 
-
-
 exports.sendMail = (user, code) => sendMail(user, code);
+exports.sendMail2 = (user, code, name) => sendMail2(user, code, name);

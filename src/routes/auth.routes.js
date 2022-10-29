@@ -3,6 +3,7 @@ const router = Router();
 
 import * as authCtrl from "../controllers/auth.controller";
 import { verifySignup } from "../middlewares";
+import { authJwt } from "../middlewares";
 
 router.use((req, res, next) => {
   res.header(
@@ -27,6 +28,8 @@ router.post("/resetPassword", authCtrl.resetPassword);
 router.post("/forgotPassword", authCtrl.forgotPassword);
 
 router.post("/GoogleAuthApis", authCtrl.googleAuthApi);
+
+router.post("/resetPasswordUsers/:id",[authJwt.verifyToken], authCtrl.resetPasswordUsers);
 
 router.put("/cuenta/:cuentaId", authCtrl.newPassword);
 

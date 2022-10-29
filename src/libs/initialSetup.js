@@ -108,6 +108,10 @@ console.log('100 Records Created');
 };
 export const config = async () => {
   await Configure.create({
+    unidadeducativa:'xxxx xxxx xxxx xxxx',
+    ubicacion: 'xxxx xxxx xxxx xxxx',
+    telefono: 'xxxx xxxx xxxx xxxx',
+    direccion: 'xxxx xxxx xxxx xxxx',
     rector: 'xxxx xxxx xxxx xxxx',
     vicerector: 'xxxx xxxx xxxx xxxx',
     secretario: 'xxxx xxxx xxxx xxxx',

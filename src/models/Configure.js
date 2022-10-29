@@ -2,6 +2,10 @@ import { Schema, model } from "mongoose";
 
 const paisesSchema = new Schema(
     {
+      unidadeducativa: String,
+      ubicacion: String,
+      telefono: String,
+      direccion: String,
       rector: String,
       vicerector: String,
       secretario: String,
