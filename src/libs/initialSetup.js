@@ -1,20 +1,14 @@
 import Role from "../models/Role";
 import User from "../models/User";
 import Configure from "../models/Configure";
+import Apps from "../models/Apps";
 
 import bcrypt from "bcryptjs";
 
-const faker = require('faker');
-
 export const createRoles = async () => {
   try {
-    // Count Documents
     const count = await Role.estimatedDocumentCount();
-
-    // check for existing roles
     if (count > 0) return;
-
-    // Create default Roles
     const values = await Promise.all([
       new Role({ name: "Estudiante" }).save(),//user
       new Role({ name: "Docente" }).save(),//moderator
@@ -30,13 +24,9 @@ export const createRoles = async () => {
 };
 
 export const createAdmin = async () => {
-  // check for an existing admin user
   const user = await User.findOne({ email: "10004095632w@gmailcom" });
-  // get roles _id
   const roles = await Role.find({ name: { $in: ["Admin"] } });
-
   if (!user) {
-    // create a new admin user
     await User.create({
       email: "10004095632w@gmail.com",
       password: await bcrypt.hash("Medid100.", 10),
@@ -53,61 +43,10 @@ export const createAdmin = async () => {
   }
 };
 
-export const userdev = async () => {
-  const roles = await Role.find({ name: { $in: ["Docente"] } });
-  for(let i = 0; i < 60; i++) {
-    await User.create({
-      roles: roles.map((role) => role._id),
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      nombres: faker.name.firstName(),
-      apellidos: faker.name.lastName(),
-      status:"1",
-      telefono: faker.phone.phoneNumber(),
-      foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1666453678/avatar_didazq.webp",
-      cedula : faker.finance.routingNumber(),
-      typo:"DOCS",
-      fullname:faker.name.findName(),
-      password: await bcrypt.hash("123456", 10),
-      sexo:"Femenino",
-      fketnia:"Mestizo",
-      fknacionalidad:"Colombia",
-      fkparroquia:"Caldera",
-      titulo: "Titulo lic"
-    });
-       
-    
-}
-console.log('100 Records Created');
-};
-export const userest = async () => {
-  const roles = await Role.find({ name: { $in: ["Estudiante"] } });
-  for(let i = 0; i < 300; i++) {
-    await User.create({
-      roles: roles.map((role) => role._id),
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      nombres: faker.name.firstName(),
-      apellidos: faker.name.lastName(),
-      status:"1",
-      telefono: faker.phone.phoneNumber(),
-      foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1666453678/avatar_didazq.webp",
-      cedula : faker.finance.routingNumber(),
-      typo:"ESTS",
-      fullname:faker.name.findName(),
-      password: await bcrypt.hash("123456", 10),
-      sexo:"Masculino",
-      fketnia:"Mestizo",
-      fknacionalidad:"Colombia",
-      fkparroquia:"Monte Olivo",
-    });
-       
-    
-}
-console.log('100 Records Created');
-};
 export const config = async () => {
+  await  Configure.deleteMany();
   await Configure.create({
+    logo:'https://res.cloudinary.com/stebann/image/upload/v1667016912/logoss_hixved.webp',
     unidadeducativa:'xxxx xxxx xxxx xxxx',
     ubicacion: 'xxxx xxxx xxxx xxxx',
     telefono: 'xxxx xxxx xxxx xxxx',
@@ -116,6 +55,15 @@ export const config = async () => {
     vicerector: 'xxxx xxxx xxxx xxxx',
     secretario: 'xxxx xxxx xxxx xxxx',
     inspector: 'xxxx xxxx xxxx xxxx',
+  });
+console.log('config create');
+};
+
+export const aplicaciones = async () => {
+  await  Apps.deleteMany();
+  await Apps.create({
+    web:'xxxx xxxx xxxx xxxx',
+    movil:'xxxx xxxx xxxx xxxx',
   });
 console.log('config create');
 };

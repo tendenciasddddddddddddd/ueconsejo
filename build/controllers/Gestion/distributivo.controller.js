@@ -104,7 +104,7 @@ var getInfoDistributivo = /*#__PURE__*/function () {
         nombre: 1,
         paralelo: 1,
         planificacion: 1
-      }).populate('fmateria', 'nombre area').populate('fnivel', 'nombre');
+      }).populate('fmateria', 'nombre area').populate('fnivel', 'nombre num');
       return res.json(distributivo);
     } catch (error) {
       return res.status(500).json();

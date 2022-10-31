@@ -35,6 +35,8 @@ var _nivel = _interopRequireDefault(require("./routes/Gestion/nivel.routes"));
 
 var _materia = _interopRequireDefault(require("./routes/Gestion/materia.routes"));
 
+var _tutor = _interopRequireDefault(require("./routes/Gestion/tutor.routes"));
+
 var _matriculas = _interopRequireDefault(require("./routes/Matricula/matriculas.routes"));
 
 var _matri = _interopRequireDefault(require("./routes/Matricula/matri.routes"));
@@ -71,9 +73,8 @@ var path = require('path');
 
 var app = (0, _express.default)(); //createRoles();
 //createAdmin();
-//userdev();
-//userest();
 //config();
+//aplicaciones();
 
 var corsOptions = {
   origin: '*',
@@ -81,8 +82,8 @@ var corsOptions = {
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 
 };
-app.use((0, _cors.default)(corsOptions));
-app.use((0, _morgan.default)("dev"));
+app.use((0, _cors.default)(corsOptions)); //app.use(morgan("dev"));
+
 app.use(_express.default.json({
   limit: '10mb'
 }));
@@ -114,7 +115,9 @@ app.use("/api/materias", _materia.default);
 app.use("/api/periodos", _matriculas.default);
 app.use("/api/matriculas", _matri.default);
 app.use("/api/userdelles", _userdetalles.default);
-app.use("/api/distributivo", _distributivo.default);
+app.use("/api/distributivo", _distributivo.default); //materiaTutor
+
+app.use("/api/tutores", _tutor.default);
 app.use("/api/notas", _notas.default);
 app.use("/api/aulas", _aulas.default);
 app.use("/api/tasks", _task.default);

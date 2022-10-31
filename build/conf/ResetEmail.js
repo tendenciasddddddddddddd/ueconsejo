@@ -43,4 +43,29 @@ var sendMail = /*#__PURE__*/function () {
   };
 }();
 
+var sendMail2 = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator(function* (user, code, name) {
+    try {
+      var data = yield ejs.renderFile(__dirname + "/resetPassWord.ejs", {
+        codigo: code,
+        name: name
+      });
+      yield transporter.sendMail({
+        from: '"UEM Alfonso Herrera" <ue.alfonsoherrera01@gmail.com>',
+        to: "".concat(user),
+        subject: "Recuperar contraseña de plataforma-UEMAH",
+        html: data
+      });
+    } catch (error) {
+      console.log('fallo email');
+    }
+  });
+
+  return function sendMail2(_x3, _x4, _x5) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
 exports.sendMail = (user, code) => sendMail(user, code);
+
+exports.sendMail2 = (user, code, name) => sendMail2(user, code, name);

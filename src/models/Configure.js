@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 
 const paisesSchema = new Schema(
     {
+      logo: String,
       unidadeducativa: String,
       ubicacion: String,
       telefono: String,

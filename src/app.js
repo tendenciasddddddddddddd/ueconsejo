@@ -15,6 +15,7 @@ import uploads from "./routes/Archivos/upload"
 import usuarios from "./routes/user.routes"
 import nivelRoutes from "./routes/Gestion/nivel.routes";
 import materiaRoutes from "./routes/Gestion/materia.routes"
+import tutorRoutes from "./routes/Gestion/tutor.routes"
 import periodoRoutes from "./routes/Matricula/matriculas.routes"
 import matriculaRoutes from "./routes/Matricula/matri.routes"
 import userdetallesRoutes from "./routes/userdetalles.routes"
@@ -34,14 +35,13 @@ import publico from "./public/routes/index"
  import sitemapRouter from "./service/sitemap"
 
 
-import { createRoles, createAdmin, userdev, userest, config} from "./libs/initialSetup";
+import { createRoles, createAdmin, config, aplicaciones} from "./libs/initialSetup";
 
 const app = express();
 //createRoles();
 //createAdmin();
-//userdev();
-//userest();
 //config();
+//aplicaciones();
 import cors from "cors";
 
 var corsOptions = {
@@ -50,7 +50,7 @@ var corsOptions = {
 }
 app.use(cors(corsOptions));
 
-app.use(morgan("dev"));
+//app.use(morgan("dev"));
 app.use(express.json({limit: '10mb'}));
 app.use(express.urlencoded({limit: '10mb'}));
 
@@ -84,7 +84,8 @@ app.use("/api/materias", materiaRoutes);
 app.use("/api/periodos", periodoRoutes);
 app.use("/api/matriculas", matriculaRoutes);
 app.use("/api/userdelles", userdetallesRoutes);
-app.use("/api/distributivo", distributivoRoutes);
+app.use("/api/distributivo", distributivoRoutes);//materiaTutor
+app.use("/api/tutores", tutorRoutes);
 app.use("/api/notas", notasRoutes);
 app.use("/api/aulas", aulasRoutes);
 app.use("/api/tasks", taskRoutes);

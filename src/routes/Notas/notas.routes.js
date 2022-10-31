@@ -12,9 +12,9 @@ router.get("/nota/:matriculaId", [authJwt.verifyToken], matriCtrl.getMatriculasN
 
 router.put("/reform/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaArbol1ById); //INSERTAMOS DATOS DE MATERIA Y DOCENTES EN NOTAS
 
-router.put("/ref2/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaArbol2ById); //INSERTAMOS DATOS DE MATERIA Y DOCENTES EN NOTAS
+router.put("/iniciales/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaInicialesId); //INSERTAMOS DATOS DE MATERIA Y DOCENTES EN NOTAS
 
-router.put("/ref3/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaArbol3ById); //CONFIRMAR LAS NORAS DE ESTUDIANTES //createFullNote
+router.put("/ref2/:matriculaId",[authJwt.verifyToken], matriCtrl.createNotaArbol2ById); //INSERTAMOS DATOS DE MATERIA Y DOCENTES EN NOTAS
 
 router.put("/createfullnote/:matriculaId", matriCtrl.createFullNote);
 
@@ -25,8 +25,6 @@ router.put("/createComportamiento/:matriculaId",[authJwt.verifyToken], matriCtrl
 router.put("/createProyectos/:matriculaId",[authJwt.verifyToken], matriCtrl.createFullProyectos);
 
 router.put("/deleteallnote/:matriculaId",[authJwt.verifyToken], matriCtrl.deleteNoteById);
-
-router.put("/confirmfullnote/:matriculaId",[authJwt.verifyToken], matriCtrl.confirmFullNoteById);
 
 
 export default router;

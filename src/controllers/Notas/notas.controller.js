@@ -60,6 +60,116 @@ export const createNotaArbol1ById = async (req, res) => {
   }
 }
 
+//-------------------------------------------------------REFORMA DE INICIALES [DOCENTE, ]-------------------------------------
+
+export const createNotaInicialesId = async (req, res) => {
+  try {
+    let cadenaId = req.params.matriculaId;
+    const array = cadenaId.split(",");
+    await Matriculas.updateMany(
+      { _id: { $in: array } },
+      { $push: { 'iniciales': req.body.iniciales } },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json('crearnote');
+  } catch (error) {
+    return res.status(500).json();
+  }
+}
+
+const params = [
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Comunica algunos datos de su identidad como: nombre, apellido, edad y nombres de los padres'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Identifica las características generales que diferencian a niños y niñas y se reconoce como parte de uno de esos grupos. '},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Reconoce algunas de sus características físicas como: color de pelo, ojos, piel tamaño, entre otros, como parte de proceso de su reconocimiento como ser único e irrepetible.'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Manifiesta sus emociones y sentimientos con mayor intencionalidad mediante expresiones orales y gestuales.'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Elige actividades, vestuarios entre otros demostrando sus gustos y preferencias.'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Se reconoce como parte integrante de una familia a la que pertenece'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Realiza acciones de lavado de manos, cara, dientes con la guía del adulto, como parte del proceso de la adquisición de hábitos de higiene.'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Acude al baño autónomamente, requiriendo la ayuda del adulto para su aseo'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Se saca y pone algunas prendas de vestir como: interior, pantalón o falda y medias sin ayuda del adulto'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Selecciona prendas de vestir de acuerdo a su preferencia'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Utiliza la cuchara y el vaso cuando se alimenta demostrando cada vez mayores niveles de independencia.'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Identifica las situaciones de peligro a las que se puede exponer en su entorno inmediato comprendiendo las normas de prevención planteadas por el adulto.'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Ejecuta acciones de seguridad para evitar accidentes que se pueden producir en su entorno inmediato'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Imita las acciones a seguir en situaciones de riesgo como: temblores, incendios, entre otros, determinadas en el plan de contingencia institucional'},
+  {iden: 'IDENTIDAD Y AUTONOMÍA', des: 'Colabora en el mantenimiento del orden del aula ubicando los objetos en su lugar'},
+  {iden: 'CONVIVENCIA', des: 'Demuestra preferencia por jugar con un niño específico estableciendo amistad en función de algún grado de empatía.'},
+  {iden: 'CONVIVENCIA', des: 'Reconoce y practica normas de convivencia en el centro de educación inicial y en el hogar establecidas por el adulto.  '},
+  {iden: 'CONVIVENCIA', des: 'Reconoce los oficios de personas que brindan servicio a la comunidad. '},
+  {iden: 'CONVIVENCIA', des: 'Reconoce a los miembros de su familia y los roles que cumple cada uno '},
+  {iden: 'CONVIVENCIA', des: 'Demuestra interés ante emociones y sentimientos de las personas de su entorno familiar y escolar'},
+  {iden: 'CONVIVENCIA', des: 'Demuestra interés ante diferentes problemas que presentan sus compañeros y adultos de su entorno.'},
+  {iden: 'CONVIVENCIA', des: 'Colabora espontáneamente con los adultos en actividades y situaciones sencillas. '},
+  {iden: 'CONVIVENCIA', des: 'Se relaciona con sus compañeros sin discriminación de aspectos como: género y diversidad cultural, necesidades especiales, entre otros.  '},
+  {iden: 'CONVIVENCIA', des: 'Establece relaciones con personas cercanas a su entorno familiar y escolar ampliando su campo de interacción. '},
+  {iden: 'CONVIVENCIA', des: 'Se integra progresivamente en juegos grupales de reglas sencillas '},
+  {iden: 'RELACIONES CON EL MEDIO NATURAL Y CULTURAL', des: 'Participa en algunas prácticas tradicionales de su entorno disfrutando de las diferentes manifestaciones culturales. '},
+  {iden: 'RELACIONES CON EL MEDIO NATURAL Y CULTURAL', des: 'Reconoce y aprecia algunas expresiones culturales importantes de su localidad.'},
+  {iden: 'RELACIONES CON EL MEDIO NATURAL Y CULTURAL', des: 'Apoya en el cuidado de plantas y animales de su entorno.'},
+  {iden: 'RELACIONES CON EL MEDIO NATURAL Y CULTURAL', des: 'Realiza acciones que apoyan al cuidado del medio ambiente como: botar la basura en su lugar, no desperdiciar el agua, entre otras.  '},
+  {iden: 'RELACIONES CON EL MEDIO NATURAL Y CULTURAL', des: 'Identifica los alimentos nutritivos reconociendo la importancia de éstos en su crecimiento.  '},
+  {iden: 'RELACIONES CON EL MEDIO NATURAL Y CULTURAL', des: 'Reconoce las características de las plantas alimenticias comprendiendo su importancia en la alimentación '},
+  {iden: 'RELACIONES CON EL MEDIO NATURAL Y CULTURAL', des: 'Identifica las características de los animales que pueden cumplir el rol de mascota y los cuidados que requieren.  '},
+  {iden: 'RELACIONES CON EL MEDIO NATURAL Y CULTURAL', des: 'Reconoce diferentes elementos de su entorno natural mediante la discriminación sensorial. '},
+  {iden: 'RELACIONES CON EL MEDIO NATURAL Y CULTURAL', des: 'Reconoce y diferencia entre elementos naturales y artificiales por medio de los sentidos. '},
+  {iden: 'RELACIONES CON EL MEDIO NATURAL Y CULTURAL', des: 'Identifica a los seres vivos de su entorno a través de la exploración del mundo natural. '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Identifica las nociones de tiempo en acciones que suceden antes y ahora. '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Imita patrones simples con elementos de su entorno. '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Reconoce y compara objetos de acuerdo a su tamaño (grande/ pequeño)'},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Diferencia entre colecciones de más y menos objetos.'},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Clasifica objetos con un atributo (tamaño, color o forma). '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Comprende la relación de número cantidad hasta el 5. '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Reconoce la ubicación de objetos en relación a sí mismo según las nociones espaciales de: arriba/abajo, al lado, dentro/fuera, cerca/lejos. '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Cuenta oralmente del 1 al 10 con secuencia numérica, en la mayoría de veces '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Identifica características del día y la noche '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: ' Reconoce los colores primarios, el blanco y el negro en objetos e imágenes del entorno. '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Descubre formas básicas circulares, triangulares, rectangulares y cuadrangulares en objetos del entorno. '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'dentifica objetos de formas similares en el entorno'},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Identifica en los objetos las nociones de medida: alto/bajo, pesado/liviano '},
+  {iden: 'RELACIONES LÓGICO MATEMÁTICAS', des: 'Ordena en secuencia lógica sucesos de hasta tres eventos, en actividades de la rutina diaria y en escenas de cuentos.  '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Se expresa oralmente de manera comprensible, presenta dificultades en la pronunciación de s, r, t, l, g, j, f. '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Se comunica utilizando en su vocabulario palabras que nombran personas, animales, objetos y acciones conocidas. '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Participa en conversaciones cortas repitiendo lo que el otro dice y haciendo preguntas.  '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Describe oralmente imágenes que observa en materiales gráficos y digitales empleando oraciones. '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Reproduce canciones y poemas cortos, incrementando su vocabulario y capacidad retentiva. '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Se expresa utilizando oraciones cortas en las que puede omitir o usar incorrectamente algunas palabras.'},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Sigue instrucciones sencillas que involucren la ejecución de dos actividades '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Relata cuentos, narrados por el adulto con la ayuda de los paratextos utilizando su propio lenguaje. '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Responde preguntas sobre un texto narrado por el adulto, basándose en los paratextos que observa. '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Identifica etiquetas y rótulos con la ayuda de un adulto y las asocia con el objeto o lugar que los representa '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Cuenta un cuento en base a sus imágenes sin seguir la secuencia de las páginas. '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Identifica su cuento preferido por la imagen de la portada.'},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Realiza movimientos articulatorios básicos: sopla, intenta inflar globos, imita movimientos de labios, lengua y mejillas'},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Repite rimas identificando los sonidos que suenan iguales. '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Identifica “auditivamente” el fonema (sonido) inicial de su nombre. '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Comunica a través de dibujos de objetos del entorno con algún detalle que lo vuelve identificable, como representación simbólica de sus ideas.  '},
+  {iden: 'COMPRENSIÓN Y EXPRESIÓN DEL LENGUAJE', des: 'Comunica de manera escrita sus ideas a través de garabatos controlados, líneas, círculos o zigzag '},
+  {iden: 'EXPRESIÓN ARTÍSTICA', des: 'Expresa sus vivencias y experiencias a través del dibujo libre'},
+  {iden: 'EXPRESIÓN ARTÍSTICA', des: 'Experimenta a través de la manipulación de materiales y mezcla de colores la realización de trabajos creativos utilizando las técnicas grafoplásticas. '},
+  {iden: 'EXPRESIÓN ARTÍSTICA', des: 'Canta canciones cortas asociando la letra con expresiones de su cuerpo'},
+  {iden: 'EXPRESIÓN ARTÍSTICA', des: 'Imita pasos de baile intentando reproducir los movimientos y seguir el ritmo '},
+  {iden: 'EXPRESIÓN ARTÍSTICA', des: 'Se integra durante la ejecución de rondas, bailes y juegos tradicionales '},
+  {iden: 'EXPRESIÓN ARTÍSTICA', des: 'Representa a personas de su entorno asumiendo roles a través del juego simbólico.  '},
+  {iden: 'EXPRESIÓN ARTÍSTICA', des: 'Expresa su gusto o disgusto al observar una obra artística relacionada a la plástica o a la escultura.  '},
+  {iden: 'EXPRESIÓN ARTÍSTICA', des: 'Ejecuta patrones de hasta dos ritmos con partes del cuerpo y elementos o instrumentos sonoros. '},
+  {iden: 'EXPRESIÓN ARTÍSTICA', des: 'Imita e identifica sonidos onomatopéyicos, naturales y artificiales del entorno. '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Utiliza frecuentemente una de las dos manos o pies al realizar las actividades. '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Representa la figura humana utilizando el monigote o renacuajo. '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Identifica en su cuerpo y en el de los demás partes gruesas del cuerpo humano y partes de la cara a través de la exploración sensorial. '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Realiza representaciones gráficas utilizando el garabateo con nombre '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Realiza movimientos de manos, dedos y muñecas que le permiten coger objetos utilizando la pinza trípode y digital.  '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Realiza actividades de coordinación visomotriz con materiales sencillos y de tamaño grande. '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Realiza ejercicios que involucran movimientos segmentados de partes gruesas del cuerpo (cabeza, tronco y extremidades) '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Mantiene control postural en diferentes posiciones del cuerpo (sentado, de pie, en cuclillas, de cúbito dorsal y cúbito ventral).  '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Mantiene el equilibro al caminar sobre líneas rectas, y curvas con altura (aprox. 5 cm) intentando mantener el control postural '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Realiza ejercicios de equilibrio dinámico y estático controlando los movimientos de las partes gruesas del cuerpo y estructurando motricidad facial y gestual según la consigna por lapsos cortos de tiempo. '},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Realiza actividades intentando controlar su fuerza y tonicidad muscular como: lanzar, atrapar y patear objetos y pelotas, entre otros.'},
+  {iden: 'EXPRESIÓN CORPORAL Y MOTRICIDAD', des: 'Camina, corre y salta de un lugar a otro coordinadamente combinando estas formas de desplazamiento, a velocidades diferentes y en superficies planas e inclinadas '},
+
+]
+
 //------------------------------------- INSERTA LAS NOTAS-------------------------------------
 
 export const createNotaArbol2ById = async (req, res) => {
@@ -78,21 +188,6 @@ export const createNotaArbol2ById = async (req, res) => {
 }
 
 
-//confirmar las notas---
-export const createNotaArbol3ById = async (req, res) => {
-  try {
-    await Matriculas.updateOne(
-      { _id: req.params.matriculaId, 'calificaciones._id': req.body.calificaciones._id },
-      { $set: { 'calificaciones.$.promediof': req.body.calificaciones.promediof } },
-      {
-        new: true,
-      }
-    );
-    res.status(200).json('crearnote');
-  } catch (e) {
-    res.status(500).json({ message: "No mat found" });
-  }
-}
 
 //----------------CGRABAR NOTAS DE FORMA MASIVA [DOCENTES, ]
 
@@ -212,28 +307,3 @@ export const deleteNoteById = async (req, res) => {
   }
 };
 
-//------------------------------------CONFIRMAR NOTAS [DOCENTE, ]
-export const confirmFullNoteById = async (req, res) => {
-  try {
-    let array = req.body;
-    for (let i = 0; i < array.length; i++) {
-      await Matriculas.updateOne(
-        { _id: array[i].id, },
-        {
-          $set: {
-            "calificaciones.$[perf].promediof": array[i].promedio
-          }
-        },
-        {
-          arrayFilters: [{
-            "perf._id": { $eq: array[i].fora }
-          }],
-          new: true,
-        }
-      );
-    }
-    res.status(200).json('crearnote');
-  } catch (e) {
-    res.status(500).json({ message: "No mat found" });
-  }
-};

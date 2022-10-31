@@ -3,9 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getConfigure = exports.updateConfigureById = void 0;
+exports.getAplicaciones = exports.updatAplicacionesById = exports.getConfigure = exports.updateConfigureById = void 0;
 
 var _Configure = _interopRequireDefault(require("../../models/Configure"));
+
+var _Apps = _interopRequireDefault(require("../../models/Apps"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40,3 +42,31 @@ var getConfigure = /*#__PURE__*/function () {
 }();
 
 exports.getConfigure = getConfigure;
+
+var updatAplicacionesById = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* (req, res) {
+    var updatedApps = yield _Apps.default.findByIdAndUpdate(req.params.Id, req.body, {
+      new: true
+    });
+    res.status(200).json(updatedApps);
+  });
+
+  return function updatAplicacionesById(_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.updatAplicacionesById = updatAplicacionesById;
+
+var getAplicaciones = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
+    var ress = yield _Apps.default.find();
+    return res.json(ress);
+  });
+
+  return function getAplicaciones(_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.getAplicaciones = getAplicaciones;

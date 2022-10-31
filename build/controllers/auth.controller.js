@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.forgotPassword = exports.resetPassword = exports.newPassword = exports.cuenta = exports.googleAuthApi = exports.signin = exports.signUp = void 0;
+exports.resetPasswordUsers = exports.forgotPassword = exports.resetPassword = exports.newPassword = exports.cuenta = exports.googleAuthApi = exports.signin = exports.signUp = void 0;
 
 var _User = _interopRequireDefault(require("../models/User"));
 
@@ -256,7 +256,7 @@ var newPassword = /*#__PURE__*/function () {
   return function newPassword(_x9, _x10) {
     return _ref5.apply(this, arguments);
   };
-}(); //RESET PASWWORF----------------------------------
+}(); //--------------------------------GENERAR NUMEROS ALEATORIOS--------------------------------
 
 
 exports.newPassword = newPassword;
@@ -264,7 +264,8 @@ exports.newPassword = newPassword;
 var generateRandomString = num => {
   var result1 = Math.random().toString(36).substring(0, num);
   return result1;
-};
+}; //--------------------------------ENVIAR CODIGO ALEATORIO A EMAIL--------------------------------
+
 
 var resetPassword = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(function* (req, res) {
@@ -290,7 +291,8 @@ var resetPassword = /*#__PURE__*/function () {
   return function resetPassword(_x11, _x12) {
     return _ref6.apply(this, arguments);
   };
-}();
+}(); //--------------------------------ACTUALIZAR CONTRASEÑA--------------------------------
+
 
 exports.resetPassword = resetPassword;
 
@@ -313,6 +315,40 @@ var forgotPassword = /*#__PURE__*/function () {
   return function forgotPassword(_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
-}();
+}(); //--------------------------------EDITAR CONTRASEÑA USUARIOS--------------------------------
+
 
 exports.forgotPassword = forgotPassword;
+
+var resetPasswordUsers = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator(function* (req, res) {
+    try {
+      var email = 'uealfonsoherrera@gmail.com';
+      var {
+        id
+      } = req.params;
+      var userFound = yield _User.default.findById(id);
+      if (!userFound) return res.status(400).json({
+        message: "User Not Found 1"
+      });
+      var code = generateRandomString(10);
+      var model = {
+        password: yield _User.default.encryptPassword(code)
+      };
+      var updatedPassword = yield _User.default.findByIdAndUpdate(userFound._id, model, {
+        new: true
+      });
+      yield _ResetEmail.default.sendMail2(email, code, userFound.fullname);
+      if (userFound.email) yield _ResetEmail.default.sendMail2(userFound.email, code, userFound.fullname);
+      res.status(200).json(updatedPassword);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  });
+
+  return function resetPasswordUsers(_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+
+exports.resetPasswordUsers = resetPasswordUsers;

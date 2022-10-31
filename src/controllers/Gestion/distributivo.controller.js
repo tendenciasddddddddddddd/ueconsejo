@@ -59,7 +59,7 @@ export const getInfoDistributivo = async (req, res) => {
     const idDocente = req.query.id;
     const distributivo = await Distributivo.find({ fdocente: { $in: [idDocente] } }).select({ nombre: 1, paralelo: 1, planificacion: 1 })
       .populate('fmateria', 'nombre area')
-      .populate('fnivel', 'nombre');
+      .populate('fnivel', 'nombre num');
     return res.json(distributivo);
   } catch (error) {
     return res.status(500).json();

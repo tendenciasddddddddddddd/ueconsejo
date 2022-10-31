@@ -44,6 +44,11 @@ const nivelSchema = new Schema(
         comportamiento : [{}],
         proyectos : [{}]
       }],
+      iniciales : [{
+        docente : String,
+        materia : String,
+        notas : [{}],
+      }],
      
       asistencias:[{
         fecha: String,
