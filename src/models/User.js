@@ -59,7 +59,7 @@ const productSchema = new Schema(
 );
 
 productSchema.statics.encryptPassword = async (password) => {
-  const salt = await bcrypt.genSalt(10);
+  const salt = await bcrypt.genSalt(4);
   return await bcrypt.hash(password, salt);
 };
 

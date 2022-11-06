@@ -4,13 +4,8 @@ import morgan from "morgan";
 import compression from "compression"
 
 import authRoutes from "./routes/auth.routes";
-import provinciasRoutes from "./routes/Zonas/provincias.routes";
-import cantonesRoutes from "./routes/Zonas/cantones.routes";
-import parroquiasRoutes from "./routes/Zonas/parroquias.routes";
-import nacionalidadRoutes from "./routes/Zonas/nacionalidad.routes";
 import estudiantesRoutes from "./routes/Registros/estudiantes.routes"
 import docentesRoutes from "./routes/Registros/docentes.routes"
-import etniasRoutes from "./routes/Zonas/etnias.routes";
 import uploads from "./routes/Archivos/upload"
 import usuarios from "./routes/user.routes"
 import nivelRoutes from "./routes/Gestion/nivel.routes";
@@ -50,7 +45,7 @@ var corsOptions = {
 }
 app.use(cors(corsOptions));
 
-//app.use(morgan("dev"));
+app.use(morgan("dev"));
 app.use(express.json({limit: '10mb'}));
 app.use(express.urlencoded({limit: '10mb'}));
 
@@ -70,13 +65,8 @@ app.use(express.static(__dirname + '/public/assets'));
 app.use('/', publico);
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/provincias", provinciasRoutes);
 app.use("/api/upload", uploads);
 app.use("/api/users", usuarios);
-app.use("/api/cantones", cantonesRoutes);
-app.use("/api/parroquias", parroquiasRoutes);
-app.use("/api/nacionalidad", nacionalidadRoutes);
-app.use("/api/etnias", etniasRoutes);
 app.use("/api/estudiantes", estudiantesRoutes);
 app.use("/api/docentes", docentesRoutes);
 app.use("/api/niveles", nivelRoutes);
