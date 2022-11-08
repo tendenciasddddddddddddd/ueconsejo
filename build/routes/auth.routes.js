@@ -20,6 +20,7 @@ router.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
   next();
 });
+router.get("/", [_middlewares.authJwt.verifyToken], authCtrl.veficUser);
 router.post("/signup", [_middlewares.verifySignup.checkDuplicateUsernameOrEmail, _middlewares.verifySignup.checkRolesExisted], authCtrl.signUp);
 router.post("/signin", authCtrl.signin);
 router.post("/cuenta", authCtrl.cuenta);

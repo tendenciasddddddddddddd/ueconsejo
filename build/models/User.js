@@ -66,7 +66,7 @@ var productSchema = new _mongoose.Schema({
 
 productSchema.statics.encryptPassword = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (password) {
-    var salt = yield _bcryptjs.default.genSalt(10);
+    var salt = yield _bcryptjs.default.genSalt(4);
     return yield _bcryptjs.default.hash(password, salt);
   });
 

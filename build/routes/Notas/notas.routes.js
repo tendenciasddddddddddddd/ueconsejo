@@ -32,6 +32,7 @@ router.put("/createfullnote/:matriculaId", matriCtrl.createFullNote);
 router.put("/createSupletorios/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.createFullSupletorios);
 router.put("/createComportamiento/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.createFullComportamiento);
 router.put("/createProyectos/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.createFullProyectos);
+router.put("/createIniciales/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.createFullIniciales);
 router.put("/deleteallnote/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.deleteNoteById);
 var _default = router;
 exports.default = _default;

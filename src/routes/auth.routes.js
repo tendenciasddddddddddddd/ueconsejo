@@ -13,6 +13,8 @@ router.use((req, res, next) => {
   next();
 });
 
+router.get("/", [authJwt.verifyToken], authCtrl.veficUser);
+
 router.post(
   "/signup",
   [verifySignup.checkDuplicateUsernameOrEmail, verifySignup.checkRolesExisted],

@@ -13,19 +13,9 @@ var _compression = _interopRequireDefault(require("compression"));
 
 var _auth = _interopRequireDefault(require("./routes/auth.routes"));
 
-var _provincias = _interopRequireDefault(require("./routes/Zonas/provincias.routes"));
-
-var _cantones = _interopRequireDefault(require("./routes/Zonas/cantones.routes"));
-
-var _parroquias = _interopRequireDefault(require("./routes/Zonas/parroquias.routes"));
-
-var _nacionalidad = _interopRequireDefault(require("./routes/Zonas/nacionalidad.routes"));
-
 var _estudiantes = _interopRequireDefault(require("./routes/Registros/estudiantes.routes"));
 
 var _docentes = _interopRequireDefault(require("./routes/Registros/docentes.routes"));
-
-var _etnias = _interopRequireDefault(require("./routes/Zonas/etnias.routes"));
 
 var _upload = _interopRequireDefault(require("./routes/Archivos/upload"));
 
@@ -82,8 +72,8 @@ var corsOptions = {
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 
 };
-app.use((0, _cors.default)(corsOptions)); //app.use(morgan("dev"));
-
+app.use((0, _cors.default)(corsOptions));
+app.use((0, _morgan.default)("dev"));
 app.use(_express.default.json({
   limit: '10mb'
 }));
@@ -101,13 +91,8 @@ app.use(_express.default.static(__dirname + '/public/assets'));
 app.use('/', _index.default); // Routes
 
 app.use("/api/auth", _auth.default);
-app.use("/api/provincias", _provincias.default);
 app.use("/api/upload", _upload.default);
 app.use("/api/users", _user.default);
-app.use("/api/cantones", _cantones.default);
-app.use("/api/parroquias", _parroquias.default);
-app.use("/api/nacionalidad", _nacionalidad.default);
-app.use("/api/etnias", _etnias.default);
 app.use("/api/estudiantes", _estudiantes.default);
 app.use("/api/docentes", _docentes.default);
 app.use("/api/niveles", _nivel.default);

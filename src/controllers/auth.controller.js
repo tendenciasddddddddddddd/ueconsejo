@@ -94,7 +94,7 @@ export const signin = async (req, res) => {
             id: userFound._id,
             role: toles,
         }, config.SECRET, {
-            expiresIn: '24d', // 24 hours
+            expiresIn: '12h', // 24 hours
         });
 
         if (!userFound.modalidad) {
@@ -149,7 +149,7 @@ export const googleAuthApi = async (req, res) => {
             id: userFound._id,
             role: toles,
         }, config.SECRET, {
-            expiresIn: '24d', // 24 hours
+            expiresIn: '12h', // 24 hours
         });
 
         if (!userFound.modalidad) {
@@ -283,4 +283,8 @@ export const resetPasswordUsers = async (req, res) => {
     } catch (err) {
         return res.status(500).json(err);
     }
+};
+
+export const veficUser = async (req, res) => {
+        res.status(200).json('userFOUND');  
 };

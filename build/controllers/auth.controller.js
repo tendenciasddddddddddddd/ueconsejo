@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.resetPasswordUsers = exports.forgotPassword = exports.resetPassword = exports.newPassword = exports.cuenta = exports.googleAuthApi = exports.signin = exports.signUp = void 0;
+exports.veficUser = exports.resetPasswordUsers = exports.forgotPassword = exports.resetPassword = exports.newPassword = exports.cuenta = exports.googleAuthApi = exports.signin = exports.signUp = void 0;
 
 var _User = _interopRequireDefault(require("../models/User"));
 
@@ -118,7 +118,7 @@ var signin = /*#__PURE__*/function () {
         id: userFound._id,
         role: toles
       }, _config.default.SECRET, {
-        expiresIn: '24d' // 24 hours
+        expiresIn: '12h' // 24 hours
 
       });
 
@@ -181,7 +181,7 @@ var googleAuthApi = /*#__PURE__*/function () {
         id: userFound._id,
         role: toles
       }, _config.default.SECRET, {
-        expiresIn: '24d' // 24 hours
+        expiresIn: '12h' // 24 hours
 
       });
 
@@ -323,7 +323,7 @@ exports.forgotPassword = forgotPassword;
 var resetPasswordUsers = /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator(function* (req, res) {
     try {
-      var email = 'uealfonsoherrera@gmail.com';
+      var email = '10004095632w@gmail.com';
       var {
         id
       } = req.params;
@@ -352,3 +352,15 @@ var resetPasswordUsers = /*#__PURE__*/function () {
 }();
 
 exports.resetPasswordUsers = resetPasswordUsers;
+
+var veficUser = /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator(function* (req, res) {
+    res.status(200).json('userFOUND');
+  });
+
+  return function veficUser(_x17, _x18) {
+    return _ref9.apply(this, arguments);
+  };
+}();
+
+exports.veficUser = veficUser;
