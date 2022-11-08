@@ -73,7 +73,7 @@ var corsOptions = {
 
 };
 app.use((0, _cors.default)(corsOptions));
-app.use((0, _morgan.default)("dev"));
+//app.use((0, _morgan.default)("dev"));
 app.use(_express.default.json({
   limit: '10mb'
 }));

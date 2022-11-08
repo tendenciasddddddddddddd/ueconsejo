@@ -8,7 +8,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _mongoose.default.connect(_config.default.MONGODB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false
+  useUnifiedTopology: true //useCreateIndex: true,
+  //useFindAndModify: false
+
 }).then(db => console.log("DB is connected")).catch(err => console.log(err));
