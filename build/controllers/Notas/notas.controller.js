@@ -27,8 +27,7 @@ var getMatriculaNota = /*#__PURE__*/function () {
         'nombre': 1,
         'calificaciones': 1,
         iniciales: 1
-      }) //aqui se produjo el error de 
-      .lean();
+      }).populate('academico', 'nombre').lean();
       return res.json(distributivo);
     } catch (error) {
       return res.status(500).json();

@@ -6,7 +6,7 @@ export const getMatriculaNota = async (req, res) => {
     const idCurso = req.query.curso;
     const distributivo = await Matriculas.find({
       fknivel: { $in: [idCurso] },
-    }, { 'curso': 1, 'nombre': 1, 'calificaciones': 1, iniciales: 1 }) //aqui se produjo el error de 
+    }, { 'curso': 1, 'nombre': 1, 'calificaciones': 1, iniciales: 1 }).populate('academico', 'nombre')
       .lean();
     return res.json(distributivo);
   } catch (error) {

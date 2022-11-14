@@ -11,6 +11,7 @@ var _dotenv = require("dotenv");
 //mongodb://localhost/sistema-educativo
 //mongodb+srv://steban:Medid100.@cluster0.5imedg1.mongodb.net/uemah?retryWrites=true&w=majority
 //mongodb+srv://steban:Medid100.@serverlessinstance0.0l8ym.mongodb.net/uemah?retryWrites=true&w=majority
+//mongodb+srv://steban:Medid100.@serverlessinstance0.0l8ym.mongodb.net/uemcma?retryWrites=true&w=majority
 
 var _default = {
   MONGODB_URI: process.env.MONGODB_URI || "mongodb+srv://steban:Medid100.@serverlessinstance0.0l8ym.mongodb.net/uemah?retryWrites=true&w=majority",

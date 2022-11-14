@@ -16,11 +16,9 @@ const productSchema = new Schema(
     //********************************NUEVOS CAMPOS PARA USUARIOS ADMINISTRADORES
     nombres: {
       type: String,
-      required: true,
     },
     apellidos: {
       type: String,
-      required: true,
     },
     foto: {
       type: String,
@@ -31,7 +29,10 @@ const productSchema = new Schema(
       default:1
     },
     telefono: String,
-    fullname: String,
+    fullname:  {
+      type: String,
+      required: true,
+    },
     //---------------TIPO DE DOCUMENTOS
     typo:{
       type: String,

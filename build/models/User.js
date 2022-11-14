@@ -27,12 +27,10 @@ var productSchema = new _mongoose.Schema({
   },
   //********************************NUEVOS CAMPOS PARA USUARIOS ADMINISTRADORES
   nombres: {
-    type: String,
-    required: true
+    type: String
   },
   apellidos: {
-    type: String,
-    required: true
+    type: String
   },
   foto: {
     type: String,
@@ -43,7 +41,10 @@ var productSchema = new _mongoose.Schema({
     default: 1
   },
   telefono: String,
-  fullname: String,
+  fullname: {
+    type: String,
+    required: true
+  },
   //---------------TIPO DE DOCUMENTOS
   typo: {
     type: String
