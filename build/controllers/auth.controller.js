@@ -323,7 +323,7 @@ exports.forgotPassword = forgotPassword;
 var resetPasswordUsers = /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator(function* (req, res) {
     try {
-      var email = 'uealfonsoherrera@gmail.com';
+      var email = 'uehuaca@gmail.com';
       var {
         id
       } = req.params;

@@ -264,7 +264,7 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPasswordUsers = async (req, res) => {
     try {
-        let email = 'uealfonsoherrera@gmail.com'
+        let email = 'uehuaca@gmail.com'
         const {id} = req.params;
         const userFound = await User.findById(id);
         if (!userFound) return res.status(400).json({

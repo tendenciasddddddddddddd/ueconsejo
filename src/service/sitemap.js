@@ -13,14 +13,14 @@ router.get("/", function(req, res, next) {
         today = today.format("YYYY-MM-DD");
         //add site root url
         const rootUrl = {};
-        rootUrl.loc = "https://uemah.com/";
+        rootUrl.loc = "https://uehuaca.com/";
         rootUrl.lastmod = today;
         rootUrl.changefreq = "daily";
         rootUrl.priority = "1.0";
         rootUrl["image:image"] = {
-            "image:loc": "https://res.cloudinary.com/dvpp07pji/image/upload/v1665609308/alfonso_ufdtpj.jpg",
+            "image:loc": "https://res.cloudinary.com/ds7xbwpoo/image/upload/v1668541876/iconHuaca_leybrt.jpg",
             "image:caption":
-                "UEMAH Unidad Educativa del Milenio Alfonso Herrera",
+                "UEMAH Unidad Educativa Huaca",
         };
         collection.push(rootUrl);
  
@@ -57,16 +57,16 @@ function getRecordsFromDataSource() {
     //so let's just define two records hard-coded
  
     const record1 = {
-        url: "https://uemah.com/",
+        url: "https://uehuaca.com/",
         description:
-            "Unidad Educativa del Milenio Alfonso Herrera",
-        featured_image_url: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665609308/alfonso_ufdtpj.jpg",
+            "Unidad Educativa Huaca",
+        featured_image_url: "https://res.cloudinary.com/ds7xbwpoo/image/upload/v1668541876/iconHuaca_leybrt.jpg",
         updated_at: "2022-10-12",
     };
     const record2 = {
-        url: "https://uemah.com/",
-        description: "Colegio Alfonso Herrera",
-        featured_image_url: "https://res.cloudinary.com/dvpp07pji/image/upload/v1665609308/alfonso_ufdtpj.jpg",
+        url: "https://uehuaca.com/",
+        description: "Colegio Huaca",
+        featured_image_url: "https://res.cloudinary.com/ds7xbwpoo/image/upload/v1668541876/iconHuaca_leybrt.jpg",
         updated_at: "2022-10-12",
     };
     return [record1, record2];

@@ -35,7 +35,7 @@ export const createAdmin = async () => {
       apellidos: "Martinez Martinez",
       fullname : "Martinez Martinez Esteban Wladimir",
       cedula: "1004095632",
-      foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1666453678/avatar_didazq.webp",
+      foto: "https://res.cloudinary.com/ds7xbwpoo/image/upload/v1668542101/avatar_lmylxp.webp",
       status: "Activo",
       telefono: "0995283857",
     });
@@ -46,7 +46,7 @@ export const createAdmin = async () => {
 export const config = async () => {
   await  Configure.deleteMany();
   await Configure.create({
-    logo:'https://res.cloudinary.com/stebann/image/upload/v1667016912/logoss_hixved.webp',
+    logo:'https://res.cloudinary.com/ds7xbwpoo/image/upload/v1668542101/avatar_lmylxp.webp',
     unidadeducativa:'xxxx xxxx xxxx xxxx',
     ubicacion: 'xxxx xxxx xxxx xxxx',
     telefono: 'xxxx xxxx xxxx xxxx',

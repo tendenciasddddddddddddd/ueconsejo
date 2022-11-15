@@ -8,8 +8,8 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: 'ue.alfonsoherrera01@gmail.com', // generated ethereal user
-      pass: 'uifmwveabrkvjhsz', // generated ethereal password
+      user: 'uehuaca@gmail.com', // generated ethereal user
+      pass: 'sizlthxdkjwymoie', // generated ethereal password
     },
   });
 
@@ -17,9 +17,9 @@ const sendMail = async (user, code) => {
     try {
         const data = await ejs.renderFile(__dirname + "/resetTemplate.ejs", { codigo: code });
         await transporter.sendMail({
-            from: '"UEM Alfonso Herrera" <ue.alfonsoherrera01@gmail.com>', 
+            from: '"UE HUACA" <uehuaca@gmail.com>', 
             to : `${user}`,
-            subject: "Restablece tu contraseña de plataforma-UEMAH", 
+            subject: "Restablece tu contraseña de plataforma-UEHUACA", 
             html : data
           });
           
@@ -34,9 +34,9 @@ const sendMail2 = async (user, code, name) => {
   try {
       const data = await ejs.renderFile(__dirname + "/resetPassWord.ejs", { codigo: code, name:name });
       await transporter.sendMail({
-          from: '"UEM Alfonso Herrera" <ue.alfonsoherrera01@gmail.com>', 
+          from: '"UE HUACA" <uehuaca@gmail.com>', 
           to : `${user}`,
-          subject: "Recuperar contraseña de plataforma-UEMAH", 
+          subject: "Recuperar contraseña de plataforma-UEHUACA", 
           html : data
         });
         

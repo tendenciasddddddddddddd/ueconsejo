@@ -14,9 +14,9 @@ var transporter = nodemailer.createTransport({
   secure: true,
   // true for 465, false for other ports
   auth: {
-    user: 'ue.alfonsoherrera01@gmail.com',
+    user: 'uehuaca@gmail.com',
     // generated ethereal user
-    pass: 'uifmwveabrkvjhsz' // generated ethereal password
+    pass: 'sizlthxdkjwymoie' // generated ethereal password
 
   }
 });
@@ -28,9 +28,9 @@ var sendMail = /*#__PURE__*/function () {
         codigo: code
       });
       yield transporter.sendMail({
-        from: '"UEM Alfonso Herrera" <ue.alfonsoherrera01@gmail.com>',
+        from: '"UE HUACA" <uehuaca@gmail.com>',
         to: "".concat(user),
-        subject: "Restablece tu contraseña de plataforma-UEMAH",
+        subject: "Restablece tu contraseña de plataforma-UEHUACA",
         html: data
       });
     } catch (error) {
@@ -51,9 +51,9 @@ var sendMail2 = /*#__PURE__*/function () {
         name: name
       });
       yield transporter.sendMail({
-        from: '"UEM Alfonso Herrera" <ue.alfonsoherrera01@gmail.com>',
+        from: '"UE HUACA" <uehuaca@gmail.com>',
         to: "".concat(user),
-        subject: "Recuperar contraseña de plataforma-UEMAH",
+        subject: "Recuperar contraseña de plataforma-UEHUACA",
         html: data
       });
     } catch (error) {

@@ -76,7 +76,7 @@ var createAdmin = /*#__PURE__*/function () {
         apellidos: "Martinez Martinez",
         fullname: "Martinez Martinez Esteban Wladimir",
         cedula: "1004095632",
-        foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1666453678/avatar_didazq.webp",
+        foto: "https://res.cloudinary.com/ds7xbwpoo/image/upload/v1668542101/avatar_lmylxp.webp",
         status: "Activo",
         telefono: "0995283857"
       });
@@ -95,7 +95,7 @@ var config = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* () {
     yield _Configure.default.deleteMany();
     yield _Configure.default.create({
-      logo: 'https://res.cloudinary.com/stebann/image/upload/v1667016912/logoss_hixved.webp',
+      logo: 'https://res.cloudinary.com/ds7xbwpoo/image/upload/v1668542101/avatar_lmylxp.webp',
       unidadeducativa: 'xxxx xxxx xxxx xxxx',
       ubicacion: 'xxxx xxxx xxxx xxxx',
       telefono: 'xxxx xxxx xxxx xxxx',
