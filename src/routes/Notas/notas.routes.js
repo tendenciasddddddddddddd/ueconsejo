@@ -24,6 +24,8 @@ router.put("/createComportamiento/:matriculaId",[authJwt.verifyToken], matriCtrl
 
 router.put("/createProyectos/:matriculaId",[authJwt.verifyToken], matriCtrl.createFullProyectos);
 
+router.put("/createDhi/:matriculaId",[authJwt.verifyToken], matriCtrl.createFullDhi);
+
 router.put("/createIniciales/:matriculaId",[authJwt.verifyToken], matriCtrl.createFullIniciales);
 
 router.put("/deleteallnote/:matriculaId",[authJwt.verifyToken], matriCtrl.deleteNoteById);

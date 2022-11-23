@@ -198,6 +198,31 @@ export const createFullProyectos = async (req, res) => {
   }
 }
 
+//------------------------------------- CALIFICAR DESARROLLO HUMANO INTEGRAL ------------
+
+export const createFullDhi = async (req, res) => {
+  try {
+    let array = req.body;
+     for (let i = 0; i < array.length; i++) {
+       await Matriculas.updateOne(
+         { _id: array[i].id, 'calificaciones._id': array[i].fora },
+         {
+           $set: {
+             'calificaciones.$.dhi': array[i].dhi,
+           }
+         },
+         {
+           new: true,
+         }
+       );
+     }
+    res.status(200).json('crearnote');
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({ message: "No mat found" });
+  }
+}
+
 //------------------------------------- INSERTAR NOTAS DE INICIAL 1 2 Y PRIMERO ------------
 export const createFullIniciales = async (req, res) => {
   try {

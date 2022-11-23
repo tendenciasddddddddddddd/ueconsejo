@@ -2,6 +2,7 @@ import Role from "../models/Role";
 import User from "../models/User";
 import Configure from "../models/Configure";
 import Apps from "../models/Apps";
+import AperturaNotas from "../models/AperturaNotas";
 
 import bcrypt from "bcryptjs";
 
@@ -66,4 +67,12 @@ export const aplicaciones = async () => {
     movil:'xxxx xxxx xxxx xxxx',
   });
 console.log('config create');
+};
+export const apertura = async () => {
+  await  AperturaNotas.deleteMany();
+  await AperturaNotas.create({
+    inicio:'2022-11-24T05:00:00.000Z',
+    fin:'2022-11-30T10:00:00.000Z',
+  });
+console.log('Apertura create');
 };

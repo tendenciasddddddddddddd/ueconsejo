@@ -65,6 +65,7 @@ var app = (0, _express.default)(); //createRoles();
 //createAdmin();
 //config();
 //aplicaciones();
+//apertura();
 
 var corsOptions = {
   origin: '*',

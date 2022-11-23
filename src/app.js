@@ -23,6 +23,7 @@ import quizzRoutes from "./routes/AulaVirtual/quizz.routes";
 import galeria from "./routes/settings/galeria.routes";
 import configure from "./routes/settings/configure.routes"
 
+
 //PUBLIC
 import publico from "./public/routes/index"
 
@@ -30,13 +31,14 @@ import publico from "./public/routes/index"
  import sitemapRouter from "./service/sitemap"
 
 
-import { createRoles, createAdmin, config, aplicaciones} from "./libs/initialSetup";
+import { createRoles, createAdmin, config, aplicaciones, apertura} from "./libs/initialSetup";
 
 const app = express();
 //createRoles();
 //createAdmin();
 //config();
 //aplicaciones();
+//apertura();
 import cors from "cors";
 
 var corsOptions = {

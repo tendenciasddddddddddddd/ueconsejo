@@ -18,19 +18,11 @@ export const verifyToken = async (req, res, next) => {
   }
 };
 const verifiUser = function (param){
-  if (param ==='Admin') {
-    return true
-  } else if (param ==='Docente'){
-    return true
-  } else if (param ==='Estudiante') {
-    return true
-  }  else if (param ==='Vicerrector') {
-    return true
-  }  else if (param ==='Inspector') {
-    return true
-  } else {
-    return false;
-  }
+  if (param.includes('Admin')||
+      param.includes('Docente')||
+      param.includes('Estudiante')||
+      param.includes('Vicerrector')||param.includes('Inspector')) return true
+  return false
 }
 export const isSecretario = async (req, res, next) => {
   try {

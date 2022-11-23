@@ -81,14 +81,14 @@ export const signin = async (req, res) => {
                 message: "Invalid Password",
             });
         //OPTENERMOS EL ROL
-        var toles = null
+        var toles = []
         const roles = await Role.find({
             _id: {
                 $in: userFound.roles
             }
         });
         for (let i = 0; i < roles.length; i++) {
-            toles = roles[0].name
+            toles.push(roles[i].name);
         }
         const token = jwt.sign({
             id: userFound._id,
@@ -135,14 +135,14 @@ export const googleAuthApi = async (req, res) => {
         });
 
         //OPTENERMOS EL ROL
-        var toles = null
+        var toles = []
         const roles = await Role.find({
             _id: {
                 $in: userFound.roles
             }
         });
         for (let i = 0; i < roles.length; i++) {
-            toles = roles[0].name
+            toles.push(roles[i].name);
         }
 
         const token = jwt.sign({

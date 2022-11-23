@@ -42,7 +42,8 @@ var nivelSchema = new _mongoose.Schema({
     pfinal: String,
     notas: [{}],
     comportamiento: [{}],
-    proyectos: [{}]
+    proyectos: [{}],
+    dhi: [{}]
   }],
   iniciales: [{
     docente: String,

@@ -17,8 +17,10 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 var router = (0, _express.Router)();
 router.put("/apps/:Id", [_middlewares.authJwt.verifyToken], Ctrl.updatAplicacionesById);
+router.put("/apertura/:Id", [_middlewares.authJwt.verifyToken], Ctrl.updatAperturaById);
 router.put("/:Id", [_middlewares.authJwt.verifyToken], Ctrl.updateConfigureById);
 router.get("/apps/", [_middlewares.authJwt.verifyToken], Ctrl.getAplicaciones);
+router.get("/apertura/", [_middlewares.authJwt.verifyToken], Ctrl.getApertura);
 router.get("/", [_middlewares.authJwt.verifyToken], Ctrl.getConfigure);
 var _default = router;
 exports.default = _default;

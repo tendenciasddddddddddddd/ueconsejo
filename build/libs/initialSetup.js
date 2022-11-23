@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.aplicaciones = exports.config = exports.createAdmin = exports.createRoles = void 0;
+exports.apertura = exports.aplicaciones = exports.config = exports.createAdmin = exports.createRoles = void 0;
 
 var _Role = _interopRequireDefault(require("../models/Role"));
 
@@ -12,6 +12,8 @@ var _User = _interopRequireDefault(require("../models/User"));
 var _Configure = _interopRequireDefault(require("../models/Configure"));
 
 var _Apps = _interopRequireDefault(require("../models/Apps"));
+
+var _AperturaNotas = _interopRequireDefault(require("../models/AperturaNotas"));
 
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 
@@ -131,3 +133,20 @@ var aplicaciones = /*#__PURE__*/function () {
 }();
 
 exports.aplicaciones = aplicaciones;
+
+var apertura = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator(function* () {
+    yield _AperturaNotas.default.deleteMany();
+    yield _AperturaNotas.default.create({
+      inicio: '2022-11-24T05:00:00.000Z',
+      fin: '2022-11-30T10:00:00.000Z'
+    });
+    console.log('Apertura create');
+  });
+
+  return function apertura() {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+exports.apertura = apertura;

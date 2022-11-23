@@ -3,11 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAplicaciones = exports.updatAplicacionesById = exports.getConfigure = exports.updateConfigureById = void 0;
+exports.getApertura = exports.updatAperturaById = exports.getAplicaciones = exports.updatAplicacionesById = exports.getConfigure = exports.updateConfigureById = void 0;
 
 var _Configure = _interopRequireDefault(require("../../models/Configure"));
 
 var _Apps = _interopRequireDefault(require("../../models/Apps"));
+
+var _AperturaNotas = _interopRequireDefault(require("../../models/AperturaNotas"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67,6 +69,35 @@ var getAplicaciones = /*#__PURE__*/function () {
   return function getAplicaciones(_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
-}();
+}(); //-----------APERTURA DE NOTAS-----------
+
 
 exports.getAplicaciones = getAplicaciones;
+
+var updatAperturaById = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
+    var updatedApps = yield _AperturaNotas.default.findByIdAndUpdate(req.params.Id, req.body, {
+      new: true
+    });
+    res.status(200).json(updatedApps);
+  });
+
+  return function updatAperturaById(_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+exports.updatAperturaById = updatAperturaById;
+
+var getApertura = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    var ress = yield _AperturaNotas.default.find();
+    return res.json(ress);
+  });
+
+  return function getApertura(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.getApertura = getApertura;

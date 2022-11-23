@@ -49,19 +49,8 @@ var verifyToken = /*#__PURE__*/function () {
 exports.verifyToken = verifyToken;
 
 var verifiUser = function verifiUser(param) {
-  if (param === 'Admin') {
-    return true;
-  } else if (param === 'Docente') {
-    return true;
-  } else if (param === 'Estudiante') {
-    return true;
-  } else if (param === 'Vicerrector') {
-    return true;
-  } else if (param === 'Inspector') {
-    return true;
-  } else {
-    return false;
-  }
+  if (param.includes('Admin') || param.includes('Docente') || param.includes('Estudiante') || param.includes('Vicerrector') || param.includes('Inspector')) return true;
+  return false;
 };
 
 var isSecretario = /*#__PURE__*/function () {

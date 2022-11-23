@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteNoteById = exports.createFullIniciales = exports.createFullProyectos = exports.createFullComportamiento = exports.createFullSupletorios = exports.createFullNote = exports.createNotaArbol2ById = exports.createNotaInicialesId = exports.createNotaArbol1ById = exports.getMatriculasNotaById = exports.getMatriculaAsistencia = exports.getMatriculaNota = void 0;
+exports.deleteNoteById = exports.createFullIniciales = exports.createFullDhi = exports.createFullProyectos = exports.createFullComportamiento = exports.createFullSupletorios = exports.createFullNote = exports.createNotaArbol2ById = exports.createNotaInicialesId = exports.createNotaArbol1ById = exports.getMatriculasNotaById = exports.getMatriculaAsistencia = exports.getMatriculaNota = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
@@ -316,13 +316,48 @@ var createFullProyectos = /*#__PURE__*/function () {
   return function createFullProyectos(_x19, _x20) {
     return _ref10.apply(this, arguments);
   };
-}(); //------------------------------------- INSERTAR NOTAS DE INICIAL 1 2 Y PRIMERO ------------
+}(); //------------------------------------- CALIFICAR DESARROLLO HUMANO INTEGRAL ------------
 
 
 exports.createFullProyectos = createFullProyectos;
 
-var createFullIniciales = /*#__PURE__*/function () {
+var createFullDhi = /*#__PURE__*/function () {
   var _ref11 = _asyncToGenerator(function* (req, res) {
+    try {
+      var array = req.body;
+
+      for (var i = 0; i < array.length; i++) {
+        yield _Matriculas.default.updateOne({
+          _id: array[i].id,
+          'calificaciones._id': array[i].fora
+        }, {
+          $set: {
+            'calificaciones.$.dhi': array[i].dhi
+          }
+        }, {
+          new: true
+        });
+      }
+
+      res.status(200).json('crearnote');
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({
+        message: "No mat found"
+      });
+    }
+  });
+
+  return function createFullDhi(_x21, _x22) {
+    return _ref11.apply(this, arguments);
+  };
+}(); //------------------------------------- INSERTAR NOTAS DE INICIAL 1 2 Y PRIMERO ------------
+
+
+exports.createFullDhi = createFullDhi;
+
+var createFullIniciales = /*#__PURE__*/function () {
+  var _ref12 = _asyncToGenerator(function* (req, res) {
     try {
       var array = req.body;
 
@@ -348,8 +383,8 @@ var createFullIniciales = /*#__PURE__*/function () {
     }
   });
 
-  return function createFullIniciales(_x21, _x22) {
-    return _ref11.apply(this, arguments);
+  return function createFullIniciales(_x23, _x24) {
+    return _ref12.apply(this, arguments);
   };
 }(); //------------------------------------- ELIMINAR NOTAS [DOCENTE, ]
 
@@ -357,7 +392,7 @@ var createFullIniciales = /*#__PURE__*/function () {
 exports.createFullIniciales = createFullIniciales;
 
 var deleteNoteById = /*#__PURE__*/function () {
-  var _ref12 = _asyncToGenerator(function* (req, res) {
+  var _ref13 = _asyncToGenerator(function* (req, res) {
     try {
       var array = req.body;
 
@@ -382,8 +417,8 @@ var deleteNoteById = /*#__PURE__*/function () {
     }
   });
 
-  return function deleteNoteById(_x23, _x24) {
-    return _ref12.apply(this, arguments);
+  return function deleteNoteById(_x25, _x26) {
+    return _ref13.apply(this, arguments);
   };
 }();
 

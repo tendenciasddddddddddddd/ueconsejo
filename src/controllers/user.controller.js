@@ -81,7 +81,7 @@ export const deleteUsuariosById = async (req, res) => {
 export const getRoles = async (req, res) => {
   try {
     const roless = await Role.find({
-      name: { $in: ["Admin", "Vicerrector", "Inspector"] },
+      name: { $in: ["Admin", "Vicerrector", "Inspector", "Docente"] },
     });
     return res.json(roless);
   } catch (error) {

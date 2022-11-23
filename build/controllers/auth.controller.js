@@ -103,7 +103,7 @@ var signin = /*#__PURE__*/function () {
         message: "Invalid Password"
       }); //OPTENERMOS EL ROL
 
-      var toles = null;
+      var toles = [];
       var roles = yield _Role.default.find({
         _id: {
           $in: userFound.roles
@@ -111,7 +111,7 @@ var signin = /*#__PURE__*/function () {
       });
 
       for (var i = 0; i < roles.length; i++) {
-        toles = roles[0].name;
+        toles.push(roles[i].name);
       }
 
       var token = _jsonwebtoken.default.sign({
@@ -166,7 +166,7 @@ var googleAuthApi = /*#__PURE__*/function () {
         message: "User Not Found 1"
       }); //OPTENERMOS EL ROL
 
-      var toles = null;
+      var toles = [];
       var roles = yield _Role.default.find({
         _id: {
           $in: userFound.roles
@@ -174,7 +174,7 @@ var googleAuthApi = /*#__PURE__*/function () {
       });
 
       for (var i = 0; i < roles.length; i++) {
-        toles = roles[0].name;
+        toles.push(roles[i].name);
       }
 
       var token = _jsonwebtoken.default.sign({

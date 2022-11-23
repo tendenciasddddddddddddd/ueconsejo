@@ -147,7 +147,7 @@ var getRoles = /*#__PURE__*/function () {
     try {
       var roless = yield _Role.default.find({
         name: {
-          $in: ["Admin", "Vicerrector", "Inspector"]
+          $in: ["Admin", "Vicerrector", "Inspector", "Docente"]
         }
       });
       return res.json(roless);
