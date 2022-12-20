@@ -73,7 +73,8 @@ var getListasMaterias = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
     try {
       var products = yield _Materia.default.find({}, {
-        'nombre': true
+        'nombre': true,
+        'estado': true
       });
       return res.json(products);
     } catch (error) {

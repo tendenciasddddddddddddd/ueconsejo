@@ -16,8 +16,7 @@ var nivelSchema = new _mongoose.Schema({
     type: String
   },
   estado: {
-    type: String,
-    default: 1
+    type: String
   }
 }, {
   timestamps: true,

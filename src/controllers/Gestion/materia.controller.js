@@ -37,7 +37,7 @@ export const getMateria = async (req, res) => {
 export const getListasMaterias = async (req, res) => {
   try {
     const products = await Materia.find({}, {
-      'nombre': true,
+      'nombre': true,'estado': true,
     });
     return res.json(products);
   } catch (error) {

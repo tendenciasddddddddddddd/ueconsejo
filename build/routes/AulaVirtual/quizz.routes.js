@@ -18,11 +18,14 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 var router = (0, _express.Router)();
 router.put("/solve/:quizzId", [_middlewares.authJwt.verifyToken], quizzCtrl.solveQuiz); //resolver examen por los estudiantes
 
+router.put("/solve2/:quizzId", [_middlewares.authJwt.verifyToken], quizzCtrl.segundoIntentoById);
 router.put("/:aulaId", [_middlewares.authJwt.verifyToken], quizzCtrl.createQuizz); //crear examen
 
 router.put("/remove/:quizzId", [_middlewares.authJwt.verifyToken], quizzCtrl.deleteQuizzById); //eliminamos examen
 
 router.put("/send/:quizzId", [_middlewares.authJwt.verifyToken], quizzCtrl.saveQuestionById); //crear examen options
+
+router.put("/send2/:quizzId", [_middlewares.authJwt.verifyToken], quizzCtrl.editQuestionById); //editamos examen options
 
 router.put("/editQuizz/:aulaId", [_middlewares.authJwt.verifyToken], quizzCtrl.editExamById); // editar el examen fecha de entrega
 

@@ -1,6 +1,6 @@
 module.exports = {
     apps : [{
-      name : "plataform",
+      name : "UEHUACA",
       script    : "./build/index.js",
       watch: false,
       max_memory_restart: '1G',

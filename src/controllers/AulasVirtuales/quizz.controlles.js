@@ -36,21 +36,38 @@ export const deleteQuizzById = async (req, res) => {
 export const saveQuestionById = async (req, res) => {
   try {
   let array = req.body;
-   for (let i = 0; i < array.length; i++) {
-    await Aulavirtual.updateOne(
-      { "examen._id": req.params.quizzId },
-      { $push: { "examen.$.surveys": array[i] } },
-      {
-        new: true,
-      }
-    );
-   }
+   await Aulavirtual.updateOne(
+    { "examen._id": req.params.quizzId },
+    { $push: { "examen.$.surveys": array } },
+    {
+      new: true,
+    }
+  );
    res.status(200).json("crearnote");
   } catch (error) {
     res.status(500).json({ message: "No mat found" });
   }
    
 };
+
+export const editQuestionById = async (req, res) => {
+  try {
+  let array = req.body;
+  await Aulavirtual.updateOne(
+    { "examen._id": req.params.quizzId },
+    { $set: { "examen.$.surveys": array } },
+    {
+      new: true,
+    }
+  );
+
+   res.status(200).json("crearnote");
+  } catch (error) {
+    res.status(500).json({ message: "No mat found" });
+  }
+   
+};
+
 
 //----------------------------------------------------EDITAR TAREA [DOCENTES, ]
 export const editExamById = async (req, res) => {
@@ -67,6 +84,7 @@ export const editExamById = async (req, res) => {
                   "examen.$[perf].descripcion": req.body.examen.descripcion,//
                   "examen.$[perf].time": req.body.examen.time,
                   "examen.$[perf].security": req.body.examen.security,
+                  "examen.$[perf].intenAllowed": req.body.examen.intenAllowed,
                 } },
         {
           arrayFilters: [{
@@ -79,6 +97,36 @@ export const editExamById = async (req, res) => {
       res.status(200).json("req.params.aulaId");
     }
   } catch (e) {
+    res.status(500).json("error del servidor");
+  }
+};
+
+
+export const segundoIntentoById = async (req, res) => {
+  try {
+    let cadenaId = req.params.quizzId;
+    const array = cadenaId.split(",");
+    if (array) {
+      await Aulavirtual.updateOne(
+        { _id: array[0] },
+        { $set: 
+          { 
+            "examen.$[perf].answers.$[est]": req.body,
+          } 
+        },
+        {
+          arrayFilters: [{
+            "perf._id": {$eq : array[1]}},
+            {"est._id": {$eq : array[2]}}],
+          new: true,
+        }
+      );
+      res.status(200).json("req.params.aulaId");
+    } else {
+      res.status(200).json("req.params.aulaId");
+    }
+  } catch (e) {
+    console.log(e);
     res.status(500).json("error del servidor");
   }
 };

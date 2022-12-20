@@ -42,9 +42,9 @@ export const getMatriculas = async (req, res) => {
   try {
     const matriculas = await Matriculas.find()
       .lean()
-      .select({ curso: 1, typo: 1 })
-      .populate("fkestudiante", "fullname cedula email fkparroquia sexo")
-      .populate("fknivel", "nombre");
+      .select({ curso: 1, typo: 1, nmatricula:1 })
+      .populate("fkestudiante", "fullname cedula")
+      .populate("fknivel", "nombre num");
 
     return res.json(matriculas);
   } catch (error) {
@@ -166,6 +166,27 @@ export const updateMatriculasById = async (req, res) => {
     res.status(200).json(updatedMateria);
   } catch (e) {
     return res.status(500).json();
+  }
+};
+
+//------------------------------------- ELIMINAR MATERIA DEMAS [SDMIN, ]
+
+export const deleteMateriaById = async (req, res) => {
+  try {
+    let cadenaId = req.params.matriculaId;
+    const array = cadenaId.split(",");
+    await Matriculas.updateMany(
+      { _id: {
+        $in: array,
+      }, },
+      { $pull: { calificaciones: { _id: req.body } } },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json("crearnote");
+  } catch (e) {
+    res.status(500).json({ message: "No mat found" });
   }
 };
 

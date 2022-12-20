@@ -30,24 +30,23 @@ export const updatAplicacionesById = async (req,res)=>{
 }
 
 export const getAplicaciones = async (req,res)=>{
-  const ress = await Apps.find();
-  return res.json(ress);
-  }
-  
-  //-----------APERTURA DE NOTAS-----------
-  export const updatAperturaById = async (req,res)=>{
-    const updatedApps = await AperturaNotas.findByIdAndUpdate(
-        req.params.Id,
-        req.body,
-        {
-          new: true,
-        }
-      );
-      res.status(200).json(updatedApps);
-  }
-  
-  export const getApertura = async (req,res)=>{
-  const ress = await AperturaNotas.find();
-  return res.json(ress);
-  }
+const ress = await Apps.find();
+return res.json(ress);
+}
 
+//-----------APERTURA DE NOTAS-----------
+export const updatAperturaById = async (req,res)=>{
+  const updatedApps = await AperturaNotas.findByIdAndUpdate(
+      req.params.Id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(updatedApps);
+}
+
+export const getApertura = async (req,res)=>{
+const ress = await AperturaNotas.find();
+return res.json(ress);
+}

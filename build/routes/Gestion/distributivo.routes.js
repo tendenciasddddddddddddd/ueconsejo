@@ -22,12 +22,15 @@ var {
 } = require("../../middlewares/cache");
 
 router.get("/nuedist", [_middlewares.authJwt.verifyToken], Ctr.getInfoDistributivo);
+router.get("/clearData", [_middlewares.authJwt.verifyToken], Ctr.getClearDistributivo);
 router.get("/fulldistributivo", [_middlewares.authJwt.verifyToken], Ctr.getAllDistributivo);
+router.get("/estadistica", [_middlewares.authJwt.verifyToken], Ctr.getForEstadistica);
 router.get("/planificacio/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.getPlanificacionById);
 router.get("/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.getDistributivoById);
 router.post("/many/", [_middlewares.authJwt.verifyToken], Ctr.createArrayDistributivo);
 router.get("/", [_middlewares.authJwt.verifyToken], Ctr.getDistributivo);
-router.put("/planificacion/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.updatePlanificacionById);
+router.put("/planificacion/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.updatePlanificacionById); //router.put("/removemateria/:distributivoId",[authJwt.verifyToken], Ctr.deleteMateriaById); //EDITARMOS DATOS DE LA TAREA
+
 router.put("/:distributivoId", [_middlewares.authJwt.verifyToken], Ctr.deletePlanificacion);
 var _default = router;
 exports.default = _default;

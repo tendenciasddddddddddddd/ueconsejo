@@ -96,7 +96,6 @@ export const signin = async (req, res) => {
         }, config.SECRET, {
             expiresIn: '12h', // 24 hours
         });
-
         if (!userFound.modalidad) {
             userFound.modalidad = 'none';
         }

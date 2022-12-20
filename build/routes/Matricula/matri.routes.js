@@ -29,6 +29,8 @@ router.get("/repo/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.g
 router.get("/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.getMatriculasById);
 router.get("/", [_middlewares.authJwt.verifyToken], matriCtrl.getMatriculas);
 router.post("/", [_middlewares.authJwt.verifyToken], matriCtrl.createMatriculas);
+router.put("/removemateria/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.deleteMateriaById); //EDITARMOS DATOS DE LA TAREA
+
 router.put("/:matriculaId", [_middlewares.authJwt.verifyToken], matriCtrl.updateMatriculasById);
 router.delete("/:id", [_middlewares.authJwt.verifyToken], matriCtrl.deleteMatriculasById);
 var _default = router;

@@ -1,5 +1,5 @@
 import Distributivo from "../../models/Gestion/Distributivo";
-
+import Matriculas from "../../models/Matricula/Matriculas";
 
 //-------------------------------------------------INSERTA TODO EL DISTRIBUTIVO--------------------------------------------
 export const createArrayDistributivo = async (req, res) => {
@@ -53,11 +53,26 @@ export const getAllDistributivo = async (req, res) => {
   }
 }
 
+//-------------------------------------------------ENLISTA TODO EL DISTRIBUTIVO PARA EDITARLO AG-GRID--------------------------------------------
+export const getForEstadistica = async (req, res) => {
+  try {
+    const result = await Distributivo.find().populate('fmateria', 'nombre').populate('fdocente', 'fullname').populate('fnivel', 'nombre');
+    const result2 = await Matriculas.find();
+    const datos = {
+      distubutivo: result,
+      matricula: result2
+  }
+    return res.json({datos});
+  } catch (error) {
+    return res.status(500).json();
+  }
+}
+
 //-------------------------------------------------ENLISTA DISTRIBUTIVO PARA DOCENTES--------------------------------------------
 export const getInfoDistributivo = async (req, res) => {
   try {
     const idDocente = req.query.id;
-    const distributivo = await Distributivo.find({ fdocente: { $in: [idDocente] } }).select({ nombre: 1, paralelo: 1, planificacion: 1 })
+    const distributivo = await Distributivo.find({ fdocente: { $in: [idDocente] } })
       .populate('fmateria', 'nombre area')
       .populate('fnivel', 'nombre num');
     return res.json(distributivo);
@@ -65,6 +80,20 @@ export const getInfoDistributivo = async (req, res) => {
     return res.status(500).json();
   }
 };
+
+//-------------------------------------------------LIMPIAR MATERIA DE DOCENTES--------------------------------------------
+export const getClearDistributivo = async (req, res) => {
+  try {
+    const idNivel = req.query.id;
+    const distributivo = await Distributivo.find({ fnivel: { $in: [idNivel] } })
+      .populate('fmateria', 'nombre')
+    return res.json(distributivo);
+  } catch (error) {
+    return res.status(500).json();
+  }
+};
+
+
 
 
 export const getDistributivoById = async (req, res) => {

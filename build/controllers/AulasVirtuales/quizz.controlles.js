@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.solveQuiz = exports.editExamById = exports.saveQuestionById = exports.deleteQuizzById = exports.createQuizz = void 0;
+exports.solveQuiz = exports.segundoIntentoById = exports.editExamById = exports.editQuestionById = exports.saveQuestionById = exports.deleteQuizzById = exports.createQuizz = void 0;
 
 var _Aulavirtual = _interopRequireDefault(require("../../models/aulavirtual/Aulavirtual"));
 
@@ -73,19 +73,15 @@ var saveQuestionById = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(function* (req, res) {
     try {
       var array = req.body;
-
-      for (var i = 0; i < array.length; i++) {
-        yield _Aulavirtual.default.updateOne({
-          "examen._id": req.params.quizzId
-        }, {
-          $push: {
-            "examen.$.surveys": array[i]
-          }
-        }, {
-          new: true
-        });
-      }
-
+      yield _Aulavirtual.default.updateOne({
+        "examen._id": req.params.quizzId
+      }, {
+        $push: {
+          "examen.$.surveys": array
+        }
+      }, {
+        new: true
+      });
       res.status(200).json("crearnote");
     } catch (error) {
       res.status(500).json({
@@ -97,13 +93,41 @@ var saveQuestionById = /*#__PURE__*/function () {
   return function saveQuestionById(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
-}(); //----------------------------------------------------EDITAR TAREA [DOCENTES, ]
-
+}();
 
 exports.saveQuestionById = saveQuestionById;
 
-var editExamById = /*#__PURE__*/function () {
+var editQuestionById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
+    try {
+      var array = req.body;
+      yield _Aulavirtual.default.updateOne({
+        "examen._id": req.params.quizzId
+      }, {
+        $set: {
+          "examen.$.surveys": array
+        }
+      }, {
+        new: true
+      });
+      res.status(200).json("crearnote");
+    } catch (error) {
+      res.status(500).json({
+        message: "No mat found"
+      });
+    }
+  });
+
+  return function editQuestionById(_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}(); //----------------------------------------------------EDITAR TAREA [DOCENTES, ]
+
+
+exports.editQuestionById = editQuestionById;
+
+var editExamById = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
     try {
       var cadenaId = req.params.aulaId;
       var array = cadenaId.split(",");
@@ -119,7 +143,8 @@ var editExamById = /*#__PURE__*/function () {
             "examen.$[perf].descripcion": req.body.examen.descripcion,
             //
             "examen.$[perf].time": req.body.examen.time,
-            "examen.$[perf].security": req.body.examen.security
+            "examen.$[perf].security": req.body.examen.security,
+            "examen.$[perf].intenAllowed": req.body.examen.intenAllowed
           }
         }, {
           arrayFilters: [{
@@ -138,15 +163,57 @@ var editExamById = /*#__PURE__*/function () {
     }
   });
 
-  return function editExamById(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function editExamById(_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
 }();
 
 exports.editExamById = editExamById;
 
+var segundoIntentoById = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    try {
+      var cadenaId = req.params.quizzId;
+      var array = cadenaId.split(",");
+
+      if (array) {
+        yield _Aulavirtual.default.updateOne({
+          _id: array[0]
+        }, {
+          $set: {
+            "examen.$[perf].answers.$[est]": req.body
+          }
+        }, {
+          arrayFilters: [{
+            "perf._id": {
+              $eq: array[1]
+            }
+          }, {
+            "est._id": {
+              $eq: array[2]
+            }
+          }],
+          new: true
+        });
+        res.status(200).json("req.params.aulaId");
+      } else {
+        res.status(200).json("req.params.aulaId");
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(500).json("error del servidor");
+    }
+  });
+
+  return function segundoIntentoById(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.segundoIntentoById = segundoIntentoById;
+
 var solveQuiz = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator(function* (req, res) {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
     try {
       yield _Aulavirtual.default.updateOne({
         "examen._id": req.params.quizzId
@@ -165,8 +232,8 @@ var solveQuiz = /*#__PURE__*/function () {
     }
   });
 
-  return function solveQuiz(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function solveQuiz(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();
 

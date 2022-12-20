@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getQueryAll = exports.getMatriculasNotaBykEY = exports.deleteMatriculasById = exports.updateMatriculasById = exports.getMatriculaByIdReport = exports.getMatriculasById = exports.getMatriculaFolio = exports.getListaMatricula = exports.getInfoMat = exports.getReportes = exports.getMatriculas = exports.createMatriculas = void 0;
+exports.getQueryAll = exports.getMatriculasNotaBykEY = exports.deleteMatriculasById = exports.deleteMateriaById = exports.updateMatriculasById = exports.getMatriculaByIdReport = exports.getMatriculasById = exports.getMatriculaFolio = exports.getListaMatricula = exports.getInfoMat = exports.getReportes = exports.getMatriculas = exports.createMatriculas = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
@@ -75,8 +75,9 @@ var getMatriculas = /*#__PURE__*/function () {
     try {
       var matriculas = yield _Matriculas.default.find().lean().select({
         curso: 1,
-        typo: 1
-      }).populate("fkestudiante", "fullname cedula email fkparroquia sexo").populate("fknivel", "nombre");
+        typo: 1,
+        nmatricula: 1
+      }).populate("fkestudiante", "fullname cedula").populate("fknivel", "nombre num");
       return res.json(matriculas);
     } catch (error) {
       return res.status(500).json(error);
@@ -271,13 +272,47 @@ var updateMatriculasById = /*#__PURE__*/function () {
   return function updateMatriculasById(_x17, _x18) {
     return _ref9.apply(this, arguments);
   };
-}(); //-----------------------------------------------------------ELIMINAR MATRICULA CON MULTIPLES
+}(); //------------------------------------- ELIMINAR MATERIA DEMAS [SDMIN, ]
 
 
 exports.updateMatriculasById = updateMatriculasById;
 
-var deleteMatriculasById = /*#__PURE__*/function () {
+var deleteMateriaById = /*#__PURE__*/function () {
   var _ref10 = _asyncToGenerator(function* (req, res) {
+    try {
+      var cadenaId = req.params.matriculaId;
+      var array = cadenaId.split(",");
+      yield _Matriculas.default.updateMany({
+        _id: {
+          $in: array
+        }
+      }, {
+        $pull: {
+          calificaciones: {
+            _id: req.body
+          }
+        }
+      }, {
+        new: true
+      });
+      res.status(200).json("crearnote");
+    } catch (e) {
+      res.status(500).json({
+        message: "No mat found"
+      });
+    }
+  });
+
+  return function deleteMateriaById(_x19, _x20) {
+    return _ref10.apply(this, arguments);
+  };
+}(); //-----------------------------------------------------------ELIMINAR MATRICULA CON MULTIPLES
+
+
+exports.deleteMateriaById = deleteMateriaById;
+
+var deleteMatriculasById = /*#__PURE__*/function () {
+  var _ref11 = _asyncToGenerator(function* (req, res) {
     try {
       var cadenaId = req.params.id;
       var array = cadenaId.split(",");
@@ -292,8 +327,8 @@ var deleteMatriculasById = /*#__PURE__*/function () {
     }
   });
 
-  return function deleteMatriculasById(_x19, _x20) {
-    return _ref10.apply(this, arguments);
+  return function deleteMatriculasById(_x21, _x22) {
+    return _ref11.apply(this, arguments);
   };
 }(); //--------------------------------REPORTE DE ESTUDIANTES-----------------------------------
 
@@ -301,7 +336,7 @@ var deleteMatriculasById = /*#__PURE__*/function () {
 exports.deleteMatriculasById = deleteMatriculasById;
 
 var getMatriculasNotaBykEY = /*#__PURE__*/function () {
-  var _ref11 = _asyncToGenerator(function* (req, res) {
+  var _ref12 = _asyncToGenerator(function* (req, res) {
     try {
       var {
         matriculaId
@@ -317,15 +352,15 @@ var getMatriculasNotaBykEY = /*#__PURE__*/function () {
     }
   });
 
-  return function getMatriculasNotaBykEY(_x21, _x22) {
-    return _ref11.apply(this, arguments);
+  return function getMatriculasNotaBykEY(_x23, _x24) {
+    return _ref12.apply(this, arguments);
   };
 }();
 
 exports.getMatriculasNotaBykEY = getMatriculasNotaBykEY;
 
 var getQueryAll = /*#__PURE__*/function () {
-  var _ref12 = _asyncToGenerator(function* (req, res) {
+  var _ref13 = _asyncToGenerator(function* (req, res) {
     try {
       var matriculas = yield _Matriculas.default.find({}).lean().select({
         curso: 1,
@@ -343,8 +378,8 @@ var getQueryAll = /*#__PURE__*/function () {
     }
   });
 
-  return function getQueryAll(_x23, _x24) {
-    return _ref12.apply(this, arguments);
+  return function getQueryAll(_x25, _x26) {
+    return _ref13.apply(this, arguments);
   };
 }();
 

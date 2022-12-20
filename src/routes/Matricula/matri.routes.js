@@ -24,6 +24,8 @@ router.get("/",[authJwt.verifyToken], matriCtrl.getMatriculas);
 
 router.post("/",[authJwt.verifyToken], matriCtrl.createMatriculas);
 
+router.put("/removemateria/:matriculaId",[authJwt.verifyToken], matriCtrl.deleteMateriaById); //EDITARMOS DATOS DE LA TAREA
+
 router.put("/:matriculaId",[authJwt.verifyToken], matriCtrl.updateMatriculasById);
 
 router.delete("/:id",[authJwt.verifyToken], matriCtrl.deleteMatriculasById);

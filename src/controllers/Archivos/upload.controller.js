@@ -7,7 +7,7 @@ const cloudinary = require('cloudinary');
 cloudinary.config({ 
   cloud_name: 'ds7xbwpoo', 
   api_key: '536636236264758', 
-  api_secret: 'b2QWTg4MG2HCF8c3M8lkWHC2wwg' 
+  api_secret: 'b2QWTg4MG2HCF8c3M8lkWHC2wwg'
 });
 
 

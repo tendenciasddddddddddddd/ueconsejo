@@ -3,9 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deletePlanificacion = exports.updatePlanificacionById = exports.getPlanificacionById = exports.getDistributivoById = exports.getInfoDistributivo = exports.getAllDistributivo = exports.getDistributivo = exports.createArrayDistributivo = void 0;
+exports.deletePlanificacion = exports.updatePlanificacionById = exports.getPlanificacionById = exports.getDistributivoById = exports.getClearDistributivo = exports.getInfoDistributivo = exports.getForEstadistica = exports.getAllDistributivo = exports.getDistributivo = exports.createArrayDistributivo = void 0;
 
 var _Distributivo = _interopRequireDefault(require("../../models/Gestion/Distributivo"));
+
+var _Matriculas = _interopRequireDefault(require("../../models/Matricula/Matriculas"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -87,23 +89,44 @@ var getAllDistributivo = /*#__PURE__*/function () {
   return function getAllDistributivo(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
-}(); //-------------------------------------------------ENLISTA DISTRIBUTIVO PARA DOCENTES--------------------------------------------
+}(); //-------------------------------------------------ENLISTA TODO EL DISTRIBUTIVO PARA EDITARLO AG-GRID--------------------------------------------
 
 
 exports.getAllDistributivo = getAllDistributivo;
 
-var getInfoDistributivo = /*#__PURE__*/function () {
+var getForEstadistica = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
+    try {
+      var result = yield _Distributivo.default.find().populate('fmateria', 'nombre').populate('fdocente', 'fullname').populate('fnivel', 'nombre');
+      var result2 = yield _Matriculas.default.find();
+      var datos = {
+        distubutivo: result,
+        matricula: result2
+      };
+      return res.json({
+        datos
+      });
+    } catch (error) {
+      return res.status(500).json();
+    }
+  });
+
+  return function getForEstadistica(_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}(); //-------------------------------------------------ENLISTA DISTRIBUTIVO PARA DOCENTES--------------------------------------------
+
+
+exports.getForEstadistica = getForEstadistica;
+
+var getInfoDistributivo = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator(function* (req, res) {
     try {
       var idDocente = req.query.id;
       var distributivo = yield _Distributivo.default.find({
         fdocente: {
           $in: [idDocente]
         }
-      }).select({
-        nombre: 1,
-        paralelo: 1,
-        planificacion: 1
       }).populate('fmateria', 'nombre area').populate('fnivel', 'nombre num');
       return res.json(distributivo);
     } catch (error) {
@@ -111,15 +134,38 @@ var getInfoDistributivo = /*#__PURE__*/function () {
     }
   });
 
-  return function getInfoDistributivo(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function getInfoDistributivo(_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
-}();
+}(); //-------------------------------------------------LIMPIAR MATERIA DE DOCENTES--------------------------------------------
+
 
 exports.getInfoDistributivo = getInfoDistributivo;
 
+var getClearDistributivo = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(function* (req, res) {
+    try {
+      var idNivel = req.query.id;
+      var distributivo = yield _Distributivo.default.find({
+        fnivel: {
+          $in: [idNivel]
+        }
+      }).populate('fmateria', 'nombre');
+      return res.json(distributivo);
+    } catch (error) {
+      return res.status(500).json();
+    }
+  });
+
+  return function getClearDistributivo(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.getClearDistributivo = getClearDistributivo;
+
 var getDistributivoById = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator(function* (req, res) {
+  var _ref7 = _asyncToGenerator(function* (req, res) {
     try {
       var {
         distributivoId
@@ -131,15 +177,15 @@ var getDistributivoById = /*#__PURE__*/function () {
     }
   });
 
-  return function getDistributivoById(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function getDistributivoById(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
 exports.getDistributivoById = getDistributivoById;
 
 var getPlanificacionById = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator(function* (req, res) {
+  var _ref8 = _asyncToGenerator(function* (req, res) {
     try {
       var {
         distributivoId
@@ -151,15 +197,15 @@ var getPlanificacionById = /*#__PURE__*/function () {
     }
   });
 
-  return function getPlanificacionById(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function getPlanificacionById(_x15, _x16) {
+    return _ref8.apply(this, arguments);
   };
 }();
 
 exports.getPlanificacionById = getPlanificacionById;
 
 var updatePlanificacionById = /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator(function* (req, res) {
+  var _ref9 = _asyncToGenerator(function* (req, res) {
     try {
       yield _Distributivo.default.findByIdAndUpdate(req.params.distributivoId, {
         $push: {
@@ -174,15 +220,15 @@ var updatePlanificacionById = /*#__PURE__*/function () {
     }
   });
 
-  return function updatePlanificacionById(_x13, _x14) {
-    return _ref7.apply(this, arguments);
+  return function updatePlanificacionById(_x17, _x18) {
+    return _ref9.apply(this, arguments);
   };
 }();
 
 exports.updatePlanificacionById = updatePlanificacionById;
 
 var deletePlanificacion = /*#__PURE__*/function () {
-  var _ref8 = _asyncToGenerator(function* (req, res) {
+  var _ref10 = _asyncToGenerator(function* (req, res) {
     try {
       var cadenaId = req.body;
       yield _Distributivo.default.updateOne({
@@ -204,8 +250,8 @@ var deletePlanificacion = /*#__PURE__*/function () {
     }
   });
 
-  return function deletePlanificacion(_x15, _x16) {
-    return _ref8.apply(this, arguments);
+  return function deletePlanificacion(_x19, _x20) {
+    return _ref10.apply(this, arguments);
   };
 }();
 

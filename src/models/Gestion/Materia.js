@@ -11,7 +11,6 @@ const nivelSchema = new Schema(
       },
       estado: {
         type: String,
-        default:1
       },
     },
     {

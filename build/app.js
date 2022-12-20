@@ -73,13 +73,13 @@ var corsOptions = {
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 
 };
-app.use((0, _cors.default)(corsOptions));
-//app.use((0, _morgan.default)("dev"));
+app.use((0, _cors.default)(corsOptions)); //app.use(morgan("dev"));
+
 app.use(_express.default.json({
-  limit: '10mb'
+  limit: '50mb'
 }));
 app.use(_express.default.urlencoded({
-  limit: '10mb'
+  limit: '50mb'
 })); // settings
 
 app.set('views', path.join(__dirname, 'public/views'));

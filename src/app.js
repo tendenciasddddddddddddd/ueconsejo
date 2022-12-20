@@ -47,9 +47,9 @@ var corsOptions = {
 }
 app.use(cors(corsOptions));
 
-app.use(morgan("dev"));
-app.use(express.json({limit: '10mb'}));
-app.use(express.urlencoded({limit: '10mb'}));
+//app.use(morgan("dev"));
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 
 
 // settings
