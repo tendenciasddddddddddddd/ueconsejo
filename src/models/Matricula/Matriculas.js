@@ -53,8 +53,7 @@ const nivelSchema = new Schema(
      
       asistencias:[{
         fecha: String,
-        materia: String,
-        isAsiste : String,
+        estado:String,
       }]
     },
     {

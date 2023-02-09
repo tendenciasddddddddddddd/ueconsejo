@@ -61,7 +61,7 @@ export const getReportes = async (req, res) => {
       },
     })
       .lean()
-      .select({ curso: 1, nombre: 1, fecha: 1 });
+      .select({ curso: 1, nombre: 1, fecha: 1, asistencias: 1 });
     return res.json(matriculas);
   } catch (error) {
     return res.status(500).json(error);
@@ -148,7 +148,6 @@ export const getMatriculaByIdReport = async (req, res) => {
   } catch (error) {
     return res.status(500).json();
   }
-
 };
 
 //-----------------------------------------------------------PARALELOS [ADMINISTRADOR]
